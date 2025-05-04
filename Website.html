@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gowand Barkhi - Offizielle Website</title>
+  <style>
+    /* ========== GLOBALE STYLES ========== */
+    :root {
+      --primary: #1a1a1a;
+      --secondary: #006039; /* Hier wurde die Farbe von #c5a047 zu #006039 geändert */
+      --light: #ffffff;
+      --dark: #111111;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light);
+      color: var(--primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ========== HEADER MIT ANIMATION ========== */
+    header#main-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--light);
+      z-index: 1000;
+      padding: 40px 20px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+
+    header#main-header.scrolled {
+      padding: 20px;
+    }
+
+    /* Hier kannst du die Schriftgröße des Headers ändern */
+    .brand-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 16rem; /* Diese Zeile ändert die Schriftgröße des Headers */
+      letter-spacing: 3px;
+      color: var(--primary);
+      transition: var(--transition);
+      text-align: center;
+      line-height: 1;
+      margin: 0 0 20px 0;
+    }
+
+    header#main-header.scrolled .brand-logo {
+      font-size: 3rem; /* Diese Zeile ändert die Schriftgröße des Headers beim Scrollen */
+      margin-bottom: 10px;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+      transition: var(--transition);
+    }
+
+    nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ========== HERO-SECTION MIT VIDEOBUTTON ========== */
+    .hero-section {
+      margin-top: 220px;
+      height: 80vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.8);
+      z-index: -1;
+    }
+
+    .video-btn {
+      padding: 18px 45px;
+      font-size: 1.4rem;
+      background: rgba(0, 96, 57, 0.9); /* Farbe geändert */
+      border: 3px solid var(--light);
+      color: var(--light);
+      cursor: pointer;
+      transition: var(--transition);
+      backdrop-filter: blur(8px);
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .video-btn:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* ========== TERMINE-SECTION ========== */
+    .termine-section {
+      padding: 120px 20px;
+      background: #f8f8f8;
+    }
+
+    .termine-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .termine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .termin-card {
+      background: var(--light);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+      transition: var(--transition);
+    }
+
+    .termin-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .termin-datum {
+      color: var(--secondary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    .ticket-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: var(--secondary);
+      color: var(--light);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .ticket-btn:hover {
+      background: #004d2e; /* Dunkleres Grün beim Hover */
+    }
+
+    /* ========== VIDEO-COLLAGE ========== */
+    .video-collage {
+      padding: 100px 20px;
+      background: var(--dark);
+    }
+
+    .collage-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .collage-video {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .collage-video:hover {
+      transform: scale(1.03);
+    }
+
+    /* ========== ÜBER MICH ========== */
+    .about-section {
+      padding: 120px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* ========== KONTAKTFORMULAR ========== */
+    .contact-section {
+      padding: 100px 20px;
+      background: #f8f8f8;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--light);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 2px rgba(0, 96, 57, 0.2);
+    }
+    
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .submit-btn {
+      background: var(--secondary);
+      color: var(--light);
+      border: none;
+      padding: 14px 30px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .submit-btn:hover {
+      background: #004d2e;
+      transform: translateY(-2px);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--dark);
+      color: var(--light);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    
+    .social-links {
+      margin: 20px 0;
+    }
+    
+    .social-links a {
+      color: var(--light);
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: var(--transition);
+    }
+    
+    .social-links a:hover {
+      color: var(--secondary);
+    }
+    
+    .instagram-icon {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    /* ========== MEDIA QUERIES ========== */
+    @media (max-width: 1200px) {
+      .brand-logo {
+        font-size: 4.5rem; /* Diese Zeile passt die Schriftgröße für mittlere Bildschirme an */
+      }
+      
+      .collage-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .brand-logo {
+        font-size: 3rem; /* Diese Zeile passt die Schriftgröße für kleine Bildschirme an */
+      }
+      
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .hero-section {
+        margin-top: 180px;
+        height: 60vh;
+      }
+
+      .collage-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .collage-video {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="main-header">
+    <h1 class="brand-logo">GOWAND</h1>
+    <nav>
+      <a href="#termine">Termine</a>
+      <a href="#about">Über Mich</a>
+      <a href="#media">Media</a>
+      <a href="#contact">Kontakt</a>
+    </nav>
+  </header>
+
+  <!-- HERO-SECTION -->
+  <section class="hero-section">
+    <img src="bilder/hero.jpg" alt="Gowand auf der Bühne" class="hero-image">
+    <button class="video-btn" onclick="openVideo('videos/highlight.mp4')">
+      ▶ Showreel ansehen
+    </button>
+  </section>
+
+  <!-- TERMINE -->
+  <section class="termine-section" id="termine">
+    <div class="termine-container">
+      <h2>Kommende Auftritte</h2>
+      <div class="termine-grid">
+        <!-- Terminkarten -->
+        <div class="termin-card">
+          <div class="termin-datum">15. September 2024</div>
+          <h3>Comedy Club Köln</h3>
+          <p>Einlass: 19:00 Uhr</p>
+          <a href="#" class="ticket-btn">Tickets buchen</a>
+        </div>
+        <!-- Weitere Termine -->
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO-COLLAGE -->
+  <section class="video-collage" id="media">
+    <div class="collage-grid">
+      <video class="collage-video" autoplay muted loop playsinline>
+        <source src="videos/clip1.mp4" type="video/mp4">
+      </video>
+      <!-- 3 weitere Videos -->
+    </div>
+  </section>
+
+  <!-- ÜBER MICH -->
+  <section class="about-section" id="about">
+    <h2>Über Mich</h2>
+    <p>Text über Gowand Barkhi...</p>
+  </section>
+
+  <!-- KONTAKT -->
+  <section class="contact-section" id="contact">
+    <div class="contact-container">
+      <h2 style="text-align: center; margin-bottom: 40px;">Kontakt</h2>
+      <form class="contact-form" action="#" method="post">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">E-Mail</label>
+          <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="subject">Betreff</label>
+          <input type="text" id="subject" name="subject" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Nachricht</label>
+          <textarea id="message" name="message" class="form-control" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="submit-btn">Nachricht senden</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-links">
+      <a href="https://www.instagram.com/gowand_barkhi" target="_blank">
+        <!-- SVG Instagram Icon -->
+        <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+        Instagram
+      </a>
+    </div>
+    <p>&copy; 2024 Gowand Barkhi</p>
+  </footer>
+
+  <!-- VIDEO MODAL -->
+  <div id="videoModal" class="video-modal">
+    <!-- Modal-Inhalt -->
+  </div>
+
+  <script>
+    // Header Scroll Effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('main-header');
+      header.classList.toggle('scrolled', window.scrollY > 100);
+    });
+
+    // Video Modal Funktionen
+    const videoModal = document.getElementById('videoModal');
+    
+    function openVideo(url) {
+      videoModal.style.display = 'block';
+      // Video-Player-Logik
+    }
+
+    function closeVideo() {
+      videoModal.style.display = 'none';
+    }
+
+    // Initialisierung
+    document.addEventListener('DOMContentLoaded', () => {
+      // Event-Listener für Navigation
+      document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', smoothScroll);
+      });
+    });
+
+    // Glatte Scroll-Animation
+    function smoothScroll(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      document.querySelector(targetId).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  </script>
+
+</body>
+</html>
