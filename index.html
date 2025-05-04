@@ -9,7 +9,7 @@
     /* ========== GLOBALE STYLES ========== */
     :root {
       --primary: #1a1a1a;
-      --secondary: #006039; /* Hier wurde die Farbe von #c5a047 zu #006039 geändert */
+      --secondary: #006039;
       --light: #ffffff;
       --dark: #111111;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -34,7 +34,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: transparent; /* Transparenter Hintergrund */
+      background: transparent;
       z-index: 1000;
       padding: 40px 20px 20px;
       transition: var(--transition);
@@ -45,44 +45,44 @@
 
     header#main-header.scrolled {
       padding: 10px 20px;
-      background: var(--light); /* Weißer Hintergrund beim Scrollen */
+      background: var(--light);
       border-bottom: 1px solid rgba(0,0,0,0.1);
       box-shadow: 0 2px 15px rgba(0,0,0,0.05);
     }
 
-    /* Hier kannst du die Schriftgröße des Headers ändern */
     .brand-logo {
-      font-family: 'Montserrat', sans-serif; /* Minimalistische Schriftart */
-      font-size: 16rem; /* Größere Schriftgröße für Vollbild-Effekt */
-      font-weight: 300; /* Leichter für minimalistischeren Look */
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16rem;
+      font-weight: 300;
       letter-spacing: 15px;
-      color: var(--light); /* Weiße Farbe auf transparentem Grund */
+      color: var(--light);
       transition: var(--transition);
       text-align: center;
       line-height: 1;
       margin: 0 0 20px 0;
       text-transform: uppercase;
+      width: 100%; /* Volle Breite für bessere Anzeige auf kleinen Geräten */
     }
 
     header#main-header.scrolled .brand-logo {
-      font-size: 1.5rem; /* Viel kleinere Schriftgröße beim Scrollen */
+      font-size: 1.5rem;
       letter-spacing: 5px;
-      color: var(--primary); /* Schwarze Farbe beim Scrollen */
+      color: var(--primary);
       margin-bottom: 0;
       font-weight: 400;
     }
 
     nav {
       display: flex;
-      gap: 20px; /*Platz zwischen Navigationswörtern*/
+      gap: 20px;
       transition: var(--transition);
       width: 100%;
       justify-content: center;
-      margin-top: 10px; /* Negativer Margin um weniger Platz einzunehmen */
+      margin-top: 10px;
     }
 
     nav a {
-      color: var(--light); /* Weiß auf transparentem Hintergrund */
+      color: var(--light);
       text-decoration: none;
       font-weight: 400;
       text-transform: uppercase;
@@ -90,11 +90,11 @@
       font-size: 0.85rem;
       transition: var(--transition);
       position: relative;
-      white-space: nowrap; /* Verhindert Umbrüche bei kleinen Screens */
+      white-space: nowrap;
     }
     
     header#main-header.scrolled nav a {
-      color: var(--primary); /* Schwarz nach dem Scrollen */
+      color: var(--primary);
     }
 
     nav a::after {
@@ -114,12 +114,13 @@
 
     /* ========== HERO-SECTION MIT VIDEOBUTTON ========== */
     .hero-section {
-      margin-top: 0; /* Kein Margin mehr, damit das Bild komplett sichtbar ist */
-      height: 100vh; /* Vollbildhöhe */
+      margin-top: 0;
+      height: 100vh;
       position: relative;
       display: flex;
-      align-items: center;
+      align-items: flex-end; /* Button nach unten verschieben */
       justify-content: center;
+      padding-bottom: 15%; /* Zusätzlicher Abstand am unteren Rand */
     }
 
     .hero-image {
@@ -134,7 +135,7 @@
     .video-btn {
       padding: 18px 45px;
       font-size: 1.4rem;
-      background: rgba(0, 96, 57, 0.9); /* Farbe geändert */
+      background: rgba(0, 96, 57, 0.9);
       border: 3px solid var(--light);
       color: var(--light);
       cursor: pointer;
@@ -154,7 +155,7 @@
 
     /* ========== TERMINE-SECTION ========== */
     .termine-section {
-      padding: 20px 20px;
+      padding: 80px 20px 20px; /* Erhöhter oberer Padding für mehr Abstand zum Hero */
       background: #f8f8f8;
     }
 
@@ -163,38 +164,53 @@
       margin: 0 auto;
     }
 
-    .termine-grid {
+    .termine-list {
       display: flex;
-      flex-direction: column; /* Untereinander statt Grid */
-      gap: 30px;
+      flex-direction: column;
+      gap: 15px; /* Geringerer Abstand zwischen den Terminen */
       margin-top: 50px;
     }
 
     .termin-card {
       background: var(--light);
-      padding: 25px;
+      padding: 15px 25px; /* Reduziertes Padding für dünnere Karten */
       border-radius: 15px;
       box-shadow: 0 5px 25px rgba(0,0,0,0.08);
       transition: var(--transition);
       display: flex;
-      flex-direction: column;
+      align-items: center; /* Elemente zentrieren */
+      justify-content: space-between; /* Inhalt gleichmäßig verteilen */
     }
 
     .termin-card:hover {
       transform: translateY(-5px);
     }
 
+    .termin-info {
+      flex: 1; /* Nimmt verfügbaren Platz ein */
+      display: flex;
+      align-items: center;
+    }
+
     .termin-datum {
       color: var(--secondary);
       font-weight: 700;
       font-size: 1.1rem;
-      margin-bottom: 15px;
+      margin-right: 20px;
+      min-width: 105px; /* Feste Breite für das Datum */
+    }
+
+    .termin-details {
+      flex: 1;
+    }
+
+    .termin-details h3 {
+      margin-bottom: 5px;
     }
 
     .termin-actions {
       display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
+      justify-content: flex-end; /* Rechtsausrichtung */
     }
 
     .ticket-btn {
@@ -209,21 +225,6 @@
 
     .ticket-btn:hover {
       background: #004d2e;
-    }
-
-    .share-btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background: transparent;
-      color: var(--secondary);
-      text-decoration: none;
-      border: 1px solid var(--secondary);
-      border-radius: 8px;
-      transition: var(--transition);
-    }
-
-    .share-btn:hover {
-      background: rgba(0, 96, 57, 0.1);
     }
 
     /* ========== ABOUT-SECTION MIT VIDEO ========== */
@@ -256,8 +257,6 @@
     .about-content h2 {
       margin-bottom: 25px;
     }
-
-
 
     /* ========== KONTAKTFORMULAR ========== */
     .contact-section {
@@ -354,42 +353,74 @@
     /* ========== MEDIA QUERIES ========== */
     @media (max-width: 1200px) {
       .brand-logo {
-        font-size: 4.5rem; /* Diese Zeile passt die Schriftgröße für mittlere Bildschirme an */
+        font-size: 4.5rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .about-section {
+        flex-direction: column;
       }
       
-      .collage-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .termin-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .termin-info {
+        margin-bottom: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .termin-datum {
+        margin-bottom: 10px;
+        margin-right: 0;
+      }
+      
+      .termin-actions {
+        width: 100%;
+        justify-content: flex-end;
       }
     }
 
     @media (max-width: 768px) {
       .brand-logo {
-        font-size: 5rem; /* Größer für bessere Sichtbarkeit auf Mobilgeräten */
+        font-size: 3.5rem; /* Kleinere Schrift für Mobilgeräte, damit nichts abgeschnitten wird */
+        padding: 0 10px; /* Seitlicher Abstand */
       }
       
       header#main-header.scrolled .brand-logo {
-        font-size: 1.2rem; /* Noch kleiner auf Mobilgeräten nach dem Scrollen */
+        font-size: 1.2rem;
       }
       
       nav {
         justify-content: center;
-        gap: 12px; /* Kleinerer Abstand für mobile Anzeige */
+        gap: 12px;
       }
       
       nav a {
-        font-size: 0.75rem; /* Kleinere Schrift für mobile Menüs */
+        font-size: 0.75rem;
       }
 
       .hero-section {
         height: 100vh;
       }
-
-      .collage-grid {
-        grid-template-columns: 1fr;
+      
+      /* Video über dem Text auf Mobilgeräten */
+      .about-section {
+        flex-direction: column;
       }
+    }
 
-      .collage-video {
-        height: 200px;
+    @media (max-width: 480px) {
+      .brand-logo {
+        font-size: 2.5rem; /* Noch kleinere Schrift für sehr kleine Geräte */
+      }
+      
+      .video-btn {
+        padding: 12px 30px;
+        font-size: 1.1rem;
       }
     }
   </style>
@@ -415,61 +446,75 @@
     </button>
   </section>
 
-
-
   <!-- TERMINE - NEUGESTALTUNG -->
   <section class="termine-section" id="termine">
     <div class="termine-container">
       <h2 style="text-align: center; margin-bottom: 40px;">KOMMENDE AUFTRITTE</h2>
       <div class="termine-list">
-        <!-- Terminliste untereinander -->
+        <!-- Terminliste im neuen Format -->
         <div class="termin-card">
-          <div class="termin-datum">08. Mai 2025</div> 
-          <h3>Kunst gegen Bares Düren</h3>
-          <p>Beginn: 19:00 Uhr</p>
+          <div class="termin-info">
+            <div class="termin-datum">08. Mai 2025</div>
+            <div class="termin-details">
+              <h3>Kunst gegen Bares Düren</h3>
+              <p>Beginn: 19:00 Uhr</p>
+            </div>
+          </div>
           <div class="termin-actions">
             <a href="#" class="ticket-btn">Tickets buchen</a>
-            <a href="#" class="share-btn" onclick="shareEvent('Kunst gegen Bares Düren, 08.05.2025')">Teilen</a>
+            <!-- Teilen-Button entfernt -->
           </div>
         </div>
         
         <div class="termin-card">
-          <div class="termin-datum">15. Mai 2025</div> 
-          <h3>Comedy Night Köln</h3>
-          <p>Beginn: 20:00 Uhr</p>
+          <div class="termin-info">
+            <div class="termin-datum">15. Mai 2025</div>
+            <div class="termin-details">
+              <h3>Comedy Night Köln</h3>
+              <p>Beginn: 20:00 Uhr</p>
+            </div>
+          </div>
           <div class="termin-actions">
             <a href="#" class="ticket-btn">Tickets buchen</a>
-            <a href="#" class="share-btn" onclick="shareEvent(https://www.ku5.events/event-details/kunst-gegen-bares-duren)">Teilen</a>
           </div>
         </div>
         
         <div class="termin-card">
-          <div class="termin-datum">22. Mai 2025</div> 
-          <h3>Stand-up im Kulturbahnhof</h3>
-          <p>Beginn: 19:30 Uhr</p>
+          <div class="termin-info">
+            <div class="termin-datum">22. Mai 2025</div>
+            <div class="termin-details">
+              <h3>Stand-up im Kulturbahnhof</h3>
+              <p>Beginn: 19:30 Uhr</p>
+            </div>
+          </div>
           <div class="termin-actions">
             <a href="#" class="ticket-btn">Tickets buchen</a>
-            <a href="#" class="share-btn" onclick="shareEvent('Stand-up im Kulturbahnhof, 22.05.2025')">Teilen</a>
           </div>
         </div>
         
         <div class="termin-card">
-          <div class="termin-datum">30. Mai 2025</div> 
-          <h3>Comedy Clash Düsseldorf</h3>
-          <p>Beginn: 20:30 Uhr</p>
+          <div class="termin-info">
+            <div class="termin-datum">30. Mai 2025</div>
+            <div class="termin-details">
+              <h3>Comedy Clash Düsseldorf</h3>
+              <p>Beginn: 20:30 Uhr</p>
+            </div>
+          </div>
           <div class="termin-actions">
             <a href="#" class="ticket-btn">Tickets buchen</a>
-            <a href="#" class="share-btn" onclick="shareEvent('Comedy Clash Düsseldorf, 30.05.2025')">Teilen</a>
           </div>
         </div>
         
         <div class="termin-card">
-          <div class="termin-datum">10. Juni 2025</div> 
-          <h3>Humor Festival Aachen</h3>
-          <p>Beginn: 19:00 Uhr</p>
+          <div class="termin-info">
+            <div class="termin-datum">10. Juni 2025</div>
+            <div class="termin-details">
+              <h3>Humor Festival Aachen</h3>
+              <p>Beginn: 19:00 Uhr</p>
+            </div>
+          </div>
           <div class="termin-actions">
             <a href="#" class="ticket-btn">Tickets buchen</a>
-            <a href="#" class="share-btn" onclick="shareEvent('Humor Festival Aachen, 10.06.2025')">Teilen</a>
           </div>
         </div>
       </div>
@@ -491,7 +536,6 @@
       <p>Anmerkung: Dieser Text ist zu 100 Prozent objektiv und nicht einfach nur Gowands Meinung.</p>
     </div>
   </section>
-
 
   <!-- KONTAKT -->
   <section class="contact-section" id="contact">
@@ -524,7 +568,6 @@
       </form>
     </div>
   </section>
-
 
   <!-- FOOTER -->
   <footer>
