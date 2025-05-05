@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pressebereich - Gowand Barkhi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== GLOBALE STYLES ========== */
+    :root {
+      --primary: #1a1a1a;
+      --secondary: #006039;
+      --light: #ffffff;
+      --dark: #111111;
+      --gray: #f8f8f8;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--light);
+      color: var(--primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding-top: 65px; /* Angepasster Platz für den kleineren Header */
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ========== HEADER - FESTER STIL ========== */
+    header#main-header {
+      background: var(--light);
+      padding: 4px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .brand-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 5px;
+      color: var(--dark);
+      text-transform: uppercase;
+      text-decoration: none;
+      margin-bottom: 0px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.75rem;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ========== BREADCRUMB ========== */
+    .breadcrumb {
+      background: var(--gray);
+      padding: 15px 0;
+    }
+
+    .breadcrumb ul {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '/';
+      margin-left: 10px;
+      color: #aaa;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--secondary);
+    }
+
+    /* ========== PRESSE HAUPTBEREICH ========== */
+    .page-title {
+      text-align: center;
+      margin: 60px 0 40px;
+      font-weight: 500;
+      letter-spacing: 2px;
+    }
+
+    .page-description {
+      max-width: 800px;
+      margin: 0 auto 60px;
+      text-align: center;
+    }
+
+    /* ========== PRESSEMATERIAL SEKTION ========== */
+    .press-section {
+      margin: 60px 0;
+    }
+
+    .press-section h2 {
+      margin-bottom: 30px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    /* Grüner Strich unter Überschriften entfernt */
+
+    /* ========== FOTO-GALERIE ========== */
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: var(--transition);
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 15px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: var(--transition);
+    }
+
+    .gallery-item:hover .gallery-caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== DOWNLOAD BUTTON ========== */
+    .download-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: var(--secondary);
+      color: var(--light);
+      text-decoration: none;
+      border-radius: 6px;
+      margin-top: 15px;
+      transition: var(--transition);
+    }
+
+    .download-btn:hover {
+      background: #004d2e;
+      transform: translateY(-2px);
+    }
+
+    /* ========== MODAL FÜR BILDER ========== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      z-index: 1000;
+      padding: 50px;
+      overflow: auto;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90vh;
+    }
+
+    .modal-img {
+      display: block;
+      max-width: 100%;
+      max-height: 90vh;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .modal-caption {
+      color: white;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1rem;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--dark);
+      color: var(--light);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    
+    .social-links {
+      margin: 20px 0;
+    }
+    
+    .social-links a {
+      color: var(--light);
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: var(--transition);
+    }
+    
+    .social-links a:hover {
+      color: var(--secondary);
+    }
+
+    .instagram-icon {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    
+    .footer-links {
+      margin-top: 20px;
+    }
+
+    .footer-links a {
+      color: var(--light);
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+
+    /* ========== MEDIA QUERIES ========== */
+    @media (max-width: 768px) {
+      nav {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .photo-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      
+      .modal {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-logo {
+        font-size: 1.5rem;
+      }
+      
+      .photo-gallery {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-links a {
+        display: block;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="main-header">
+    <div class="container header-content">
+      <a href="index.html" class="brand-logo">Gowand</a>
+      <nav>
+        <a href="index.html#termine">TERMINE</a>
+        <a href="index.html#about">ÜBER MICH</a>
+        <a href="index.html#media">MEDIA</a>
+        <a href="index.html#contact">KONTAKT</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <div class="container">
+      <ul>
+        <li><a href="index.html">Startseite</a></li>
+        <li>Pressebereich</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- HAUPTINHALT -->
+  <main>
+    <div class="container">
+      <h1 class="page-title">PRESSEBEREICH</h1>
+      <p class="page-description">
+        Hier finden Sie offizielle Bilder, Informationen und Pressematerial zu Gowand Barkhi. 
+        Alle Inhalte stehen für redaktionelle Zwecke zur freien Verfügung.
+        Bei Fragen oder für weitere Materialien wenden Sie sich bitte an die Pressekontakte unten.
+      </p>
+
+      <!-- PRESSEFOTOS -->
+      <section class="press-section">
+        <h2>PRESSEFOTOS</h2>
+        <p>
+          Hochauflösende Pressefotos zum Download. Bitte beachten Sie bei Verwendung die Angabe des Fotografen.
+          Klicken Sie auf ein Bild, um es in voller Größe anzuzeigen.
+        </p>
+
+        <div class="photo-gallery">
+          <div class="gallery-item" onclick="openModal('bilder/presse1.jpg', 'Gowand Barkhi während eines Auftritts in Köln | © Marie Schmidt')">
+            <img src="bilder/presse1.jpg" alt="Gowand Barkhi auf der Bühne">
+            <div class="gallery-caption">
+              <h4>Bühnenauftritt in Köln</h4>
+              <p>Foto: © Marie Schmidt</p>
+            </div>
+          </div>
+
+          <div class="gallery-item" onclick="openModal('bilder/presse2.jpg', 'Portrait von Gowand Barkhi | © Thomas Meyer')">
+            <img src="bilder/presse2.jpg" alt="Portrait von Gowand Barkhi">
+            <div class="gallery-caption">
+              <h4>Offizielles Portrait 2025</h4>
+              <p>Foto: © Thomas Meyer</p>
+            </div>
+          </div>
+
+          <div class="gallery-item" onclick="openModal('bilder/presse3.jpg', 'Gowand Barkhi im Interview | © Comedy Night Düsseldorf')">
+            <img src="bilder/presse3.jpg" alt="Gowand Barkhi im Interview">
+            <div class="gallery-caption">
+              <h4>Interview nach Show</h4>
+              <p>Foto: © Comedy Night Düsseldorf</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="downloads/pressefotos.zip" class="download-btn">Alle Fotos als ZIP herunterladen</a>
+      </section>
+
+      <!-- BIOGRAFIE -->
+      <section class="press-section">
+        <h2>BIOGRAFIE</h2>
+        <p>
+          Gowand Barkhi ist ein Stand-up-Comedian aus Düsseldorf, der mit grenzüberschreitendem, 
+          absurdem Humor auffällt. Seine Themen sind persönlich, oft überraschend und bewegen sich 
+          konsequent abseits des Gewöhnlichen. Ob Alltagsbeobachtungen, Identität oder blanker 
+          Wahnsinn – Gowand bringt das Publikum zum Lachen.
+        </p>
+        <p>
+          Seit seinem Debüt im Jahr 2020 hat sich Gowand schnell in der deutschen Comedy-Szene 
+          etabliert und ist regelmäßig in Comedy-Clubs und auf Festivals in ganz Deutschland zu sehen. 
+          Er gehört zu einer neuen Generation von Comedians, die sich nicht scheuen, das Format 
+          herauszufordern und mit Konventionen zu brechen.
+        </p>
+        <p>
+          Seine einzigartige Perspektive und sein unverwechselbarer Stil haben ihm eine wachsende 
+          Fangemeinde eingebracht und die Aufmerksamkeit von Kritikern und Comedy-Experten auf sich gezogen.
+        </p>
+
+        <a href="downloads/gowand_bio_lang.pdf" class="download-btn">Ausführliche Biografie (PDF)</a>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-links">
+      <a href="https://www.instagram.com/gowandcomedy" target="_blank">
+        <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+    </div>
+    <div class="footer-links">
+      <a href="impressum.html">Impressum</a>
+      <a href="presse.html">Pressebereich</a>
+    </div>
+    <p>&copy; 2025 Gowand Barkhi</p>
+  </footer>
+
+  <!-- MODALES FENSTER FÜR BILDER -->
+  <div id="imageModal" class="modal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+      <img class="modal-img" id="modalImage" src="" alt="Vergrößertes Bild">
+      <div class="modal-caption" id="modalCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    // Modales Fenster für Bilder
+    const imageModal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    
+    function openModal(imgSrc, caption) {
+      modalImage.src = imgSrc;
+      modalCaption.textContent = caption;
+      imageModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Verhindert Scrollen im Hintergrund
+    }
+    
+    function closeModal() {
+      imageModal.style.display = 'none';
+      document.body.style.overflow = ''; // Scrollen wieder aktivieren
+    }
+    
+    // Schließen des Modals durch Klick außerhalb des Bildes
+    imageModal.addEventListener('click', function(event) {
+      if (event.target === imageModal) {
+        closeModal();
+      }
+    });
+    
+    // ESC-Taste schließt Modal
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && imageModal.style.display === 'flex') {
+        closeModal();
+      }
+    });
+  </script>
+
+</body>
+</html>

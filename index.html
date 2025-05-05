@@ -78,7 +78,7 @@
       transition: var(--transition);
       width: 100%;
       justify-content: center;
-      margin-top: 10px;
+      margin-top: 5px;
     }
 
     nav a {
@@ -87,7 +87,7 @@
       font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       transition: var(--transition);
       position: relative;
       white-space: nowrap;
@@ -229,7 +229,33 @@
       background: #004d2e;
     }
 
-    /* ========== ABOUT-SECTION MIT VIDEO ========== */
+    /* Alle Termine Button */
+    .alle-termine-btn-container {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .alle-termine-btn {
+      display: inline-block;
+      padding: 14px 30px;
+      background: var(--secondary);
+      color: var(--light);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      font-size: 1rem;
+      transition: var(--transition);
+      text-transform: uppercase;
+    }
+
+    .alle-termine-btn:hover {
+      background: #004d2e;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* ========== ABOUT-SECTION MIT BILD ========== */
     .about-section {
       padding: 120px 20px;
       max-width: 1200px;
@@ -239,17 +265,23 @@
       align-items: center;
     }
 
-    .about-video {
+    .about-image-container {
       flex: 1;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      position: relative;
     }
 
-    .about-video video {
+    .about-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 15s ease;
+    }
+
+    .about-image-container:hover .about-image {
+      transform: scale(1.1);
     }
 
     .about-content {
@@ -352,6 +384,70 @@
       margin-right: 5px;
     }
 
+    .footer-links {
+      margin-top: 20px;
+    }
+
+    .footer-links a {
+      color: var(--light);
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+
+    /* ========== VIDEO MODAL ========== */
+    .video-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
     /* ========== MEDIA QUERIES ========== */
     @media (max-width: 1200px) {
       .brand-logo {
@@ -409,7 +505,7 @@
         height: 100vh;
       }
       
-      /* Video über dem Text auf Mobilgeräten */
+      /* Bild über dem Text auf Mobilgeräten */
       .about-section {
         flex-direction: column;
       }
@@ -423,6 +519,11 @@
       .video-btn {
         padding: 12px 30px;
         font-size: 1.1rem;
+      }
+      
+      .footer-links a {
+        display: block;
+        margin: 10px 0;
       }
     }
   </style>
@@ -443,8 +544,8 @@
   <!-- HERO-SECTION -->
   <section class="hero-section">
     <img src="bilder/hero.jpg" alt="Gowand auf der Bühne" class="hero-image">
-    <button class="video-btn" onclick="openVideo('videos/highlight.mp4')">
-      ▶ (Clip folgt noch)
+    <button class="video-btn" onclick="openVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+      ▶ Performance ansehen
     </button>
   </section>
 
@@ -520,18 +621,21 @@
           </div>
         </div>
       </div>
+      
+      <!-- ALLE TERMINE Button -->
+      <div class="alle-termine-btn-container">
+        <a href="termine.html" class="alle-termine-btn">ALLE TERMINE</a>
+      </div>
     </div>
   </section>
 
-  <!-- ÜBER MICH MIT VIDEO -->
+  <!-- ÜBER MICH MIT BILD (statt Video) -->
   <section class="about-section" id="about">
-    <div class="about-video" id="media">
-      <video autoplay muted loop playsinline>
-        <source src="videos/clip1.mp4" type="video/mp4">
-      </video>
+    <div class="about-image-container" id="media">
+      <img src="bilder/hero.jpg" alt="Gowand Barkhi Portrait" class="about-image">
     </div>
     <div class="about-content">
-      <h2>ÜBER GOWAND</h2>
+      <h2 style="text-align: center; margin-bottom: 40px;">ÜBER GOWAND</h2>
       <p>Gowand Barkhi ist ein Stand-up-Comedian aus Düsseldorf, der mit grenzüberschreitendem, absurdem Humor auffällt. Seine Themen sind persönlich, oft überraschend und bewegen sich konsequent abseits des Gewöhnlichen. Ob Alltagsbeobachtungen, Identität oder blanker Wahnsinn – Gowand bringt das Publikum zum Lachen (zumindest wurde er als komisch beschrieben, was auch immer das bedeutet).</p>
       <p>Er gehört zu einer neuen Generation von Comedians, die sich nicht scheuen, das Format herauszufordern.</p>
       <p>Gowand steht für einen anderen Humor: unbequem, originell, eigenartig und unbequem.</p>
@@ -544,10 +648,6 @@
     <div class="contact-container">
       <h2 style="text-align: center; margin-bottom: 40px;">KONTAKT</h2>
       <form class="contact-form" action="mailto:gowandbarkhi@gmail.com" method="post" enctype="text/plain">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" class="form-control" required>
-        </div>
         
         <div class="form-group">
           <label for="email">E-Mail</label>
@@ -581,12 +681,21 @@
         </svg>
       </a>
     </div>
-    <p>&copy; 2024 Gowand Barkhi</p>
+    <div class="footer-links">
+      <a href="impressum.html">Impressum</a>
+      <a href="presse.html">Pressebereich</a>
+    </div>
+    <p>&copy; 2025 Gowand Barkhi</p>
   </footer>
 
   <!-- VIDEO MODAL -->
   <div id="videoModal" class="video-modal">
-    <!-- Modal-Inhalt -->
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeVideo()">&times;</button>
+      <div class="video-container">
+        <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -598,15 +707,33 @@
 
     // Video Modal Funktionen
     const videoModal = document.getElementById('videoModal');
+    const videoFrame = document.getElementById('videoFrame');
     
     function openVideo(url) {
-      videoModal.style.display = 'block';
-      // Video-Player-Logik
+      videoFrame.src = url;
+      videoModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Verhindert Scrollen im Hintergrund
     }
 
     function closeVideo() {
       videoModal.style.display = 'none';
+      videoFrame.src = ''; // Video stoppen
+      document.body.style.overflow = ''; // Scrollen wieder aktivieren
     }
+
+    // Schließen des Modals durch Klick außerhalb des Inhalts
+    videoModal.addEventListener('click', function(event) {
+      if (event.target === videoModal) {
+        closeVideo();
+      }
+    });
+
+    // ESC-Taste schließt Modal
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && videoModal.style.display === 'flex') {
+        closeVideo();
+      }
+    });
 
     // Initialisierung
     document.addEventListener('DOMContentLoaded', () => {
