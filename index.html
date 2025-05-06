@@ -21,18 +21,26 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Verhindert horizontales Scrollen */
+    }
+
     body {
       font-family: 'Montserrat', sans-serif;
       background: var(--light);
       color: var(--primary);
       line-height: 1.6;
-      overflow-x: hidden;
+      min-height: 100vh;
     }
 
     /* ========== HEADER MIT ANIMATION ========== */
     header#main-header {
       position: fixed;
       top: 0;
+      left: 0;
       width: 100%;
       background: transparent;
       z-index: 1000;
@@ -113,17 +121,21 @@
 
     /* ========== HERO-SECTION MIT VIDEOBUTTON ========== */
     .hero-section {
-      margin-top: 0;
+      width: 100vw;
       height: 100vh;
       position: relative;
       display: flex;
-      align-items: center; /* Button nach unten verschieben */
+      align-items: center;
       justify-content: center;
-      padding-bottom: 0%; /* Zusätzlicher Abstand am unteren Rand */
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
     }
 
     .hero-image {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -158,6 +170,9 @@
     .termine-section {
       padding: 80px 20px 20px; /* Erhöhter oberer Padding für mehr Abstand zum Hero */
       background: #f8f8f8;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     .termine-container {
@@ -261,7 +276,6 @@
     }
 
     /* ========== ABOUT-SECTION MIT BILD ========== */
-
     .about-section {
       padding: 120px 20px;
       max-width: 1200px;
@@ -269,6 +283,8 @@
       display: flex;
       gap: 50px;
       align-items: center;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .about-image-container {
@@ -304,6 +320,9 @@
     .contact-section {
       padding: 100px 20px;
       background: #f8f8f8;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     .contact-form {
@@ -368,6 +387,8 @@
       color: var(--light);
       padding: 60px 20px;
       text-align: center;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .social-links {
@@ -466,6 +487,11 @@
     @media (max-width: 992px) {
       .about-section {
         flex-direction: column;
+      }
+      
+      .about-image-container {
+        width: 100%; /* ÄNDERUNG: Volle Breite für das Bild auf kleineren Bildschirmen */
+        max-width: 450px; /* ÄNDERUNG: Maximale Breite hinzugefügt */
       }
       
       .termin-card {
@@ -654,7 +680,13 @@
   <section class="contact-section" id="contact">
     <div class="contact-container">
       <h2 style="text-align: center; margin-bottom: 40px;">KONTAKT</h2>
-      <form class="contact-form" action="mailto:gowandbarkhi@gmail.com" method="post" enctype="text/plain">
+      <!-- ÄNDERUNG: Formular geändert zu PHP-basiertem Submit statt mailto -->
+      <form class="contact-form" action="kontakt.php" method="post">
+        
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" class="form-control" required>
+        </div>
         
         <div class="form-group">
           <label for="email">E-Mail</label>
@@ -742,24 +774,22 @@
       }
     });
 
+    // Formularvalidierung hinzugefügt
+    document.querySelector('.contact-form').addEventListener('submit', function(e) {
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      
+      // Einfache Validierung
+      if (email.trim() === '' || message.trim() === '') {
+        e.preventDefault();
+        alert('Bitte füllen Sie alle Pflichtfelder aus.');
+      }
+    });
+
     // Initialisierung
     document.addEventListener('DOMContentLoaded', () => {
       // Event-Listener für Navigation
-      document.querySelectorAll('nav a').forEach(link => {
-        link.addEventListener('click', smoothScroll);
-      });
     });
-
-    // Glatte Scroll-Animation
-    function smoothScroll(e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href');
-      document.querySelector(targetId).scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
   </script>
-
 </body>
 </html>
