@@ -46,7 +46,6 @@
     header#main-header.scrolled {
       padding: 10px 20px;
       background: var(--light);
-      border-bottom: 1px solid rgba(0,0,0,0.1);
       box-shadow: 0 2px 15px rgba(0,0,0,0.05);
     }
 
@@ -162,7 +161,7 @@
     }
 
     .termine-container {
-      max-width: 1600px;
+      max-width: 1200px; /* Verkürzt von 1600px auf 1200px */
       margin: 0 auto;
     }
 
@@ -175,7 +174,7 @@
 
     .termin-card {
       background: var(--light);
-      padding: 15px 25px; /* Reduziertes Padding für dünnere Karten */
+      padding: 10px 20px; /* Reduziertes Padding für kürzere Karten */
       border-radius: 15px;
       box-shadow: 0 5px 25px rgba(0,0,0,0.08);
       transition: var(--transition);
@@ -208,6 +207,11 @@
 
     .termin-details h3 {
       margin-bottom: 5px;
+      font-size: 1rem; /* Kleinere Schriftgröße für kürzere Kästen */
+    }
+    
+    .termin-details p {
+      font-size: 0.9rem; /* Kleinere Schriftgröße für Text */
     }
 
     .termin-actions {
@@ -217,12 +221,13 @@
 
     .ticket-btn {
       display: inline-block;
-      padding: 10px 20px;
+      padding: 8px 16px; /* Kleineres Padding für Button */
       background: var(--secondary);
       color: var(--light);
       text-decoration: none;
       border-radius: 8px;
       transition: var(--transition);
+      font-size: 0.9rem; /* Kleinere Schriftgröße */
     }
 
     .ticket-btn:hover {
@@ -256,6 +261,7 @@
     }
 
     /* ========== ABOUT-SECTION MIT BILD ========== */
+
     .about-section {
       padding: 120px 20px;
       max-width: 1200px;
@@ -266,11 +272,13 @@
     }
 
     .about-image-container {
-      flex: 1;
+      flex: 1.5; /* Erhöht den Anteil für das Bild im Flex-Layout */
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 5px 25px rgba(0,0,0,0.1);
       position: relative;
+      height: 600px; /* Feste Höhe für das 4:3-Verhältnis im Hochformat */
+      width: 450px; /* Breite für 4:3-Verhältnis (600px ÷ 4 × 3) */
     }
 
     .about-image {
@@ -536,7 +544,6 @@
     <nav>
       <a href="#termine">TERMINE</a>
       <a href="#about">ÜBER MICH</a>
-      <a href="#media">MEDIA</a>
       <a href="#contact">KONTAKT</a>
     </nav>
   </header>
@@ -629,9 +636,9 @@
     </div>
   </section>
 
-  <!-- ÜBER MICH MIT BILD (statt Video) -->
+  <!-- ÜBER MICH MIT BILD -->
   <section class="about-section" id="about">
-    <div class="about-image-container" id="media">
+    <div class="about-image-container">
       <img src="bilder/hero.jpg" alt="Gowand Barkhi Portrait" class="about-image">
     </div>
     <div class="about-content">
