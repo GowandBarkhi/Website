@@ -98,19 +98,7 @@
     }
 
     /* ========== TERMINE-SECTION ========== */
-    .termine-section {
-      padding: 80px 20px 20px; /* Erhöhter oberer Padding für mehr Abstand zum Hero */
-      background: #f8f8f8; /* Einheitliche Hintergrundfarbe in einem hellen Grünton */
-    }
 
-    .termine-container {
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-    
-    .termine-monat {
-      margin-bottom: 40px;
-    }
     
     .monat-titel {
       color: var(--secondary);
@@ -120,15 +108,26 @@
       border-bottom: 1px solid var(--secondary);
     }
 
+    .termine-section {
+      padding: 80px 20px 20px; /* Erhöhter oberer Padding für mehr Abstand zum Hero */
+      background: #f8f8f8;
+    }
+
+    .termine-container {
+      max-width: 1200px; /* Verkürzt von 1600px auf 1200px */
+      margin: 0 auto;
+    }
+
     .termine-list {
       display: flex;
       flex-direction: column;
       gap: 15px; /* Geringerer Abstand zwischen den Terminen */
+      margin-top: 50px;
     }
 
     .termin-card {
       background: var(--light);
-      padding: 15px 25px; /* Reduziertes Padding für dünnere Karten */
+      padding: 10px 20px; /* Reduziertes Padding für kürzere Karten */
       border-radius: 15px;
       box-shadow: 0 5px 25px rgba(0,0,0,0.08);
       transition: var(--transition);
@@ -161,6 +160,11 @@
 
     .termin-details h3 {
       margin-bottom: 5px;
+      font-size: 1rem; /* Kleinere Schriftgröße für kürzere Kästen */
+    }
+    
+    .termin-details p {
+      font-size: 0.9rem; /* Kleinere Schriftgröße für Text */
     }
 
     .termin-actions {
@@ -170,18 +174,44 @@
 
     .ticket-btn {
       display: inline-block;
-      padding: 10px 20px;
+      padding: 8px 16px; /* Kleineres Padding für Button */
       background: var(--secondary);
       color: var(--light);
       text-decoration: none;
       border-radius: 8px;
       transition: var(--transition);
+      font-size: 0.9rem; /* Kleinere Schriftgröße */
     }
 
     .ticket-btn:hover {
       background: #004d2e;
     }
-    
+
+    /* Alle Termine Button */
+    .alle-termine-btn-container {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .alle-termine-btn {
+      display: inline-block;
+      padding: 14px 30px;
+      background: var(--secondary);
+      color: var(--light);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      font-size: 1rem;
+      transition: var(--transition);
+      text-transform: uppercase;
+    }
+
+    .alle-termine-btn:hover {
+      background: #004d2e;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }    
     /* ========== BREADCRUMB ========== */
     .breadcrumb {
       background: #f8f8f8; /* Einheitliche Hintergrundfarbe wie termine-section */
@@ -233,6 +263,11 @@
       margin-bottom: 30px;
       position: relative;
       padding-bottom: 15px;
+    }
+    
+    /* Neue Klasse für Abstand nach Monatsabschnitten */
+    .termine-monat {
+      margin-bottom: 50px; /* Mehr Abstand nach jedem Monatsabschnitt */
     }
 
     /* ========== FOOTER ========== */
@@ -289,12 +324,23 @@
         flex-wrap: wrap;
       }
       
-      .photo-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      .termin-card {
+        flex-direction: column;
+        align-items: flex-start;
       }
       
-      .modal {
-        padding: 20px;
+      .termin-info {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      
+      .termin-actions {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .termin-datum {
+        margin-bottom: 5px;
       }
     }
 
@@ -303,8 +349,17 @@
         font-size: 1.5rem;
       }
       
-      .photo-gallery {
-        grid-template-columns: 1fr;
+      .termin-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .termin-datum {
+        margin-bottom: 10px;
+      }
+      
+      .breadcrumb ul {
+        flex-wrap: wrap;
       }
       
       .footer-links a {
@@ -323,7 +378,6 @@
       <nav>
         <a href="index.html#termine">TERMINE</a>
         <a href="index.html#about">ÜBER MICH</a>
-        <a href="index.html#media">MEDIA</a>
         <a href="index.html#contact">KONTAKT</a>
       </nav>
     </div>
