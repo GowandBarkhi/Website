@@ -301,11 +301,22 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 15s ease;
+      transition: transform 5s ease; /* Schnellerer Zoom-Effekt: 15s auf 5s reduziert */
+      animation: slowZoom 15s infinite alternate; /* Automatischer Zoom-Effekt hinzugefügt */
+    }
+
+    /* Animation für den automatischen Zoom-Effekt */
+    @keyframes slowZoom {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.1);
+      }
     }
 
     .about-image-container:hover .about-image {
-      transform: scale(1.1);
+      transform: scale(1.15); /* Stärkerer Zoom-Effekt beim Hover */
     }
 
     .about-content {
@@ -577,7 +588,7 @@
   <!-- HERO-SECTION -->
   <section class="hero-section">
     <img src="bilder/hero.jpg" alt="Gowand auf der Bühne" class="hero-image">
-    <button class="video-btn" onclick="openVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+    <button class="video-btn" onclick="openVideo('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1')">
       ▶ Performance ansehen
     </button>
   </section>
@@ -753,6 +764,7 @@
   </div>
 
   <script>
+
     // Header Scroll Effect
     window.addEventListener('scroll', () => {
       const header = document.getElementById('main-header');
