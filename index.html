@@ -166,6 +166,43 @@
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
 
+
+    /* ========== BANNER MIT BILD UND TEXT ========== */
+    .banner-section {
+      width: 100%;
+      background-color: var(--secondary);
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      height: 120px; /* Höhe des Banners */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.2; /* Abgedunkelt, damit der Text besser lesbar ist */
+    }
+
+    .banner-text {
+      position: relative;
+      z-index: 2;
+      color: var(--light);
+      font-size: 1.5rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+
      /* ========== TERMINE-SECTION ========== */
 
     
@@ -307,22 +344,12 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 5s ease; /* Schnellerer Zoom-Effekt: 15s auf 5s reduziert */
-      animation: slowZoom 15s infinite alternate; /* Automatischer Zoom-Effekt hinzugefügt */
+      transition: transform 1.5s ease;
     }
 
-    /* Animation für den automatischen Zoom-Effekt */
-    @keyframes slowZoom {
-      from {
-        transform: scale(1);
-      }
-      to {
-        transform: scale(1.1);
-      }
-    }
-
-    .about-image-container:hover .about-image {
-      transform: scale(1.15); /* Stärkerer Zoom-Effekt beim Hover */
+    /* Die Zoom-Klasse wird per JavaScript hinzugefügt, wenn das Element sichtbar wird */
+    .about-image-container.zoom-effect .about-image {
+      transform: scale(1.15);
     }
 
     .about-content {
@@ -599,7 +626,13 @@
     </button>
   </section>
 
-
+<!-- BANNER MIT BILD UND TEXT STATT SWIPER - NUR TEXT ALS LINK -->
+<section class="banner-section">
+  <div class="banner-text">
+    <a href="https://www.eventim.de/event/daphni-georgoglidis-gowand-barkhi-hinterhofsalon-20080533/?msockid=22eac5d628a763da3146d11c292c6207" style="color: var(--light); text-decoration: none; transition: var(--transition);">06. Juni 2025
+Daphni Georgoglidis & Gowand Barkhi - Poesie und Comedy werden Freunde | Köln</a>
+  </div>
+</section>
 
   <!-- TERMINE - NEUGESTALTUNG -->
   <section class="termine-section" id="termine">
@@ -609,31 +642,6 @@
         <!-- Terminliste im neuen Format -->
 
 
-              <div class="termin-card">
-                <div class="termin-info">
-                  <div class="termin-datum">08. Mai 2025</div>
-                  <div class="termin-details">
-                    <h3>Kunst gegen Bares | Düren</h3>
-                    <p>Beginn: 19:00 Uhr</p>
-                  </div>
-                </div>
-                <div class="termin-actions">
-                  <a href="https://www.ku5.events/event-details/kunst-gegen-bares-duren" class="ticket-btn">Tickets</a>
-                </div>
-              </div>
-              
-              <div class="termin-card">
-                <div class="termin-info">
-                  <div class="termin-datum">09. Mai 2025</div>
-                  <div class="termin-details">
-                    <h3>BOING! Comedy Slam - die Jackpot Show | Köln!</h3>
-                    <p>Beginn: 20:00 Uhr</p>
-                  </div>
-                </div>
-                <div class="termin-actions">
-                  <a href="https://www.eventim-light.com/de/a/583c42d6e4b0077af6a0a5cd/e/67d558d9f70cdf2747524ff8?lang=de" class="ticket-btn">Tickets</a>
-                </div>
-              </div>
 
               <div class="termin-card">
                 <div class="termin-info">
@@ -674,8 +682,32 @@
                 </div>
               </div>
 
-            </div>
-          </div>
+
+              <div class="termin-card">
+                <div class="termin-info">
+                  <div class="termin-datum">06. Juni 2025</div>
+                  <div class="termin-details">
+                    <h3>Daphni Georgoglidis & Gowand Barkhi - Poesie und Comedy werden Freunde | Köln</h3>
+                    <p>Beginn: 20:00 Uhr</p>
+                  </div>
+                </div>
+                <div class="termin-actions">
+                  <a href="https://www.eventim.de/event/daphni-georgoglidis-gowand-barkhi-hinterhofsalon-20080533/?affiliate=TUG" class="ticket-btn">Tickets</a>
+                </div>
+              </div>
+
+ <div class="termin-card">
+                <div class="termin-info">
+                  <div class="termin-datum">18. Juni 2025</div>
+                  <div class="termin-details">
+                    <h3>Grands Comedy Open Mic | Düsseldorf</h3>
+                    <p>Beginn: 20:00 Uhr</p>
+                  </div>
+                </div>
+                <div class="termin-actions">
+                  <a href="https://comedy-union.de/blog/events/openmicdus/" class="ticket-btn">Tickets</a>
+                </div>
+              </div>
 
 
 
