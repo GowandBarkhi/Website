@@ -143,6 +143,15 @@
       z-index: -1;
     }
 
+    /* Video-Button-Container */
+    .video-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-top: 100px; /* Leicht nach unten verschoben */
+    }
+
     .video-btn {
       padding: 18px 45px;
       font-size: 1.4rem;
@@ -155,9 +164,7 @@
       border-radius: 50px;
       display: flex;
       align-items: center;
-      gap: 0px;
-      /* Leicht nach unten verschieben durch Margin-Top */
-      margin-top: 100px;
+      gap: 10px;
     }
 
     .video-btn:hover {
@@ -166,6 +173,11 @@
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
 
+    .video-btn-small {
+      font-size: 1rem;
+      padding: 12px 25px;
+      background: rgba(26, 26, 26, 0.8);
+    }
 
     /* ========== BANNER MIT BILD UND TEXT ========== */
     .banner-section {
@@ -365,12 +377,6 @@
       margin-bottom: 25px;
     }
 
-    /* Spiel-Sektion mit Abstand nach unten */
-    .spiel-section {
-      padding: 60px 20px 120px; /* Erhöhter Padding unten für mehr Abstand */
-      text-align: center;
-    }
-
 
 
 
@@ -537,6 +543,58 @@
       border: none;
     }
 
+    /* Fehlermeldung im Modal */
+    .modal-error {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-error h3 {
+      color: var(--secondary);
+      margin-bottom: 20px;
+    }
+
+    .modal-error p {
+      margin-bottom: 30px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .primary-btn {
+      background: var(--secondary);
+      color: white;
+      border: none;
+    }
+
+    .primary-btn:hover {
+      background: #004d2e;
+    }
+
+    .secondary-btn {
+      background: white;
+      color: var(--primary);
+      border: 1px solid #ddd;
+    }
+
+    .secondary-btn:hover {
+      background: #f5f5f5;
+    }
+
     /* ========== MEDIA QUERIES ========== */
     @media (max-width: 1200px) {
       .brand-logo {
@@ -637,9 +695,14 @@
   <!-- HERO-SECTION -->
   <section class="hero-section">
     <img src="bilder/hero.jpg" alt="Gowand auf der Bühne" class="hero-image">
-    <button class="video-btn" onclick="openVideo('https://youtu.be/DKL2yGezxWo')">
-      ▶ Kurzer Clip
-    </button>
+    <div class="video-buttons">
+      <button class="video-btn" onclick="openVideo('https://www.youtube.com/embed/DKL2yGezxWo')">
+        ▶ Kurzer Clip
+      </button>
+      <a href="https://youtu.be/DKL2yGezxWo" target="_blank" class="video-btn video-btn-small">
+        Direkt auf YouTube öffnen
+      </a>
+    </div>
   </section>
 
 <!-- BANNER MIT BILD UND TEXT STATT SWIPER - NUR TEXT ALS LINK -->
@@ -657,8 +720,6 @@ Daphni Georoglidis & Gowand Barkhi - Poesie und Comedy werden Freunde | Köln</a
       <h2 style="text-align: center; margin-bottom: 40px;">KOMMENDE AUFTRITTE</h2>
       <div class="termine-list">
         <!-- Terminliste im neuen Format -->
-
-
 
               <div class="termin-card">
                 <div class="termin-info">
@@ -713,7 +774,7 @@ Daphni Georoglidis & Gowand Barkhi - Poesie und Comedy werden Freunde | Köln</a
                 </div>
               </div>
 
- <div class="termin-card">
+              <div class="termin-card">
                 <div class="termin-info">
                   <div class="termin-datum">18. Juni 2025</div>
                   <div class="termin-details">
@@ -725,9 +786,7 @@ Daphni Georoglidis & Gowand Barkhi - Poesie und Comedy werden Freunde | Köln</a
                   <a href="https://comedy-union.de/blog/events/openmicdus/" class="ticket-btn">Tickets</a>
                 </div>
               </div>
-
-
-
+      </div>
       
       <!-- ALLE TERMINE Button -->
       <div class="alle-termine-btn-container">
@@ -751,25 +810,13 @@ Daphni Georoglidis & Gowand Barkhi - Poesie und Comedy werden Freunde | Köln</a
     </div>
   </section>
 
-
-  <!-- SPIEL-SECTION mit mehr Abstand nach unten -->
-  <section class="spiel-section">
-      <h2 style="text-align: center; margin-bottom: 40px;">Hit And Miss</h2>
-      <div style="text-align: center; margin-top: 30px;">
-        <a href="spiel.html" class="alle-termine-btn" style="background: var(--primary);">HIER ZUM SPIEL</a>
-      </div>
-  </section>
-
-
   <!-- KONTAKT -->
-
   <section class="contact-section" id="contact">
     <div class="contact-container">
       <h2 style="text-align: center; margin-bottom: 40px;">KONTAKT</h2>
       <!-- ÄNDERUNG: Formular geändert zu PHP-basiertem Submit statt mailto -->
       
-<form class="contact-form" action="https://formspree.io/f/mqaqqnbq" method="POST">
-        
+      <form class="contact-form" action="https://formspree.io/f/mqaqqnbq" method="POST">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" class="form-control" required>
@@ -796,7 +843,6 @@ Daphni Georoglidis & Gowand Barkhi - Poesie und Comedy werden Freunde | Köln</a
       </form>
     </div>
   </section>
-
 
   <!-- FOOTER -->
   <footer>
