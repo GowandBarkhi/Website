@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bühnenspiel - Tomaten und Küsse</title>
+  <title>Spiel - Gowand Barkhi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     /* ========== GLOBALE STYLES ========== */
     :root {
@@ -11,6 +12,7 @@
       --secondary: #006039;
       --light: #ffffff;
       --dark: #111111;
+      --gray: #f8f8f8;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -20,34 +22,157 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Montserrat', sans-serif;
       background: var(--light);
       color: var(--primary);
       line-height: 1.6;
+      overflow-x: hidden;
+      padding-top: 65px; /* Angepasster Platz für den kleineren Header */
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
+      min-height: 100vh; /* Minimale Höhe vom Viewport */
     }
 
     .container {
-      max-width: 800px;
-      width: 100%;
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ========== HEADER - FESTER STIL ========== */
+    header#main-header {
+      background: var(--light);
+      padding: 4px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .brand-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 5px;
+      color: var(--dark);
+      text-transform: uppercase;
+      text-decoration: none;
+      margin-bottom: 0px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.75rem;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ========== BREADCRUMB ========== */
+    .breadcrumb {
+      background: var(--gray);
+      padding: 15px 0;
+    }
+
+    .breadcrumb ul {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+    }
+
+    .breadcrumb li:not(:last-child)::after {
+      content: '/';
+      margin-left: 10px;
+      color: #aaa;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--secondary);
+    }
+
+    /* ========== HAUPTINHALT ========== */
+    main {
+      flex: 1; /* Das ist wichtig, damit der Main-Bereich ausfüllt und Footer unten bleibt */
+    }
+
+    .page-title {
+      text-align: center;
+      margin: 60px 0 40px;
+      font-weight: 500;
+      letter-spacing: 2px;
+    }
+
+    .page-description {
+      max-width: 800px;
+      margin: 0 auto 60px;
+      text-align: center;
+    }
+
+    /* ========== PRESSEMATERIAL SEKTION ========== */
+    .press-section {
+      margin: 60px 0;
+    }
+
+    .press-section h2 {
+      margin-bottom: 30px;
+      position: relative;
+      padding-bottom: 15px;
     }
 
     /* ========== GAME STYLES ========== */
     .game-container {
       width: 100%;
+      max-width: 800px;
       margin: 20px auto;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0,0,0,0.1);
       background: #f9f9f9;
       text-align: center;
+      position: relative; /* Für absolute Positionierung des Game Over Overlays */
     }
 
     .game-title {
@@ -126,7 +251,7 @@
     /* ========== GAME OVER OVERLAY ========== */
     .game-over {
       position: absolute;
-      top: 50%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       background: rgba(0, 0, 0, 0.8);
@@ -136,6 +261,8 @@
       text-align: center;
       display: none;
       z-index: 100;
+      width: 80%; /* Etwas breiter für bessere Sichtbarkeit */
+      max-width: 400px; /* Maximale Breite für größere Bildschirme */
     }
 
     .game-over h2 {
@@ -148,8 +275,70 @@
       margin-bottom: 20px;
     }
 
-    /* Mobile Anpassungen */
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--dark);
+      color: var(--light);
+      padding: 60px 20px;
+      text-align: center;
+      margin-top: auto; /* Wichtig für die Flexbox-Layout */
+      width: 100%;
+    }
+    
+    .social-links {
+      margin: 20px 0;
+    }
+    
+    .social-links a {
+      color: var(--light);
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: var(--transition);
+    }
+    
+    .social-links a:hover {
+      color: var(--secondary);
+    }
+
+    .instagram-icon {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    
+    .footer-links {
+      margin-top: 20px;
+    }
+
+    .footer-links a {
+      color: var(--light);
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+
+    /* ========== MEDIA QUERIES ========== */
     @media (max-width: 768px) {
+      nav {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .photo-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      
+      .modal {
+        padding: 20px;
+      }
+      
       .game-canvas {
         width: 100%;
         height: auto;
@@ -163,59 +352,129 @@
       .btn {
         width: 80%;
       }
+      
+      /* Verbesserte Steuerung für Mobilgeräte */
+      .game-container {
+        touch-action: none; /* Verhindert Standardgesten */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-logo {
+        font-size: 1.5rem;
+      }
+      
+      .photo-gallery {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-links a {
+        display: block;
+        margin: 10px 0;
+      }
+      
+      /* Anpassungen für kleinere Handys */
+      .game-over {
+        width: 90%;
+        padding: 15px;
+      }
+      
+      .game-over h2 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- GAME CONTAINER -->
-  <div class="container">
-    <div class="game-container">
-      <h1 class="game-title">Bühnenspiel</h1>
-      <p class="game-description">
-        Willkommen zum Bühnenspiel! Sammle Küsse ein und weiche den Tomaten aus.
-        Benutze die Pfeiltasten oder tippe links/rechts, um dich zu bewegen.
-      </p>
-      
-      <div class="game-info">
-        <div class="lives">Leben: <span id="lives">3</span></div>
-        <div class="score">Punkte: <span id="score">0</span></div>
-        <div class="level">Level: <span id="level">1</span></div>
-      </div>
-      
-      <canvas id="gameCanvas" class="game-canvas" width="600" height="400"></canvas>
-      
-      <div class="controls">
-        <p>Steuerung: Pfeiltasten links/rechts oder tippe/klicke links/rechts vom Bildschirm</p>
-      </div>
-      
-      <button id="startButton" class="btn">Spiel starten</button>
-      <button id="restartButton" class="btn" style="display: none;">Neustart</button>
-      
-      <!-- Game Over Overlay -->
-      <div id="gameOver" class="game-over">
-        <h2>Game Over!</h2>
-        <p class="final-score">Dein Score: <span id="finalScore">0</span></p>
-        <button id="tryAgainButton" class="btn">Nochmal versuchen</button>
-      </div>
-      
-      <!-- Highscores -->
-      <div class="highscores">
-        <h3>Highscores</h3>
-        <table class="score-table">
-          <thead>
-            <tr>
-              <th>Platz</th>
-              <th>Punkte</th>
-              <th>Datum</th>
-            </tr>
-          </thead>
-          <tbody id="highscoresList">
-            <!-- Highscores werden hier durch JS eingefügt -->
-          </tbody>
-        </table>
-      </div>
+
+  <!-- HEADER -->
+  <header id="main-header">
+    <div class="container header-content">
+      <a href="index.html" class="brand-logo">Gowand</a>
+      <nav>
+        <a href="index.html#termine">TERMINE</a>
+        <a href="index.html#about">ÜBER MICH</a>
+        <a href="index.html#contact">KONTAKT</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <div class="container">
+      <ul>
+        <li><a href="index.html">Startseite</a></li>
+        <li>Spiel</li>
+      </ul>
     </div>
   </div>
+
+      <!-- HIER WIRD DAS SPIEL EINGEFÜGT -->
+      <section class="press-section">
+        <div class="game-container">
+          <h1 class="game-title">Bühnenspiel</h1>
+          <p class="game-description">
+            Willkommen zum Bühnenspiel! Sammle Küsse ein und weiche den Tomaten aus.
+            Benutze die Pfeiltasten oder tippe links/rechts, um dich zu bewegen.
+          </p>
+          
+          <div class="game-info">
+            <div class="lives">Leben: <span id="lives">3</span></div>
+            <div class="score">Punkte: <span id="score">0</span></div>
+            <div class="level">Level: <span id="level">1</span></div>
+          </div>
+          
+          <canvas id="gameCanvas" class="game-canvas" width="600" height="400"></canvas>
+          
+          <div class="controls">
+            <p>Steuerung: Pfeiltasten links/rechts oder tippe/klicke links/rechts vom Bildschirm</p>
+          </div>
+          
+          <button id="startButton" class="btn">Spiel starten</button>
+          
+          <!-- Game Over Overlay -->
+          <div id="gameOver" class="game-over">
+            <h2>Game Over!</h2>
+            <p class="final-score">Dein Score: <span id="finalScore">0</span></p>
+            <button id="tryAgainButton" class="btn">Nochmal versuchen</button>
+          </div>
+          
+          <!-- Highscores -->
+          <div class="highscores">
+            <h3>Highscores</h3>
+            <table class="score-table">
+              <thead>
+                <tr>
+                  <th>Platz</th>
+                  <th>Punkte</th>
+                  <th>Datum</th>
+                </tr>
+              </thead>
+              <tbody id="highscoresList">
+                <!-- Highscores werden hier durch JS eingefügt -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-links">
+      <a href="https://www.instagram.com/gowandcomedy" target="_blank">
+        <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+    </div>
+    <div class="footer-links">
+      <a href="impressum.html">Impressum</a>
+      <a href="presse.html">Pressebereich</a>
+    </div>
+    <p>&copy; 2025 Gowand Barkhi</p>
+  </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -250,7 +509,7 @@
       
       // Bilder vorladen und in Variablen speichern
       const backgroundImg = new Image();
-      backgroundImg.src = 'bilder/background.jpeg';
+      backgroundImg.src = 'bilder/background.png';
       
       // Spielerbilder für verschiedene Zustände
       const playerImages = {
@@ -305,7 +564,7 @@
         }
       });
       
-      // Touch-Events für Mobilgeräte
+      // Verbesserte Touch-Events für Mobilgeräte
       canvas.addEventListener('touchstart', function(e) {
         e.preventDefault();
         const touch = e.touches[0];
@@ -317,12 +576,12 @@
         } else {
           direction = 1;
         }
-      });
+      }, { passive: false });
       
       canvas.addEventListener('touchend', function(e) {
         e.preventDefault();
         direction = 0;
-      });
+      }, { passive: false });
       
       // Maussteuerung
       canvas.addEventListener('mousedown', function(e) {
@@ -340,6 +599,11 @@
         direction = 0;
       });
       
+      // Verbesserung: Touchend-Event für den gesamten Bildschirm, um Probleme mit der Steuerung zu beheben
+      document.addEventListener('touchend', function() {
+        direction = 0;
+      }, { passive: false });
+      
       // Funktion zum Ändern des Spielerzustands
       function changePlayerState(newState) {
         player.currentState = newState;
@@ -351,13 +615,15 @@
         
         // Timer für die Rückkehr zum normalen Zustand
         stateChangeTimer = setTimeout(() => {
-          player.currentState = 'normal';
+          // Nur zurücksetzen, wenn das Spiel noch läuft
+          if (gameRunning) {
+            player.currentState = 'normal';
+          }
         }, STATE_CHANGE_DURATION);
       }
       
       // Spiel starten
       document.getElementById('startButton').addEventListener('click', startGame);
-      document.getElementById('restartButton').addEventListener('click', startGame);
       document.getElementById('tryAgainButton').addEventListener('click', function() {
         document.getElementById('gameOver').style.display = 'none';
         startGame();
@@ -389,7 +655,7 @@
         levelElement.textContent = level;
         
         document.getElementById('startButton').style.display = 'none';
-        document.getElementById('restartButton').style.display = 'none';
+        document.getElementById('gameOver').style.display = 'none';
         
         // Game Loop starten
         if (animationId) {
@@ -492,13 +758,14 @@
           if (checkCollision(player, item)) {
             if (item.type === 'tomato') {
               lives--;
-              // Bild zu "treffer" ändern - nur wenn nicht bereits getroffen
+              // Bild zu "treffer" ändern - auch beim letzten Treffer
               changePlayerState('hit');
               
               // Rotes Aufblinken bei Treffer (leicht transparent)
               flashScreen('#ff000020');
               
               if (lives <= 0) {
+                // Das Bild bleibt im "hit" Zustand beim Game Over
                 gameOver();
               }
             } else {
@@ -543,10 +810,16 @@
       function gameOver() {
         gameRunning = false;
         
+        // Wichtig: stateChangeTimer leeren, damit der Zustand beim Game Over nicht zurückgesetzt wird
+        if (stateChangeTimer) {
+          clearTimeout(stateChangeTimer);
+          stateChangeTimer = null;
+        }
+        
         // Game Over Overlay anzeigen
         document.getElementById('gameOver').style.display = 'block';
         document.getElementById('finalScore').textContent = score;
-        document.getElementById('restartButton').style.display = 'inline-block';
+        document.getElementById('startButton').style.display = 'inline-block';
         
         // Highscore speichern
         saveHighscore(score);
@@ -586,7 +859,7 @@
           return;
         }
         
-        // Highscores anzeigen
+          // Highscores anzeigen
         highscores.forEach((entry, index) => {
           const row = document.createElement('tr');
           row.innerHTML = `
