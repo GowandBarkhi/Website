@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Spiel - Gowand Barkhi</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
@@ -26,8 +25,6 @@
     html, body {
       height: 100%;
       margin: 0;
-      overflow-x: hidden;
-      touch-action: manipulation;
     }
 
     body {
@@ -35,6 +32,7 @@
       background: var(--light);
       color: var(--primary);
       line-height: 1.6;
+      overflow-x: hidden;
       padding-top: 65px; /* Angepasster Platz für den kleineren Header */
       display: flex;
       flex-direction: column;
@@ -140,6 +138,30 @@
       flex: 1; /* Das ist wichtig, damit der Main-Bereich ausfüllt und Footer unten bleibt */
     }
 
+    .page-title {
+      text-align: center;
+      margin: 60px 0 40px;
+      font-weight: 500;
+      letter-spacing: 2px;
+    }
+
+    .page-description {
+      max-width: 800px;
+      margin: 0 auto 60px;
+      text-align: center;
+    }
+
+    /* ========== PRESSEMATERIAL SEKTION ========== */
+    .press-section {
+      margin: 60px 0;
+    }
+
+    .press-section h2 {
+      margin-bottom: 30px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
     /* ========== GAME STYLES ========== */
     .game-container {
       width: 100%;
@@ -168,62 +190,13 @@
       justify-content: space-around;
       margin-bottom: 20px;
       font-size: 1.2rem;
-      flex-wrap: wrap;
-    }
-
-    .game-canvas-container {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-      touch-action: none;
     }
 
     .game-canvas {
       display: block;
-      width: 100%;
-      height: auto;
+      margin: 0 auto;
       background: #222;
       border-radius: 5px;
-      touch-action: none;
-    }
-
-    .fullscreen-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    .touch-controls {
-      display: none; /* Standardmäßig ausgeblendet */
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      z-index: 5;
-    }
-
-    .touch-controls button {
-      width: 70px;
-      height: 70px;
-      background: rgba(255,255,255,0.3);
-      border: 2px solid rgba(255,255,255,0.5);
-      border-radius: 50%;
-      color: white;
-      font-size: 24px;
-      margin: 0 20px;
     }
 
     .controls {
@@ -242,7 +215,6 @@
       cursor: pointer;
       transition: var(--transition);
       margin: 10px;
-      touch-action: manipulation;
     }
 
     .btn:hover {
@@ -352,69 +324,6 @@
       text-decoration: underline;
     }
 
-    /* ========== FULLSCREEN MODE ========== */
-    .fullscreen-mode {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #222;
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      touch-action: none;
-    }
-
-    .fullscreen-mode .game-canvas-container {
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      max-height: none;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .fullscreen-mode .game-canvas {
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 0;
-    }
-
-    .fullscreen-mode .game-info {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      color: white;
-      background: rgba(0,0,0,0.5);
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 0;
-      z-index: 10;
-    }
-
-    .fullscreen-mode .fullscreen-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
-
-    .fullscreen-mode .touch-controls {
-      display: flex;
-      justify-content: space-between;
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-    }
-
     /* ========== MEDIA QUERIES ========== */
     @media (max-width: 768px) {
       nav {
@@ -422,16 +331,31 @@
         flex-wrap: wrap;
       }
       
-      .game-info {
-        font-size: 1rem;
+      .photo-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       }
-
-      .game-title {
-        font-size: 1.5rem;
+      
+      .modal {
+        padding: 20px;
+      }
+      
+      .game-canvas {
+        width: 100%;
+        height: auto;
+      }
+      
+      .game-info {
+        flex-direction: column;
+        gap: 10px;
       }
       
       .btn {
-        padding: 8px 16px;
+        width: 80%;
+      }
+      
+      /* Verbesserte Steuerung für Mobilgeräte */
+      .game-container {
+        touch-action: none; /* Verhindert Standardgesten */
       }
     }
 
@@ -440,11 +364,16 @@
         font-size: 1.5rem;
       }
       
+      .photo-gallery {
+        grid-template-columns: 1fr;
+      }
+      
       .footer-links a {
         display: block;
         margin: 10px 0;
       }
       
+      /* Anpassungen für kleinere Handys */
       .game-over {
         width: 90%;
         padding: 15px;
@@ -452,10 +381,6 @@
       
       .game-over h2 {
         font-size: 1.5rem;
-      }
-
-      .game-description {
-        font-size: 0.9rem;
       }
     }
   </style>
@@ -484,62 +409,55 @@
     </div>
   </div>
 
-  <main>
-    <!-- HIER WIRD DAS SPIEL EINGEFÜGT -->
-    <section class="press-section">
-      <div class="game-container">
-        <h1 class="game-title">Kiss And Miss</h1>
-        <p class="game-description">
-          Willkommen zu diesem vollkommen unnötigen Spiel! Sammle Küsse ein und weiche den Tomaten aus.
-          Benutze die Pfeiltasten oder tippe links/rechts, um dich zu bewegen.
-        </p>
-        
-        <div class="game-info">
-          <div class="lives">Leben: <span id="lives">3</span></div>
-          <div class="score">Punkte: <span id="score">0</span></div>
-          <div class="level">Level: <span id="level">1</span></div>
-        </div>
-        
-        <div class="game-canvas-container">
+      <!-- HIER WIRD DAS SPIEL EINGEFÜGT -->
+      <section class="press-section">
+        <div class="game-container">
+          <h1 class="game-title">Kiss And Miss</h1>
+          <p class="game-description">
+            Willkommen zu diesem vollkomen unnötigen Spiel! Sammle Küsse ein und weiche den Tomaten aus.
+            Benutze die Pfeiltasten oder tippe links/rechts, um dich zu bewegen.
+          </p>
+          
+          <div class="game-info">
+            <div class="lives">Leben: <span id="lives">3</span></div>
+            <div class="score">Punkte: <span id="score">0</span></div>
+            <div class="level">Level: <span id="level">1</span></div>
+          </div>
+          
           <canvas id="gameCanvas" class="game-canvas" width="600" height="400"></canvas>
-          <button class="fullscreen-btn" id="fullscreenButton">⛶</button>
-          <div class="touch-controls">
-            <button id="leftButton">◀</button>
-            <button id="rightButton">▶</button>
+          
+          <div class="controls">
+            <p>Steuerung: Pfeiltasten links/rechts oder tippe/klicke links/rechts vom Bildschirm</p>
+          </div>
+          
+          <button id="startButton" class="btn">Spiel starten</button>
+          
+          <!-- Game Over Overlay -->
+          <div id="gameOver" class="game-over">
+            <h2>Game Over!</h2>
+            <p class="final-score">Dein Score: <span id="finalScore">0</span></p>
+            <button id="tryAgainButton" class="btn">Nochmal versuchen</button>
+          </div>
+          
+          <!-- Highscores -->
+          <div class="highscores">
+            <h3>Highscores</h3>
+            <table class="score-table">
+              <thead>
+                <tr>
+                  <th>Platz</th>
+                  <th>Punkte</th>
+                  <th>Datum</th>
+                </tr>
+              </thead>
+              <tbody id="highscoresList">
+                <!-- Highscores werden hier durch JS eingefügt -->
+              </tbody>
+            </table>
           </div>
         </div>
-        
-        <div class="controls">
-          <p>Steuerung: Pfeiltasten links/rechts oder tippe/klicke links/rechts vom Bildschirm</p>
-        </div>
-        
-        <button id="startButton" class="btn">Spiel starten</button>
-        
-        <!-- Game Over Overlay -->
-        <div id="gameOver" class="game-over">
-          <h2>Game Over!</h2>
-          <p class="final-score">Dein Score: <span id="finalScore">0</span></p>
-          <button id="tryAgainButton" class="btn">Nochmal versuchen</button>
-        </div>
-        
-        <!-- Highscores -->
-        <div class="highscores">
-          <h3>Highscores</h3>
-          <table class="score-table">
-            <thead>
-              <tr>
-                <th>Platz</th>
-                <th>Punkte</th>
-                <th>Datum</th>
-              </tr>
-            </thead>
-            <tbody id="highscoresList">
-              <!-- Highscores werden hier durch JS eingefügt -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <!-- FOOTER -->
@@ -560,29 +478,20 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Elemente abrufen
+      // Canvas und Kontext
       const canvas = document.getElementById('gameCanvas');
       const ctx = canvas.getContext('2d');
-      const gameContainer = document.querySelector('.game-container');
-      const gameCanvasContainer = document.querySelector('.game-canvas-container');
-      const fullscreenButton = document.getElementById('fullscreenButton');
-      const leftButton = document.getElementById('leftButton');
-      const rightButton = document.getElementById('rightButton');
-      const touchControls = document.querySelector('.touch-controls');
       
-      // Globale Variablen
+      // Spielvariablen
       let gameRunning = false;
-      let isPaused = false;
-      let isFullscreen = false;
       let animationId;
-      let touchControlsActive = false;
       let player = {
         x: canvas.width / 2 - 25,
         y: 50,
         width: 50,
         height: 70,
         speed: 7,
-        currentState: 'normal'
+        currentState: 'normal'  // Standardzustand für den Spieler
       };
       
       let items = [];
@@ -593,185 +502,71 @@
       let lastSpawn = 0;
       let direction = 0; // -1 für links, 1 für rechts, 0 für stehen
       let frameCount = 0;
+      
+      // Timer für die Dauer der Statusänderung
       let stateChangeTimer = null;
       const STATE_CHANGE_DURATION = 500; // 500ms für die Bildänderung
       
-      // Erkennen, ob es sich um ein mobiles Gerät handelt
-      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-                            ('ontouchstart' in window) || 
-                            (navigator.maxTouchPoints > 0);
+      // Bilder vorladen und in Variablen speichern
+      const backgroundImg = new Image();
+      backgroundImg.src = 'bilder/background.png';
       
-      touchControlsActive = isMobileDevice;
+      // Spielerbilder für verschiedene Zustände
+      const playerImages = {
+        normal: new Image(),
+        hit: new Image(),
+        kiss: new Image()
+      };
       
-      // Bilder vorladen
-      const imageCache = {};
-      const imagesToLoad = [
-        { name: 'background', src: 'bilder/background.png' },
-        { name: 'player_normal', src: 'bilder/ich.png' },
-        { name: 'player_hit', src: 'bilder/treffer.png' },
-        { name: 'player_kiss', src: 'bilder/kuss.png' },
-        { name: 'tomato', src: 'bilder/tomato.png' },
-        { name: 'kiss', src: 'bilder/lips.png' }
-      ];
+      // Alle Bilder vorladen
+      playerImages.normal.src = 'bilder/ich.png';
+      playerImages.hit.src = 'bilder/treffer.png'; 
+      playerImages.kiss.src = 'bilder/kuss.png';
       
+      const tomatoImg = new Image();
+      tomatoImg.src = 'bilder/tomato.png';
+      
+      const kissImg = new Image();
+      kissImg.src = 'bilder/lips.png';
+      
+      // Event-Listener hinzufügen, um sicherzustellen, dass alle Bilder geladen sind
       let imagesLoaded = 0;
-      const totalImages = imagesToLoad.length;
+      const totalImages = 5;
       
-      // Bild-Lader mit Error Handling für fehlende Bilder
-      function loadImages(callback) {
-        imagesToLoad.forEach(img => {
-          const image = new Image();
-          
-          image.onload = function() {
-            imageCache[img.name] = image;
-            imagesLoaded++;
-            
-            if (imagesLoaded === totalImages) {
-              console.log("Alle Bilder geladen!");
-              if (callback) callback();
-            }
-          };
-          
-          image.onerror = function() {
-            console.warn(`Konnte Bild nicht laden: ${img.src}`);
-            // Erstelle ein Ersatzbild mit Farbe
-            const fallbackCanvas = document.createElement('canvas');
-            fallbackCanvas.width = 50;
-            fallbackCanvas.height = 50;
-            const fbCtx = fallbackCanvas.getContext('2d');
-            
-            // Farben je nach Bildtyp
-            if (img.name.includes('tomato')) {
-              fbCtx.fillStyle = 'red';
-            } else if (img.name.includes('kiss')) {
-              fbCtx.fillStyle = 'pink';
-            } else if (img.name.includes('background')) {
-              fbCtx.fillStyle = '#333';
-            } else {
-              fbCtx.fillStyle = img.name.includes('hit') ? 'orange' : 'green';
-            }
-            
-            fbCtx.fillRect(0, 0, 50, 50);
-            
-            // Als Daten-URL konvertieren
-            const fallbackImg = new Image();
-            fallbackImg.src = fallbackCanvas.toDataURL();
-            imageCache[img.name] = fallbackImg;
-            
-            imagesLoaded++;
-            if (imagesLoaded === totalImages) {
-              console.log("Alle Bilder geladen (mit Fallback)!");
-              if (callback) callback();
-            }
-          };
-          
-          image.src = img.src;
-        });
-      }
-      
-      // Canvas neu dimensionieren
-      function resizeCanvas() {
-        // Bestimme Container-Breite für responsive Anpassung
-        const containerWidth = gameCanvasContainer.clientWidth;
-        
-        // Aspekt-Verhältnis beibehalten (600:400 = 3:2)
-        const aspectRatio = 3/2;
-        const newWidth = Math.min(600, containerWidth);
-        const newHeight = newWidth / aspectRatio;
-        
-        // Canvas-Größe setzen
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        
-        // Spieler neu positionieren wenn im Vollbild
-        if (gameRunning) {
-          // Position relativ zur Höhe anpassen
-          player.width = 50 * (newWidth / 600);
-          player.height = 70 * (newWidth / 600);
-          player.x = Math.min(player.x * (newWidth / canvas.width), newWidth - player.width);
-          player.y = 50 * (newHeight / 400);
-        } else {
-          // Bei nicht laufendem Spiel, standardmäßig zentrieren
-          player.width = 50 * (newWidth / 600);
-          player.height = 70 * (newWidth / 600);
-          player.x = newWidth / 2 - player.width / 2;
-          player.y = 50 * (newHeight / 400); 
-        }
-        
-        // Neu zeichnen
-        if (!gameRunning) {
-          drawStartScreen();
+      function imageLoaded() {
+        imagesLoaded++;
+        if (imagesLoaded === totalImages) {
+          console.log("Alle Bilder geladen!");
         }
       }
       
-      // Vollbildmodus-Handler
-      function toggleFullscreen() {
-        isFullscreen = !isFullscreen;
-        
-        if (isFullscreen) {
-          // In Vollbildmodus wechseln
-          gameCanvasContainer.classList.add('fullscreen-mode');
-          document.body.style.overflow = 'hidden'; // Verhindern von Scrollen
-          if (touchControlsActive) {
-            touchControls.style.display = 'flex';
-          }
-          fullscreenButton.innerHTML = '×'; // Kreuz als Exit-Symbol
-        } else {
-          // Vollbildmodus verlassen
-          gameCanvasContainer.classList.remove('fullscreen-mode');
-          document.body.style.overflow = ''; // Scrollen wieder erlauben
-          touchControls.style.display = '';
-          fullscreenButton.innerHTML = '⛶'; // Zurück zum Vollbild-Symbol
-        }
-        
-        // Nach Größenänderung neu berechnen
-        setTimeout(resizeCanvas, 100);
-      }
+      backgroundImg.onload = imageLoaded;
+      playerImages.normal.onload = imageLoaded;
+      playerImages.hit.onload = imageLoaded;
+      playerImages.kiss.onload = imageLoaded;
+      tomatoImg.onload = imageLoaded;
+      kissImg.onload = imageLoaded;
       
-      // Vollbild-Button-Event
-      fullscreenButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleFullscreen();
+      // Event Listeners für Tastatur
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+          direction = -1;
+        } else if (e.key === 'ArrowRight') {
+          direction = 1;
+        }
       });
       
-      // Touch-Steuerung einrichten
-      if (touchControlsActive) {
-        leftButton.addEventListener('touchstart', function(e) {
-          e.preventDefault();
-          direction = -1;
-        });
-        
-        leftButton.addEventListener('touchend', function(e) {
-          e.preventDefault();
-          if (direction === -1) direction = 0;
-        });
-        
-        rightButton.addEventListener('touchstart', function(e) {
-          e.preventDefault();
-          direction = 1;
-        });
-        
-        rightButton.addEventListener('touchend', function(e) {
-          e.preventDefault();
-          if (direction === 1) direction = 0;
-        });
-      }
-      
-      // Canvas Touch-Event-Handler für Mobilgeräte
-      canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-      canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
-      canvas.addEventListener('touchcancel', handleTouchEnd, { passive: false });
-      
-      function handleTouchStart(e) {
-        e.preventDefault(); // Wichtig, um unerwünschtes Scrollen zu verhindern
-        if (!gameRunning) return;
-        
-        // Nur verarbeiten, wenn Vollbildmodus oder keine expliziten Steuerungsbuttons
-        if (isFullscreen && touchControlsActive) {
-          return; // Bei Vollbild nutzen wir die expliziten Buttons
+      document.addEventListener('keyup', function(e) {
+        if (e.key === 'ArrowLeft' && direction === -1) {
+          direction = 0;
+        } else if (e.key === 'ArrowRight' && direction === 1) {
+          direction = 0;
         }
-        
+      });
+      
+      // Verbesserte Touch-Events für Mobilgeräte
+      canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
         const touch = e.touches[0];
         const canvasRect = canvas.getBoundingClientRect();
         const touchX = touch.clientX - canvasRect.left;
@@ -781,364 +576,323 @@
         } else {
           direction = 1;
         }
+      }, { passive: false });
+      
+      canvas.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        direction = 0;
+      }, { passive: false });
+      
+      // Maussteuerung
+      canvas.addEventListener('mousedown', function(e) {
+        const canvasRect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - canvasRect.left;
+        
+        if (mouseX < canvas.width / 2) {
+          direction = -1;
+        } else {
+          direction = 1;
+        }
+      });
+      
+      canvas.addEventListener('mouseup', function() {
+        direction = 0;
+      });
+      
+      // Verbesserung: Touchend-Event für den gesamten Bildschirm, um Probleme mit der Steuerung zu beheben
+      document.addEventListener('touchend', function() {
+        direction = 0;
+      }, { passive: false });
+      
+      // Funktion zum Ändern des Spielerzustands
+      function changePlayerState(newState) {
+        player.currentState = newState;
+        
+        // Vorherigen Timer löschen, falls vorhanden
+        if (stateChangeTimer) {
+          clearTimeout(stateChangeTimer);
+        }
+        
+        // Timer für die Rückkehr zum normalen Zustand
+        stateChangeTimer = setTimeout(() => {
+          // Nur zurücksetzen, wenn das Spiel noch läuft
+          if (gameRunning) {
+            player.currentState = 'normal';
+          }
+        }, STATE_CHANGE_DURATION);
       }
       
-      function handleTouchEnd(e) {
-        e.preventDefault();
+      // Spiel starten
+      document.getElementById('startButton').addEventListener('click', startGame);
+      document.getElementById('tryAgainButton').addEventListener('click', function() {
+        document.getElementById('gameOver').style.display = 'none';
+        startGame();
+      });
+      
+      // Highscores aus dem localStorage laden
+      let highscores = JSON.parse(localStorage.getItem('buehnenspielHighscores')) || [];
+      updateHighscores();
+      
+      function startGame() {
+        // Spielzustand zurücksetzen
+        gameRunning = true;
+        score = 0;
+        lives = 3;
+        level = 1;
+        spawnRate = 1500;
+        items = [];
+        player.x = canvas.width / 2 - 25;
+        player.currentState = 'normal';
+        
+        // Performance-Optimierung: Nur einmal die DOM-Elemente abfragen
+        const scoreElement = document.getElementById('score');
+        const livesElement = document.getElementById('lives');
+        const levelElement = document.getElementById('level');
+        
+        // UI aktualisieren
+        scoreElement.textContent = score;
+        livesElement.textContent = lives;
+        levelElement.textContent = level;
+        
+        document.getElementById('startButton').style.display = 'none';
+        document.getElementById('gameOver').style.display = 'none';
+        
+        // Game Loop starten
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+        
+        // Zurücksetzen der Zeitmessung für das nächste Frame
+        lastSpawn = 0;
+        frameCount = 0;
+        
+        // Game Loop starten
+        gameLoop();
+      }
+      
+      function gameLoop(timestamp) {
         if (!gameRunning) return;
         
-        // Nur verarbeiten, wenn Vollbildmodus oder keine expliziten Steuerungsbuttons
-        if (isFullscreen && touchControlsActive) {
-          return; // Bei Vollbild nutzen wir die expliziten Buttons
+        // Zeit für die Animation
+        if (!lastSpawn) lastSpawn = timestamp;
+        frameCount++;
+        
+        // Clear Canvas - nur den notwendigen Bereich leeren
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Hintergrund zeichnen
+        ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+        
+        // Spieler bewegen
+        player.x += direction * player.speed;
+        
+        // Spieler im Canvas halten
+        if (player.x < 0) player.x = 0;
+        if (player.x > canvas.width - player.width) player.x = canvas.width - player.width;
+        
+        // Spieler zeichnen - basierend auf dem aktuellen Zustand
+        // Sicherstellen, dass das Bild existiert
+        const currentPlayerImg = playerImages[player.currentState] || playerImages.normal;
+        ctx.drawImage(currentPlayerImg, player.x, player.y, player.width, player.height);
+        
+        // Neues Item spawnen wenn Zeit um ist
+        if (timestamp - lastSpawn > spawnRate) {
+          spawnItem();
+          lastSpawn = timestamp;
         }
         
-        direction = 0;
+        // Items aktualisieren und zeichnen
+        updateItems();
+        
+        // UI nur aktualisieren, wenn sich Werte geändert haben
+        document.getElementById('score').textContent = score;
+        document.getElementById('lives').textContent = lives;
+        
+        // Schwierigkeitsgrad erhöhen
+        if (frameCount % 600 === 0) { // Ca. alle 10 Sekunden
+          level++;
+          spawnRate = Math.max(400, spawnRate - 200);
+          document.getElementById('level').textContent = level;
+        }
+        
+        // Nächsten Frame anfordern
+        animationId = requestAnimationFrame(gameLoop);
       }
       
-      // Tastatur-Events für Desktop
-      if (!touchControlsActive) {
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'ArrowLeft') {
-            direction = -1;
-          } else if (e.key === 'ArrowRight') {
-            direction = 1;
-          } else if (e.key === 'Escape' && isFullscreen) {
-            toggleFullscreen();
-          }
-        });
+      function spawnItem() {
+        // Zufällige Position entlang des oberen Randes
+        const x = Math.random() * (canvas.width - 40);
+        const y = canvas.height;
         
-        document.addEventListener('keyup', function(e) {
-          if (e.key === 'ArrowLeft' && direction === -1) {
-            direction = 0;
-          } else if (e.key === 'ArrowRight' && direction === 1) {
-            direction = 0;
-          }
-        });
+        // 70% Chance für Tomaten, 30% für Küsse
+        const type = Math.random() < 0.7 ? 'tomato' : 'kiss';
         
-        // Maussteuerung für Desktop
-        canvas.addEventListener('mousedown', function(e) {
-          if (!gameRunning) return;
+        // Item Objekt erstellen
+        const item = {
+          x: x,
+          y: y,
+          width: 40,
+          height: 40,
+          type: type,
+          speed: 3 + level * 0.5
+        };
+        
+        items.push(item);
+      }
+      
+      function updateItems() {
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
           
-          const canvasRect = canvas.getBoundingClientRect();
-          const mouseX = e.clientX - canvasRect.left;
+          // Item bewegen (von unten nach oben)
+          item.y -= item.speed;
           
-          if (mouseX < canvas.width / 2) {
-            direction = -1;
+          // Item zeichnen
+          if (item.type === 'tomato') {
+            ctx.drawImage(tomatoImg, item.x, item.y, item.width, item.height);
           } else {
-            direction = 1;
+            ctx.drawImage(kissImg, item.x, item.y, item.width, item.height);
           }
-        });
-  
-  // Funktion zum Ändern des Spielerzustands
-  function changePlayerState(newState) {
-    player.currentState = newState;
-    
-    // Vorherigen Timer löschen, falls vorhanden
-    if (stateChangeTimer) {
-      clearTimeout(stateChangeTimer);
-    }
-    
-    // Timer für die Rückkehr zum normalen Zustand
-    stateChangeTimer = setTimeout(() => {
-      // Nur zurücksetzen, wenn das Spiel noch läuft
-      if (gameRunning) {
-        player.currentState = 'normal';
-      }
-    }, STATE_CHANGE_DURATION);
-  }
-  
-  // Spiel starten
-  document.getElementById('startButton').addEventListener('click', startGame);
-  document.getElementById('tryAgainButton').addEventListener('click', function() {
-    document.getElementById('gameOver').style.display = 'none';
-    startGame();
-  });
-  
-  // Highscores aus dem localStorage laden
-  let highscores = JSON.parse(localStorage.getItem('buehnenspielHighscores')) || [];
-  updateHighscores();
-  
-  function startGame() {
-    // Canvas-Größe für Mobilgeräte anpassen
-    resizeCanvas();
-    
-    // Spielzustand zurücksetzen
-    gameRunning = true;
-    score = 0;
-    lives = 3;
-    level = 1;
-    spawnRate = 1500;
-    items = [];
-    player.x = canvas.width / 2 - player.width / 2;
-    player.y = 50; // Fixierte Spielerposition von oben
-    player.currentState = 'normal';
-    
-    // Performance-Optimierung: Nur einmal die DOM-Elemente abfragen
-    const scoreElement = document.getElementById('score');
-    const livesElement = document.getElementById('lives');
-    const levelElement = document.getElementById('level');
-    
-    // UI aktualisieren
-    scoreElement.textContent = score;
-    livesElement.textContent = lives;
-    levelElement.textContent = level;
-    
-    document.getElementById('startButton').style.display = 'none';
-    document.getElementById('gameOver').style.display = 'none';
-    
-    // Game Loop starten
-    if (animationId) {
-      cancelAnimationFrame(animationId);
-    }
-    
-    // Zurücksetzen der Zeitmessung für das nächste Frame
-    lastSpawn = 0;
-    frameCount = 0;
-    
-    // Game Loop starten
-    gameLoop();
-  }
-  
-  function gameLoop(timestamp) {
-    if (!gameRunning) return;
-    
-    // Zeit für die Animation
-    if (!lastSpawn) lastSpawn = timestamp;
-    frameCount++;
-    
-    // Clear Canvas - nur den notwendigen Bereich leeren
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Hintergrund zeichnen
-    ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-    
-    // Spieler bewegen
-    player.x += direction * player.speed * (canvas.width / 600); // Bewegung an Bildschirmgröße anpassen
-    
-    // Spieler im Canvas halten
-    if (player.x < 0) player.x = 0;
-    if (player.x > canvas.width - player.width) player.x = canvas.width - player.width;
-    
-    // Spieler zeichnen - basierend auf dem aktuellen Zustand
-    // Sicherstellen, dass das Bild existiert
-    const currentPlayerImg = playerImages[player.currentState] || playerImages.normal;
-    ctx.drawImage(currentPlayerImg, player.x, player.y, player.width, player.height);
-    
-    // Neues Item spawnen wenn Zeit um ist
-    if (timestamp - lastSpawn > spawnRate) {
-      spawnItem();
-      lastSpawn = timestamp;
-    }
-    
-    // Items aktualisieren und zeichnen
-    updateItems();
-    
-    // UI nur aktualisieren, wenn sich Werte geändert haben
-    document.getElementById('score').textContent = score;
-    document.getElementById('lives').textContent = lives;
-    
-    // Schwierigkeitsgrad erhöhen
-    if (frameCount % 600 === 0) { // Ca. alle 10 Sekunden
-      level++;
-      spawnRate = Math.max(400, spawnRate - 200);
-      document.getElementById('level').textContent = level;
-    }
-    
-    // Nächsten Frame anfordern
-    animationId = requestAnimationFrame(gameLoop);
-  }
-  
-  function spawnItem() {
-    // Zufällige Position entlang des oberen Randes
-    const x = Math.random() * (canvas.width - 40);
-    const y = canvas.height;
-    
-    // 70% Chance für Tomaten, 30% für Küsse
-    const type = Math.random() < 0.7 ? 'tomato' : 'kiss';
-    
-    // Geschwindigkeit an die Canvasgröße anpassen
-    const baseSpeed = 3 + level * 0.5;
-    const speedFactor = canvas.height / 400; // Verhältnis zur Original-Canvas-Höhe
-    
-    // Item Objekt erstellen
-    const item = {
-      x: x,
-      y: y,
-      width: 40 * (canvas.width / 600), // Größe an Canvas anpassen
-      height: 40 * (canvas.width / 600),
-      type: type,
-      speed: baseSpeed * speedFactor
-    };
-    
-    items.push(item);
-  }
-  
-  function updateItems() {
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      
-      // Item bewegen (von unten nach oben)
-      item.y -= item.speed;
-      
-      // Item zeichnen
-      if (item.type === 'tomato') {
-        ctx.drawImage(tomatoImg, item.x, item.y, item.width, item.height);
-      } else {
-        ctx.drawImage(kissImg, item.x, item.y, item.width, item.height);
+          
+          // Kollision überprüfen
+          if (checkCollision(player, item)) {
+            if (item.type === 'tomato') {
+              lives--;
+              // Bild zu "treffer" ändern - auch beim letzten Treffer
+              changePlayerState('hit');
+              
+              // Rotes Aufblinken bei Treffer (leicht transparent)
+              flashScreen('#ff000020');
+              
+              if (lives <= 0) {
+                // Das Bild bleibt im "hit" Zustand beim Game Over
+                gameOver();
+              }
+            } else {
+              score += 10;
+              // Bild zu "kuss" ändern
+              changePlayerState('kiss');
+              
+              // Grünes Aufblinken bei Kuss (leicht transparent)
+              flashScreen('#00ff0020');
+            }
+            
+            // Item entfernen
+            items.splice(i, 1);
+            i--;
+            continue;
+          }
+          
+          // Item entfernen wenn es oben aus dem Bildschirm raus ist
+          if (item.y < -item.height) {
+            items.splice(i, 1);
+            i--;
+          }
+        }
       }
       
-      // Kollision überprüfen
-      if (checkCollision(player, item)) {
-        if (item.type === 'tomato') {
-          lives--;
-          // Bild zu "treffer" ändern - auch beim letzten Treffer
-          changePlayerState('hit');
-          
-          // Rotes Aufblinken bei Treffer (leicht transparent)
-          flashScreen('#ff000020');
-          
-          if (lives <= 0) {
-            // Das Bild bleibt im "hit" Zustand beim Game Over
-            gameOver();
-          }
-        } else {
-          score += 10;
-          // Bild zu "kuss" ändern
-          changePlayerState('kiss');
-          
-          // Grünes Aufblinken bei Kuss (leicht transparent)
-          flashScreen('#00ff0020');
+      // Optimierte Kollisionserkennung für bessere Performance
+      function checkCollision(a, b) {
+        return a.x < b.x + b.width &&
+               a.x + a.width > b.x &&
+               a.y < b.y + b.height &&
+               a.y + a.height > b.y;
+      }
+      
+      // Weniger intensive Flash-Effekte
+      function flashScreen(color) {
+        ctx.globalAlpha = 0.3;
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1.0;
+      }
+      
+      function gameOver() {
+        gameRunning = false;
+        
+        // Wichtig: stateChangeTimer leeren, damit der Zustand beim Game Over nicht zurückgesetzt wird
+        if (stateChangeTimer) {
+          clearTimeout(stateChangeTimer);
+          stateChangeTimer = null;
         }
         
-        // Item entfernen
-        items.splice(i, 1);
-        i--;
-        continue;
+        // Game Over Overlay anzeigen
+        document.getElementById('gameOver').style.display = 'block';
+        document.getElementById('finalScore').textContent = score;
+        document.getElementById('startButton').style.display = 'inline-block';
+        
+        // Highscore speichern
+        saveHighscore(score);
       }
       
-      // Item entfernen wenn es oben aus dem Bildschirm raus ist
-      if (item.y < -item.height) {
-        items.splice(i, 1);
-        i--;
+      function saveHighscore(score) {
+        const date = new Date().toLocaleDateString();
+        
+        // Neuen Eintrag hinzufügen
+        highscores.push({
+          score: score,
+          date: date
+        });
+        
+        // Nach Score sortieren (absteigend)
+        highscores.sort((a, b) => b.score - a.score);
+        
+        // Auf maximal 5 Einträge beschränken
+        highscores = highscores.slice(0, 5);
+        
+        // Im localStorage speichern
+        localStorage.setItem('buehnenspielHighscores', JSON.stringify(highscores));
+        
+        // UI aktualisieren
+        updateHighscores();
       }
-    }
-  }
-  
-  // Optimierte Kollisionserkennung für bessere Performance
-  function checkCollision(a, b) {
-    return a.x < b.x + b.width &&
-           a.x + a.width > b.x &&
-           a.y < b.y + b.height &&
-           a.y + a.height > b.y;
-  }
-  
-  // Weniger intensive Flash-Effekte
-  function flashScreen(color) {
-    ctx.globalAlpha = 0.3;
-    ctx.fillStyle = color;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 1.0;
-  }
-  
-  function gameOver() {
-    gameRunning = false;
-    
-    // Wichtig: stateChangeTimer leeren, damit der Zustand beim Game Over nicht zurückgesetzt wird
-    if (stateChangeTimer) {
-      clearTimeout(stateChangeTimer);
-      stateChangeTimer = null;
-    }
-    
-    // Game Over Overlay anzeigen
-    document.getElementById('gameOver').style.display = 'block';
-    document.getElementById('finalScore').textContent = score;
-    document.getElementById('startButton').style.display = 'inline-block';
-    
-    // Highscore speichern
-    saveHighscore(score);
-  }
-  
-  function saveHighscore(score) {
-    const date = new Date().toLocaleDateString();
-    
-    // Neuen Eintrag hinzufügen
-    highscores.push({
-      score: score,
-      date: date
+      
+      function updateHighscores() {
+        const highscoresList = document.getElementById('highscoresList');
+        highscoresList.innerHTML = '';
+        
+        // Wenn keine Highscores vorhanden
+        if (highscores.length === 0) {
+          const row = document.createElement('tr');
+          row.innerHTML = '<td colspan="3">Noch keine Highscores</td>';
+          highscoresList.appendChild(row);
+          return;
+        }
+        
+          // Highscores anzeigen
+        highscores.forEach((entry, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${entry.score}</td>
+            <td>${entry.date}</td>
+          `;
+          highscoresList.appendChild(row);
+        });
+      }
+      
+      // Startbildschirm bei Laden anzeigen
+      drawStartScreen();
+      
+      function drawStartScreen() {
+        // Hintergrund zeichnen
+        ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+        
+        // Spieler zeichnen
+        ctx.drawImage(playerImages.normal, player.x, player.y, player.width, player.height);
+        
+        // Beispiel-Objekte zum Anzeigen
+        ctx.drawImage(tomatoImg, 150, 300, 40, 40);
+        ctx.drawImage(kissImg, 400, 350, 40, 40);
+        
+        // Hilfetextanzeige
+        ctx.fillStyle = '#fff';
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Drücke auf "Spiel starten", um zu spielen!', canvas.width / 2, canvas.height / 2);
+        ctx.fillText('Sammle Küsse und vermeide Tomaten.', canvas.width / 2, canvas.height / 2 + 30);
+      }
     });
-    
-    // Nach Score sortieren (absteigend)
-    highscores.sort((a, b) => b.score - a.score);
-    
-    // Auf maximal 5 Einträge beschränken
-    highscores = highscores.slice(0, 5);
-    
-    // Im localStorage speichern
-    localStorage.setItem('buehnenspielHighscores', JSON.stringify(highscores));
-    
-    // UI aktualisieren
-    updateHighscores();
-  }
-  
-  function updateHighscores() {
-    const highscoresList = document.getElementById('highscoresList');
-    highscoresList.innerHTML = '';
-    
-    // Wenn keine Highscores vorhanden
-    if (highscores.length === 0) {
-      const row = document.createElement('tr');
-      row.innerHTML = '<td colspan="3">Noch keine Highscores</td>';
-      highscoresList.appendChild(row);
-      return;
-    }
-    
-    // Highscores anzeigen
-    highscores.forEach((entry, index) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${entry.score}</td>
-        <td>${entry.date}</td>
-      `;
-      highscoresList.appendChild(row);
-    });
-  }
-  
-  // Startbildschirm bei Laden anzeigen
-  drawStartScreen();
-  
-  function drawStartScreen() {
-    // Canvas-Größe anpassen
-    resizeCanvas();
-    
-    // Hintergrund zeichnen
-    ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-    
-    // Spieler zeichnen - Position relativ zur Canvas-Größe anpassen
-    const playerX = canvas.width / 2 - player.width / 2;
-    const playerY = 50;
-    ctx.drawImage(playerImages.normal, playerX, playerY, player.width, player.height);
-    
-    // Beispiel-Objekte zum Anzeigen - Position relativ zur Canvas-Größe anpassen
-    const tomatoSize = 40 * (canvas.width / 600);
-    const kissSize = 40 * (canvas.width / 600);
-    
-    ctx.drawImage(tomatoImg, canvas.width * 0.25, canvas.height * 0.75, tomatoSize, tomatoSize);
-    ctx.drawImage(kissImg, canvas.width * 0.75, canvas.height * 0.85, kissSize, kissSize);
-    
-    // Hilfetextanzeige
-    ctx.fillStyle = '#fff';
-    ctx.font = `${canvas.width / 40}px Arial`; // Responsive Schriftgröße
-    ctx.textAlign = 'center';
-    ctx.fillText('Drücke auf "Spiel starten", um zu spielen!', canvas.width / 2, canvas.height / 2);
-    ctx.fillText('Sammle Küsse und vermeide Tomaten.', canvas.width / 2, canvas.height / 2 + canvas.height * 0.075);
-    
-    // Mobile-spezifische Anweisung
-    if (touchControls) {
-      ctx.fillText('Tippe links/rechts zum Bewegen', canvas.width / 2, canvas.height / 2 + canvas.height * 0.15);
-    }
-  }
-});
   </script>
 </body>
 </html>
