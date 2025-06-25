@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -21,23 +22,24 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html {
       margin: 0;
       padding: 0;
       width: 100%;
-      overflow-x: hidden; /* Verhindert horizontales Scrollen */
+      height: 100%;
     }
 
-
-body {
-  font-family: 'Montserrat', sans-serif;
-  background: var(--light); /* GEÄNDERT: Hintergrund zurück auf weiß */
-  color: var(--primary);
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--light);
+      color: var(--primary);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
     /* ========== HEADER MIT ANIMATION ========== */
     header#main-header {
@@ -71,7 +73,7 @@ body {
       line-height: 1;
       margin: 0 0 20px 0;
       text-transform: uppercase;
-      width: 100%; /* Volle Breite für bessere Anzeige auf kleinen Geräten */
+      width: 100%;
     }
 
     header#main-header.scrolled .brand-logo {
@@ -162,32 +164,32 @@ body {
     }
 
     .termine-section {
-      padding: 80px 20px 20px; /* Erhöhter oberer Padding für mehr Abstand zum Hero */
+      padding: 80px 20px 20px;
       background: #f8f8f8;
     }
 
     .termine-container {
-      max-width: 1200px; /* Verkürzt von 1600px auf 1200px */
+      max-width: 1200px;
       margin: 0 auto;
     }
 
     .termine-list {
       display: flex;
       flex-direction: column;
-      gap: 15px; /* Geringerer Abstand zwischen den Terminen */
+      gap: 15px;
       margin-top: 10px;
       margin-bottom: 20px;
     }
 
     .termin-card {
       background: var(--light);
-      padding: 10px 20px; /* Reduziertes Padding für kürzere Karten */
+      padding: 10px 20px;
       border-radius: 15px;
       box-shadow: 0 5px 25px rgba(0,0,0,0.08);
       transition: var(--transition);
       display: flex;
-      align-items: center; /* Elemente zentrieren */
-      justify-content: space-between; /* Inhalt gleichmäßig verteilen */
+      align-items: center;
+      justify-content: space-between;
     }
 
     .termin-card:hover {
@@ -195,7 +197,7 @@ body {
     }
 
     .termin-info {
-      flex: 1; /* Nimmt verfügbaren Platz ein */
+      flex: 1;
       display: flex;
       align-items: center;
     }
@@ -205,7 +207,7 @@ body {
       font-weight: 700;
       font-size: 1.1rem;
       margin-right: 20px;
-      min-width: 105px; /* Feste Breite für das Datum */
+      min-width: 105px;
     }
 
     .termin-details {
@@ -214,33 +216,33 @@ body {
 
     .termin-details h3 {
       margin-bottom: 5px;
-      font-size: 1rem; /* Kleinere Schriftgröße für kürzere Kästen */
+      font-size: 1rem;
     }
 
     .termin-details p {
-      font-size: 0.9rem; /* Kleinere Schriftgröße für Text */
+      font-size: 0.9rem;
     }
 
     .termin-actions {
       display: flex;
-      justify-content: flex-end; /* Rechtsausrichtung */
+      justify-content: flex-end;
     }
 
     .ticket-btn {
       display: inline-block;
-      padding: 8px 16px; /* Kleineres Padding für Button */
+      padding: 8px 16px;
       background: var(--secondary);
       color: var(--light);
       text-decoration: none;
       border-radius: 8px;
       transition: var(--transition);
-      font-size: 0.9rem; /* Kleinere Schriftgröße */
+      font-size: 0.9rem;
     }
 
     .ticket-btn:hover {
       background: #004d2e;
     }
-    /* Alle Termine Button */
+
     .alle-termine-btn-container {
       margin-top: 30px;
       text-align: center;
@@ -266,113 +268,69 @@ body {
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-/* Zusätzliche Termine (versteckt) */
-.zusaetzliche-termine {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
+    .zusaetzliche-termine {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
 
-.zusaetzliche-termine.show {
-  display: block;
-  opacity: 1;
-}
+    .zusaetzliche-termine.show {
+      display: block;
+      opacity: 1;
+    }
 
-/* Alle Termine Button Animation */
-.alle-termine-btn {
-  position: relative;
-  overflow: hidden;
-}
+    .alle-termine-btn {
+      position: relative;
+      overflow: hidden;
+    }
 
-.alle-termine-btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 7px solid var(--light);
-  transform: translateY(-50%);
-  transition: transform 0.3s ease;
-}
+    .alle-termine-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 7px solid var(--light);
+      transform: translateY(-50%);
+      transition: transform 0.3s ease;
+    }
 
-.alle-termine-btn.expanded::after {
-  transform: translateY(-50%) rotate(180deg);
-}
+    .alle-termine-btn.expanded::after {
+      transform: translateY(-50%) rotate(180deg);
+    }
 
-.alle-termine-btn.expanded {
-  border-radius: 8px 8px 0 0;
-}
+    .alle-termine-btn.expanded {
+      border-radius: 8px 8px 0 0;
+    }
 
-/* Monatsgruppen */
-.monats-gruppe {
-  margin-bottom: 40px;
-}
+    .monats-gruppe {
+      margin-bottom: 40px;
+    }
 
-.monats-gruppe:last-child {
-  margin-bottom: 0;
-}
+    .monats-gruppe:last-child {
+      margin-bottom: 0;
+    }
 
-.monat-titel {
-  color: var(--secondary);
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--secondary);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
+    .monat-titel {
+      color: var(--secondary);
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-/* Termine innerhalb einer Monatsgruppe */
-.monats-gruppe .termine-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 0;
-}
-
-/* Zusätzliche Termine (versteckt) */
-.zusaetzliche-termine {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.zusaetzliche-termine.show {
-  display: block;
-  opacity: 1;
-}
-
-/* Alle Termine Button Animation */
-.alle-termine-btn {
-  position: relative;
-  overflow: hidden;
-}
-
-.alle-termine-btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 7px solid var(--light);
-  transform: translateY(-50%);
-  transition: transform 0.3s ease;
-}
-
-.alle-termine-btn.expanded::after {
-  transform: translateY(-50%) rotate(180deg);
-}
-
-.alle-termine-btn.expanded {
-  border-radius: 8px 8px 0 0;
-}
+    .monats-gruppe .termine-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 0;
+    }
 
     /* ========== BANNER MIT BILD UND TEXT ========== */
     .banner-section {
@@ -381,7 +339,7 @@ body {
       padding: 0;
       overflow: hidden;
       position: relative;
-      height: 300px; /* Höhe des Banners */
+      height: 300px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -394,7 +352,7 @@ body {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.3; /* Leicht erhöhte Opazität für bessere Sichtbarkeit */
+      opacity: 0.3;
       transform: scale(1.1);
       transition: transform 2s ease-out;
     }
@@ -415,8 +373,6 @@ body {
       padding: 0 20px;
     }
 
-
-
     /* ========== ABOUT-SECTION MIT BILD ========== */
     .about-section {
       padding: 120px 20px;
@@ -430,13 +386,13 @@ body {
     }
 
     .about-image-container {
-      flex: 1.5; /* Erhöht den Anteil für das Bild im Flex-Layout */
+      flex: 1.5;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 5px 25px rgba(0,0,0,0.1);
       position: relative;
-      height: 600px; /* Feste Höhe für das 4:3-Verhältnis im Hochformat */
-      width: 4050px; /* Breite für 4:3-Verhältnis (600px ÷ 4 × 3) */
+      height: 600px;
+      width: 450px;
     }
 
     .about-image {
@@ -458,6 +414,7 @@ body {
     .about-content h2 {
       margin-bottom: 25px;
     }
+
     /* ========== VIDEO-SECTION ========== */
     .video-section {
       padding: 80px 20px;
@@ -482,34 +439,27 @@ body {
 
     .video-container iframe {
       width: 100%;
-      height: 450px; /* Feste Höhe für 16:9 Verhältnis bei 800px Breite */
+      height: 450px;
       border: none;
       display: block;
     }
 
     /* ========== KONTAKTFORMULAR ========== */
-.contact-section {
-  padding: 100px 0; /* Entfernt das horizontale Padding */
-  background: var(--light);
-  width: 100vw; /* Verwendet Viewport-Breite statt 100% */
-  box-sizing: border-box;
-  overflow-x: hidden;
-  margin: 0; /* Explizit Margin entfernen */
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
+    .contact-section {
+      padding: 100px 20px;
+      background: var(--light);
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-.contact-form {
-  max-width: 600px;
-  margin: 0 auto;
-  background: var(--light);
-  padding: 40px 20px; /* Padding nur für das Formular */
-  border-radius: 15px;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.08);
-}
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--light);
+      padding: 40px 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+    }
 
     .form-group {
       margin-bottom: 20px;
@@ -559,15 +509,15 @@ body {
     }
 
     /* ========== FOOTER ========== */
-footer {
-  background: var(--dark);
-  color: var(--light);
-  padding: 60px 20px; /* GEÄNDERT: Horizontales Padding wieder hinzugefügt */
-  text-align: center;
-  width: 100%; /* GEÄNDERT: Zurück auf 100% statt 100vw */
-  box-sizing: border-box;
-  margin: 0; /* Margins entfernt */
-}
+    footer {
+      background: var(--dark);
+      color: var(--light);
+      padding: 60px 0;
+      text-align: center;
+      width: 100%;
+      margin: 0;
+      position: relative;
+    }
 
     .social-links {
       margin: 20px 0;
@@ -608,7 +558,6 @@ footer {
       text-decoration: underline;
     }
 
-
     /* ========== MEDIA QUERIES ========== */
     @media (max-width: 1200px) {
       .brand-logo {
@@ -622,8 +571,8 @@ footer {
       }
 
       .about-image-container {
-        width: 100%; /* ÄNDERUNG: Volle Breite für das Bild auf kleineren Bildschirmen */
-        max-width: 450px; /* ÄNDERUNG: Maximale Breite hinzugefügt */
+        width: 100%;
+        max-width: 450px;
       }
 
       .termin-card {
@@ -648,14 +597,14 @@ footer {
       }
 
       .video-container iframe {
-        height: 350px; /* Angepasste Höhe für kleinere Bildschirme */
+        height: 350px;
       }
     }
 
     @media (max-width: 768px) {
       .brand-logo {
-        font-size: 3.5rem; /* Kleinere Schrift für Mobilgeräte, damit nichts abgeschnitten wird */
-        padding: 0 10px; /* Seitlicher Abstand */
+        font-size: 3.5rem;
+        padding: 0 10px;
       }
 
       header#main-header.scrolled .brand-logo {
@@ -675,19 +624,18 @@ footer {
         height: 100vh;
       }
 
-      /* Bild über dem Text auf Mobilgeräten */
       .about-section {
         flex-direction: column;
       }
 
       .video-container iframe {
-        height: 300px; /* Weitere Anpassung für mobile Geräte */
+        height: 300px;
       }
     }
 
     @media (max-width: 480px) {
       .brand-logo {
-        font-size: 2.5rem; /* Noch kleinere Schrift für sehr kleine Geräte */
+        font-size: 2.5rem;
       }
 
       .footer-links a {
@@ -696,41 +644,34 @@ footer {
       }
 
       .video-container iframe {
-        height: 250px; /* Kleinste Höhe für sehr kleine Bildschirme */
+        height: 250px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header id="main-header">
-    <h1 class="brand-logo">Gowand</h1>
-    <nav>
-      <a href="#termine">TERMINE</a>
-      <a href="#about">ÜBER MICH</a>
-      <a href="#video">Auftritt</a>
-      <a href="#contact">KONTAKT</a>
-    </nav>
-  </header>
+<!-- HEADER -->
+<header id="main-header">
+  <h1 class="brand-logo">Gowand</h1>
+  <nav>
+    <a href="#termine">TERMINE</a>
+    <a href="#about">ÜBER MICH</a>
+    <a href="#video">Auftritt</a>
+    <a href="#contact">KONTAKT</a>
+  </nav>
+</header>
 
-  <!-- HERO-SECTION -->
-  <section class="hero-section">
-    <img src="bilder/hero.jpg" alt="Gowand auf der Bühne" class="hero-image">
-  </section>
+<!-- HERO-SECTION -->
+<section class="hero-section">
+  <img src="bilder/hero.jpg" alt="Gowand auf der Bühne" class="hero-image">
+</section>
 
-  <!-- TERMINE - NEUGESTALTUNG -->
- <!-- HTML-Änderungen: Ersetze die Termine-Section -->
-<div class="termine-list"> <!-- Die nächsten 3 Termine (sichtbar) -->
-
-<!-- TERMINE - NEUGESTALTUNG -->
+<!-- TERMINE -->
 <section class="termine-section" id="termine">
   <div class="termine-container">
     <h2 style="text-align: center; margin-bottom: 40px;">KOMMENDE AUFTRITTE</h2>
-
-    <!-- Hier werden die Termine automatisch eingefügt -->
     <div id="termine-container"></div>
-
     <div class="alle-termine-btn-container">
       <button class="alle-termine-btn" id="alle-termine-toggle">
         ALLE TERMINE
@@ -739,86 +680,79 @@ footer {
   </div>
 </section>
 
-  <!-- BANNER MIT BILD UND TEXT -->
+<!-- ÜBER MICH MIT BILD -->
+<section class="about-section" id="about">
+  <div class="about-image-container">
+    <img src="bilder/portrait.jpg" alt="Gowand Barkhi Portrait" class="about-image">
+  </div>
+  <div class="about-content">
+    <h2 style="text-align: center; margin-bottom: 40px;">ÜBER GOWAND</h2>
+    <p>Gowand Barkhi ist ein Stand-up-Comedian aus Düsseldorf, der mit grenzüberschreitendem, absurdem Humor auffällt. Nicht selten als komisch beschrieben (was auch immer das bedeutet) sind seine Themen persönlich, überraschend und bewegen sich konsequent abseits des Gewöhnlichen.</p>
+    <p>Kurz: Gowand steht für einen anderen Humor: unbequem, merkwürdig, intim und unbequem.</p>
+    <p>Er ist der erste Comedian, der Verstanden hat, dass es bei Comedy nicht ums Lachen geht, sondern um Stille.</p>
+    <p>Außerdem sollte angemerkt werden, dass er unheimlich attraktiv, klug und charmant ist. Und bescheiden ist er auch.</p>
+    <p>Anmerkung: Dieser Text ist zu 100 Prozent objektiv und nicht einfach nur Gowands Meinung.</p>
+  </div>
+</section>
 
-  <!-- ÜBER MICH MIT BILD -->
-  <section class="about-section" id="about">
-    <div class="about-image-container">
-      <img src="bilder/portrait.jpg" alt="Gowand Barkhi Portrait" class="about-image">
-    </div>
-    <div class="about-content">
-      <h2 style="text-align: center; margin-bottom: 40px;">ÜBER GOWAND</h2>
-      <p>Gowand Barkhi ist ein Stand-up-Comedian aus Düsseldorf, der mit grenzüberschreitendem, absurdem Humor auffällt. Nicht selten als komisch beschrieben (was auch immer das bedeutet) sind seine Themen persönlich, überraschend und bewegen sich konsequent abseits des Gewöhnlichen.</p>
-      <p>Kurz: Gowand steht für einen anderen Humor: unbequem, merkwürdig, intim und unbequem.</p>
-      <p>Er ist der erste Comedian, der Verstanden hat, dass es bei Comedy nicht ums Lachen geht, sondern um Stille.</p>
-      <p>Außerdem sollte angemerkt werden, dass er unheimlich attraktiv, klug und charmant ist. Und bescheiden ist er auch.</p>
-      <p>Anmerkung: Dieser Text ist zu 100 Prozent objektiv und nicht einfach nur Gowands Meinung.</p>
-    </div>
-  </section>
+<!-- VIDEO-SECTION -->
+<section class="video-section" id="video">
+  <h2>Auftritt</h2>
+  <div class="video-container">
+    <iframe src="https://www.youtube.com/embed/DKL2yGezxWo"
+            title="Gowand Barkhi Comedy Video"
+            allowfullscreen>
+    </iframe>
+  </div>
+</section>
 
-  <!-- VIDEO-SECTION -->
-  <section class="video-section" id="video">
-    <h2>Auftritt</h2>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/DKL2yGezxWo"
-              title="Gowand Barkhi Comedy Video"
-              allowfullscreen>
-      </iframe>
-    </div>
-  </section>
+<!-- KONTAKT -->
+<section class="contact-section" id="contact">
+  <div class="contact-container">
+    <h2 style="text-align: center; margin-bottom: 40px;">KONTAKT</h2>
+    <form class="contact-form" action="https://formspree.io/f/mqaqqnbq" method="POST">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" class="form-control" required>
+      </div>
 
-  <!-- KONTAKT -->
-  <section class="contact-section" id="contact">
-    <div class="contact-container">
-      <h2 style="text-align: center; margin-bottom: 40px;">KONTAKT</h2>
-      <!-- ÄNDERUNG: Formular geändert zu PHP-basiertem Submit statt mailto -->
+      <div class="form-group">
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" name="email" class="form-control" required>
+      </div>
 
-      <form class="contact-form" action="https://formspree.io/f/mqaqqnbq" method="POST">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" class="form-control" required>
-        </div>
+      <div class="form-group">
+        <label for="subject">Betreff</label>
+        <input type="text" id="subject" name="subject" class="form-control" required>
+      </div>
 
-        <div class="form-group">
-          <label for="email">E-Mail</label>
-          <input type="email" id="email" name="email" class="form-control" required>
-        </div>
+      <div class="form-group">
+        <label for="message">Nachricht</label>
+        <textarea id="message" name="message" class="form-control" required></textarea>
+      </div>
 
-        <div class="form-group">
-          <label for="subject">Betreff</label>
-          <input type="text" id="subject" name="subject" class="form-control" required>
-        </div>
+      <div class="form-group">
+        <button type="submit" class="submit-btn">Nachricht senden</button>
+      </div>
+    </form>
+  </div>
+</section>
 
-        <div class="form-group">
-          <label for="message">Nachricht</label>
-          <textarea id="message" name="message" class="form-control" required></textarea>
-        </div>
-
-        <div class="form-group">
-          <button type="submit" class="submit-btn">Nachricht senden</button>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="social-links">
-      <a href="https://www.instagram.com/gowandcomedy" target="_blank">
-        <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-        </svg>
-      </a>
-    </div>
-    <div class="footer-links">
-      <a href="impressum.html">Impressum</a>
-      <a href="presse.html">Pressebereich</a>
-    </div>
-    <p>&copy; 2025 Gowand Barkhi</p>
-  </footer>
-
-</body>
-</html>
+<!-- FOOTER -->
+<footer>
+  <div class="social-links">
+    <a href="https://www.instagram.com/gowandcomedy" target="_blank">
+      <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+    </a>
+  </div>
+  <div class="footer-links">
+    <a href="impressum.html">Impressum</a>
+    <a href="presse.html">Pressebereich</a>
+  </div>
+  <p>&copy; 2025 Gowand Barkhi</p>
+</footer>
 
 <!-- JavaScript-Ergänzung: Füge diese Funktion hinzu -->
 <script>
