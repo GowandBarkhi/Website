@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impro-Szenarien Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .category-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .category-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            transform: scale(1.05);
+        }
+
+        .scenario-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .scenario-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scenario-text {
+            font-size: 1.3em;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .generate-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+            margin: 10px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .generate-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .timer {
+            display: none;
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin: 20px 0;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .category-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .scenario-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎭 Impro-Szenarien</h1>
+        <p class="subtitle">Wie bei "Falsch aber Lustig" und "Scenes from a Hat"</p>
+        
+        <div class="category-buttons">
+            <button class="category-btn active" onclick="setCategory('all')">🎲 Alle Szenarien</button>
+            <button class="category-btn" onclick="setCategory('situations')">🎬 Situationen</button>
+            <button class="category-btn" onclick="setCategory('characters')">👥 Charaktere</button>
+            <button class="category-btn" onclick="setCategory('objects')">📦 Gegenstände</button>
+            <button class="category-btn" onclick="setCategory('emotions')">😊 Emotionen</button>
+            <button class="category-btn" onclick="setCategory('professions')">👔 Berufe</button>
+        </div>
+
+        <div class="scenario-card" id="scenarioCard">
+            <div class="scenario-text" id="scenarioText">
+                Klicke auf "Neues Szenario" um zu beginnen!
+            </div>
+        </div>
+
+        <div class="timer" id="timer">2:00</div>
+
+        <button class="generate-btn" onclick="generateScenario()">🎲 Neues Szenario</button>
+        <button class="generate-btn" onclick="startTimer()">⏰ Timer starten (2 Min)</button>
+
+        <div class="footer">
+            <p>💡 Tipp: Nutzt eure Kreativität und habt Spaß!</p>
+        </div>
+    </div>
+
+    <script>
+        let currentCategory = 'all';
+        let timerInterval;
+        
+        const scenarios = {
+            situations: [
+                "Dinge, die man beim ersten Date nicht sagen sollte",
+                "Schlechte Ausreden, warum man zu spät kommt",
+                "Unpassende Dinge, die man im Aufzug sagt",
+                "Falsche Antworten auf 'Wie geht es dir?'",
+                "Dinge, die man nicht beim Vorstellungsgespräch sagt",
+                "Schlechte Zeitpunkte für 'Ich muss dir etwas gestehen'",
+                "Unpassende Komplimente",
+                "Dinge, die man nicht zu seinem Friseur sagt",
+                "Falsche Gründe, warum man das Haus verlässt",
+                "Ungeeignete Dinge für Small Talk",
+                "Schlechte Ratschläge für Eltern",
+                "Dinge, die man nicht beim Arzt sagt",
+                "Unpassende Hochzeitsreden",
+                "Falsche Dinge, die man zur Beerdigung sagt",
+                "Schlechte Gründe für einen Anruf bei der Polizei"
+            ],
+            characters: [
+                "Dinge, die ein schlechter Babysitter sagt",
+                "Ungeeignete Aussagen eines Lehrers",
+                "Falsche Dinge, die ein Arzt zu Patienten sagt",
+                "Schlechte Sprüche eines Fitnesstrainers",
+                "Unpassende Kommentare eines Restaurantkochs",
+                "Dinge, die ein Pilot nicht sagen sollte",
+                "Falsche Aussagen eines Hochzeitsplaners",
+                "Schlechte Ratschläge eines Therapeuten",
+                "Ungeeignete Worte eines Bestatters",
+                "Dinge, die ein schlechter Reiseführer sagt",
+                "Falsche Kommentare eines Zahnarztes",
+                "Unpassende Sprüche eines Verkäufers",
+                "Schlechte Aussagen eines Fahrlehrers",
+                "Dinge, die ein Tierarzt nicht sagen sollte",
+                "Ungeeignete Worte eines Bankangestellten"
+            ],
+            objects: [
+                "Ungewöhnliche Verwendungen für Klopapier",
+                "Falsche Einsatzgebiete für einen Regenschirm",
+                "Schlechte Ideen für Smartphone-Apps",
+                "Unpassende Geschenke zur Geburt",
+                "Dinge, die man nicht mit Klebeband repariert",
+                "Falsche Verwendungen für eine Fernbedienung",
+                "Ungeeignete Küchengeräte",
+                "Schlechte Erfindungen für den Haushalt",
+                "Dinge, die nicht ins Handgepäck gehören",
+                "Unpassende Verwendungen für eine Zahnbürste",
+                "Falsche Einsatzgebiete für Luftpolsterfolie",
+                "Schlechte Ideen für Wearables",
+                "Ungeeignete Möbelstücke fürs Schlafzimmer",
+                "Dinge, die man nicht recyceln sollte",
+                "Unpassende Verwendungen für Kondome"
+            ],
+            emotions: [
+                "Unpassende Gründe, warum man weint",
+                "Falsche Situationen, in denen man lacht",
+                "Schlechte Gründe für Wut",
+                "Ungeeignete Momente für Romantik",
+                "Dinge, über die man sich nicht freuen sollte",
+                "Falsche Gründe für Eifersucht",
+                "Unpassende Situationen für Stolz",
+                "Schlechte Gründe für Angst",
+                "Dinge, die einen nicht überraschen sollten",
+                "Falsche Gründe für Langeweile",
+                "Ungeeignete Momente für Nostalgie",
+                "Schlechte Gründe für Verwirrung",
+                "Unpassende Situationen für Mitleid",
+                "Dinge, für die man nicht dankbar sein sollte",
+                "Falsche Gründe für Ungeduld"
+            ],
+            professions: [
+                "Schlechte Werbeslogans für Bestatter",
+                "Unpassende Kommentare von Zahnärzten",
+                "Falsche Verkaufsargumente für Gebrauchtwagen",
+                "Dinge, die ein schlechter Wettermoderator sagt",
+                "Ungeeignete Sprüche von Polizisten",
+                "Schlechte Ratschläge von Finanzberatern",
+                "Unpassende Aussagen von Kindergärtnern",
+                "Falsche Kommentare von Schornsteinfegern",
+                "Dinge, die ein schlechter Makler sagt",
+                "Ungeeignete Sprüche von Taxifahrern",
+                "Schlechte Aussagen von Friseuren",
+                "Unpassende Kommentare von Kellnern",
+                "Falsche Ratschläge von Ärzten",
+                "Dinge, die ein schlechter Mechaniker sagt",
+                "Ungeeignete Sprüche von Lehrern"
+            ]
+        };
+
+        function setCategory(category) {
+            currentCategory = category;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function generateScenario() {
+            const card = document.getElementById('scenarioCard');
+            const text = document.getElementById('scenarioText');
+            
+            // Hide card with animation
+            card.classList.remove('show');
+            
+            setTimeout(() => {
+                let scenarioPool = [];
+                
+                if (currentCategory === 'all') {
+                    // Combine all categories
+                    Object.values(scenarios).forEach(category => {
+                        scenarioPool = scenarioPool.concat(category);
+                    });
+                } else {
+                    scenarioPool = scenarios[currentCategory];
+                }
+                
+                const randomScenario = scenarioPool[Math.floor(Math.random() * scenarioPool.length)];
+                text.textContent = randomScenario;
+                
+                // Show card with animation
+                card.classList.add('show');
+            }, 250);
+        }
+
+        function startTimer() {
+            const timerDisplay = document.getElementById('timer');
+            let timeLeft = 120; // 2 minutes in seconds
+            
+            clearInterval(timerInterval);
+            timerDisplay.style.display = 'block';
+            
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                
+                timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = "Zeit ist um! 🎉";
+                    timerDisplay.style.color = '#4CAF50';
+                }
+                
+                timeLeft--;
+            }, 1000);
+        }
+
+        // Initialize with first scenario
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                generateScenario();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
