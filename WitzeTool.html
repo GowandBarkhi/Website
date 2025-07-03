@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witze-Algorithmus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #ff9a9e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            border-bottom: 4px solid #ff6b6b;
+            padding-bottom: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .category {
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .category h3 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .theme-btn, .option-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-btn::before, .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .theme-btn:hover::before, .option-btn:hover::before {
+            left: 100%;
+        }
+
+        .theme-btn:hover, .option-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .theme-btn.selected, .option-btn.selected {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .random-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e8f4fd 0%, #d4edda 100%);
+            border-radius: 15px;
+            border: 2px dashed #4facfe;
+        }
+
+        .random-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            font-size: 1.2em;
+            padding: 18px 35px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(40, 167, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1.1em;
+            margin: 20px 0;
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #ff6b6b, #ffa726, #4facfe);
+            transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-container {
+            background: rgba(240, 240, 240, 0.7);
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .joke-display {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 6px solid #ff6b6b;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 15px;
+            font-style: italic;
+            font-size: 1.2em;
+            line-height: 1.8;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .joke-display::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4em;
+            color: #ff6b6b;
+            opacity: 0.3;
+        }
+
+        .improvement-section {
+            background: linear-gradient(135deg, #e8f4fd 0%, #d4edda 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 25px 0;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+        }
+
+        .improvement-section h3 {
+            color: #2c5aa0;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .yes-no-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            font-size: 1.3em;
+            padding: 20px 50px;
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            font-size: 1.3em;
+            padding: 20px 50px;
+        }
+
+        .triple-joke-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin-top: 25px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .summary h3 {
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 20px;
+            }
+
+            .header h1 {
+                font-size: 2.2em;
+            }
+
+            .step {
+                padding: 25px;
+            }
+
+            .theme-grid, .option-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .yes-no-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🎭 Witze-Algorithmus</h1>
+        <p>Entwickle und verfeinere deinen perfekten Witz!</p>
+        <button class="btn" onclick="showSavedJokes()" style="margin-top: 15px; padding: 12px 25px; font-size: 1em;">📚 Meine Witze anzeigen</button>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Schritt 1: Thema -->
+    <div class="step active" id="step1">
+        <h2>🎯 Schritt 1: Wähle dein Thema</h2>
+
+        <div class="random-section">
+            <button class="btn random-btn" onclick="selectRandomTheme()">🎲 Zufälliges Thema wählen</button>
+        </div>
+
+        <div class="theme-categories">
+            <div class="category">
+                <h3>🏠 1. Alltagsleben</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Haushalt')">🧹 Haushalt</button>
+                    <button class="theme-btn" onclick="selectTheme('Einkaufen')">🛒 Einkaufen</button>
+                    <button class="theme-btn" onclick="selectTheme('Arbeit & Büro')">💼 Arbeit & Büro</button>
+                    <button class="theme-btn" onclick="selectTheme('Schule & Lehrer')">📚 Schule</button>
+                    <button class="theme-btn" onclick="selectTheme('Familie')">👨‍👩‍👧‍👦 Familie</button>
+                    <button class="theme-btn" onclick="selectTheme('Nachbarn')">🏘️ Nachbarn</button>
+                    <button class="theme-btn" onclick="selectTheme('Verkehr')">🚗 Verkehr</button>
+                    <button class="theme-btn" onclick="selectTheme('Urlaub')">✈️ Urlaub</button>
+                    <button class="theme-btn" onclick="selectTheme('Wetter')">🌦️ Wetter</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>💕 2. Zwischenmenschliches</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Männer vs. Frauen')">♂️♀️ Männer vs. Frauen</button>
+                    <button class="theme-btn" onclick="selectTheme('Beziehungen')">💕 Beziehungen</button>
+                    <button class="theme-btn" onclick="selectTheme('Dating')">💘 Dating</button>
+                    <button class="theme-btn" onclick="selectTheme('Freundschaft')">👫 Freundschaft</button>
+                    <button class="theme-btn" onclick="selectTheme('Eltern & Kinder')">👨‍👩‍👧‍👦 Eltern & Kinder</button>
+                    <button class="theme-btn" onclick="selectTheme('Schwiegermütter')">👵 Schwiegermütter</button>
+                    <button class="theme-btn" onclick="selectTheme('Generationen')">👴👦 Generationen</button>
+                    <button class="theme-btn" onclick="selectTheme('Missverständnisse')">🤔 Missverständnisse</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🐾 3. Tiere</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Hunde')">🐕 Hunde</button>
+                    <button class="theme-btn" onclick="selectTheme('Katzen')">🐱 Katzen</button>
+                    <button class="theme-btn" onclick="selectTheme('Bauernhoftiere')">🐄 Bauernhof</button>
+                    <button class="theme-btn" onclick="selectTheme('Zootiere')">🦁 Zoo</button>
+                    <button class="theme-btn" onclick="selectTheme('Insekten')">🐛 Insekten</button>
+                    <button class="theme-btn" onclick="selectTheme('Tier-Mensch-Vergleiche')">🐵👨 Vergleiche</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>💻 4. Technik & Medien</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Smartphones')">📱 Smartphones</button>
+                    <button class="theme-btn" onclick="selectTheme('Computer')">💻 Computer</button>
+                    <button class="theme-btn" onclick="selectTheme('Internet')">🌐 Internet</button>
+                    <button class="theme-btn" onclick="selectTheme('Social Media')">📲 Social Media</button>
+                    <button class="theme-btn" onclick="selectTheme('KI')">🤖 KI</button>
+                    <button class="theme-btn" onclick="selectTheme('Gaming')">🎮 Gaming</button>
+                    <button class="theme-btn" onclick="selectTheme('Streaming')">📺 Streaming</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🏥 5. Gesundheit & Körper</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Arztbesuche')">👩‍⚕️ Arztbesuche</button>
+                    <button class="theme-btn" onclick="selectTheme('Krankheiten')">🤧 Krankheiten</button>
+                    <button class="theme-btn" onclick="selectTheme('Fitness')">💪 Fitness</button>
+                    <button class="theme-btn" onclick="selectTheme('Diäten')">🥗 Diäten</button>
+                    <button class="theme-btn" onclick="selectTheme('Schlaf')">😴 Schlaf</button>
+                    <button class="theme-btn" onclick="selectTheme('Alter')">👴 Alter</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>💼 6. Beruf & Studium</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Büroarbeit')">🏢 Büroarbeit</button>
+                    <button class="theme-btn" onclick="selectTheme('Handwerk')">🔨 Handwerk</button>
+                    <button class="theme-btn" onclick="selectTheme('Berufe')">👨‍⚕️ Berufe</button>
+                    <button class="theme-btn" onclick="selectTheme('Studium')">🎓 Studium</button>
+                    <button class="theme-btn" onclick="selectTheme('Bewerbung')">📄 Bewerbung</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🌍 7. Kultur & Gesellschaft</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Politik')">🏛️ Politik</button>
+                    <button class="theme-btn" onclick="selectTheme('Religion')">🙏 Religion</button>
+                    <button class="theme-btn" onclick="selectTheme('Nationalitäten')">🌍 Nationalitäten</button>
+                    <button class="theme-btn" onclick="selectTheme('Klischees')">🎭 Klischees</button>
+                    <button class="theme-btn" onclick="selectTheme('Umwelt')">🌱 Umwelt</button>
+                    <button class="theme-btn" onclick="selectTheme('Verschwörungen')">👁️ Verschwörungen</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🗣️ 8. Sprache & Kommunikation</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Dialekte')">🗣️ Dialekte</button>
+                    <button class="theme-btn" onclick="selectTheme('Fremdsprachen')">🌐 Fremdsprachen</button>
+                    <button class="theme-btn" onclick="selectTheme('Übersetzungsfehler')">❌ Übersetzungsfehler</button>
+                    <button class="theme-btn" onclick="selectTheme('Rechtschreibung')">✏️ Rechtschreibung</button>
+                    <button class="theme-btn" onclick="selectTheme('Wortspiele')">🎭 Wortspiele</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🔬 9. Wissenschaft & Bildung</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Mathe')">🧮 Mathe</button>
+                    <button class="theme-btn" onclick="selectTheme('Physik')">⚛️ Physik</button>
+                    <button class="theme-btn" onclick="selectTheme('Biologie')">🧬 Biologie</button>
+                    <button class="theme-btn" onclick="selectTheme('Chemie')">⚗️ Chemie</button>
+                    <button class="theme-btn" onclick="selectTheme('Astronomie')">🌌 Astronomie</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🎪 10. Absurdes & Fantasievolles</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Zeitreisen')">⏰ Zeitreisen</button>
+                    <button class="theme-btn" onclick="selectTheme('Aliens')">👽 Aliens</button>
+                    <button class="theme-btn" onclick="selectTheme('Superhelden')">🦸 Superhelden</button>
+                    <button class="theme-btn" onclick="selectTheme('Märchen')">🏰 Märchen</button>
+                    <button class="theme-btn" onclick="selectTheme('Geister')">👻 Geister</button>
+                    <button class="theme-btn" onclick="selectTheme('Träume')">💭 Träume</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>💰 11. Finanzen & Konsum</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Banken')">🏦 Banken</button>
+                    <button class="theme-btn" onclick="selectTheme('Inflation')">💰 Inflation</button>
+                    <button class="theme-btn" onclick="selectTheme('Schnäppchen')">🏷️ Schnäppchen</button>
+                    <button class="theme-btn" onclick="selectTheme('Lotto')">🎰 Lotto</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🏛️ 12. Historisches & Prominente</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Prominente')">⭐ Prominente</button>
+                    <button class="theme-btn" onclick="selectTheme('Königshäuser')">👑 Königshäuser</button>
+                    <button class="theme-btn" onclick="selectTheme('Geschichte')">📜 Geschichte</button>
+                    <button class="theme-btn" onclick="selectTheme('Mythen')">🐉 Mythen</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>🎭 13. Schwarzer Humor</h3>
+                <div class="theme-grid">
+                    <button class="theme-btn" onclick="selectTheme('Tod & Bestattung')">⚰️ Tod</button>
+                    <button class="theme-btn" onclick="selectTheme('Galgenhumor')">🎭 Galgenhumor</button>
+                    <button class="theme-btn" onclick="selectTheme('Pechvögel')">🍀 Pechvögel</button>
+                    <button class="theme-btn" onclick="selectTheme('Schicksalsschläge')">⚡ Schicksalsschläge</button>
+                </div>
+            </div>
+        </div>
+
+        <input type="text" id="customTheme" placeholder="Oder gib dein eigenes Thema ein...">
+        <div class="btn-group">
+            <button class="btn" onclick="nextStep()" disabled id="nextBtn1">Weiter</button>
+        </div>
+    </div>
+
+    <!-- Schritt 2: Emotion -->
+    <div class="step" id="step2">
+        <h2>😊 Schritt 2: Wähle deine Emotion</h2>
+
+        <div class="random-section">
+            <button class="btn random-btn" onclick="selectRandomEmotion()">🎲 Zufällige Emotion wählen</button>
+        </div>
+
+        <div class="option-grid">
+            <button class="option-btn" onclick="selectEmotion('wütend')">😠 Wütend</button>
+            <button class="option-btn" onclick="selectEmotion('schüchtern')">😳 Schüchtern</button>
+            <button class="option-btn" onclick="selectEmotion('cool')">😎 Cool</button>
+            <button class="option-btn" onclick="selectEmotion('traurig')">😢 Traurig</button>
+            <button class="option-btn" onclick="selectEmotion('besorgt')">😰 Besorgt</button>
+            <button class="option-btn" onclick="selectEmotion('ängstlich')">😨 Ängstlich</button>
+            <button class="option-btn" onclick="selectEmotion('verliebt')">😍 Verliebt</button>
+            <button class="option-btn" onclick="selectEmotion('gelangweilt')">😴 Gelangweilt</button>
+            <button class="option-btn" onclick="selectEmotion('froh')">😄 Froh</button>
+        </div>
+        <div class="btn-group">
+            <button class="btn" onclick="prevStep()">Zurück</button>
+            <button class="btn" onclick="nextStep()" disabled id="nextBtn2">Weiter</button>
+        </div>
+    </div>
+
+    <!-- Schritt 3: Satzanfang -->
+    <div class="step" id="step3">
+        <h2>📝 Schritt 3: Wähle deinen Satzanfang</h2>
+
+        <div class="random-section">
+            <button class="btn random-btn" onclick="selectRandomOpener()">🎲 Zufälligen Satzanfang wählen</button>
+        </div>
+
+        <div class="option-grid">
+            <button class="option-btn" onclick="selectOpener('Ich mag...')">Ich mag...</button>
+            <button class="option-btn" onclick="selectOpener('Um euch die Wahrheit zu sagen...')">Um euch die Wahrheit zu sagen...</button>
+            <button class="option-btn" onclick="selectOpener('Ich hatte...in Kombination mit...')">Ich hatte...in Kombination mit...</button>
+            <button class="option-btn" onclick="selectOpener('Lasst uns sagen...')">Lasst uns sagen...</button>
+            <button class="option-btn" onclick="selectOpener('Ist euch mal aufgefallen...')">Ist euch mal aufgefallen...</button>
+            <button class="option-btn" onclick="selectOpener('Ich sag nicht, dass es gut ist,...')">Ich sag nicht, dass es gut ist,...</button>
+            <button class="option-btn" onclick="selectOpener('Ich möchte euch erzählen, was passiert ist...')">Ich möchte euch erzählen, was passiert ist...</button>
+            <button class="option-btn" onclick="selectOpener('Warum...')">Warum...</button>
+            <button class="option-btn" onclick="selectOpener('Wisst ihr, was verrückt ist...')">Wisst ihr, was verrückt ist...</button>
+            <button class="option-btn" onclick="selectOpener('Etwas, das mir niemand erklärt hat ist...')">Etwas, das mir niemand erklärt hat ist...</button>
+            <button class="option-btn" onclick="selectOpener('Ich denke aktuell darüber nach...')">Ich denke aktuell darüber nach...</button>
+
+        </div>
+        <div class="btn-group">
+            <button class="btn" onclick="prevStep()">Zurück</button>
+            <button class="btn" onclick="nextStep()" disabled id="nextBtn3">Weiter</button>
+        </div>
+    </div>
+
+    <!-- Schritt 4: Witz schreiben -->
+    <div class="step" id="step4">
+        <h2>✍️ Schritt 4: Schreibe deinen Witz</h2>
+        <p><strong>Thema:</strong> <span id="selectedTheme"></span></p>
+        <p><strong>Emotion:</strong> <span id="selectedEmotion"></span></p>
+        <p><strong>Anfang:</strong> <span id="selectedOpener"></span></p>
+        <textarea id="jokeText" placeholder="Schreibe hier deinen Witz..."></textarea>
+        <div class="joke-display" id="jokePreview"></div>
+        <div class="btn-group">
+            <button class="btn" onclick="prevStep()">Zurück</button>
+            <button class="btn" onclick="nextStep()" disabled id="nextBtn4">Weiter</button>
+        </div>
+    </div>
+
+    <!-- Schritt 5: 3-Fach-Witz? -->
+    <div class="step" id="step5">
+        <h2>🎭 Schritt 5: Ist es ein 3-Fach-Witz?</h2>
+        <div class="joke-display" id="currentJoke"></div>
+        <div class="yes-no-buttons">
+            <button class="btn yes-btn" onclick="setTripleJoke(true)">Ja</button>
+            <button class="btn no-btn" onclick="setTripleJoke(false)">Nein</button>
+        </div>
+    </div>
+
+    <!-- Schritt 6: 3-Fach-Witz Struktur -->
+    <<!-- Schritt 6: 3-Fach-Witz Struktur -->
+    <div class="step" id="step6">
+        <h2>🎪 Schritt 6: Wähle die 3-Fach-Struktur</h2>
+        <div class="triple-joke-options">
+            <button class="option-btn" onclick="selectTripleStructure('schlimm-schlimmer-normal')">1. schlimm<br>2. schlimmer<br>3. normal</button>
+            <button class="option-btn" onclick="selectTripleStructure('lustig-normal-sehr-lustig')">1. lustig<br>2. normal<br>3. sehr lustig</button>
+            <button class="option-btn" onclick="selectTripleStructure('normal-normal-misdirect')">1. normal<br>2. normal<br>3. misdirect</button>
+            <button class="option-btn" onclick="selectTripleStructure('lustig-5x')">1. lustig<br>2. lustig<br>3. lustig<br>4. lustig<br>5. lustig</button>
+        </div>
+        <div id="tripleJokeInputs"></div>
+        <div class="btn-group">
+            <button class="btn" onclick="prevStep()">Zurück</button>
+            <button class="btn" onclick="nextStepFromTriple()" disabled id="nextBtn6">Weiter</button>
+        </div>
+    </div>
+
+
+    <!-- Verbesserungsschritte -->
+    <div class="step" id="improvementStep">
+        <h2>🔧 Schritt <span id="improvementStepNumber"></span>: <span id="improvementTitle"></span></h2>
+        <div class="joke-display" id="improvementJoke"></div>
+        <div class="improvement-section">
+            <h3 id="improvementQuestion"></h3>
+            <p id="improvementDescription"></p>
+            <textarea id="improvementText" placeholder="Überarbeite deinen Witz hier..."></textarea>
+        </div>
+        <div class="btn-group">
+            <button class="btn" onclick="prevImprovement()">Zurück</button>
+            <button class="btn" onclick="nextImprovement()">Weiter</button>
+        </div>
+    </div>
+
+    <!-- Endergebnis -->
+    <div class="step" id="finalStep">
+        <h2>🎉 Dein fertiger Witz!</h2>
+        <div class="summary">
+            <h3>Zusammenfassung:</h3>
+            <div id="finalSummary"></div>
+        </div>
+        <div class="joke-display" id="finalJoke" style="font-size: 1.3em; font-weight: bold;"></div>
+        <div class="btn-group">
+            <button class="btn" onclick="saveJoke()">💾 Witz speichern</button>
+            <button class="btn" onclick="restart()">Neuen Witz erstellen</button>
+            <button class="btn" onclick="exportJoke()">Witz exportieren</button>
+            <button class="btn" onclick="showSavedJokes()">📚 Gespeicherte Witze</button>        </div>
+    </div>
+</div>
+
+<!-- Gespeicherte Witze -->
+<div class="step" id="savedJokesStep">
+    <h2>📚 Deine gespeicherten Witze</h2>
+    <div id="savedJokesContent"></div>
+    <div class="btn-group">
+        <button class="btn" onclick="restart()">Neuen Witz erstellen</button>
+        <button class="btn" onclick="showStep('step1'); updateProgress();">Zurück zum Start</button>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    let totalSteps = 7;
+    let jokeData = {
+        theme: '',
+        emotion: '',
+        opener: '',
+        text: '',
+        isTriple: false,
+        tripleStructure: '',
+        tripleParts: [],
+        improvements: {}
+    };
+
+    const improvements = [
+        {
+            title: 'Alliteration',
+            question: 'Kannst du Alliterationen (gleiche Anfangsbuchstaben) hinzufügen?',
+            description: 'Alliterationen machen Wörter einprägsamer und rhythmischer.'
+        },
+        {
+            title: 'Neologismus',
+            question: 'Kannst du neue, kreative Wortschöpfungen einbauen?',
+            description: 'Erfinde neue Wörter oder Wortkombinationen für mehr Originalität.'
+        },
+        {
+            title: 'Unbekanntes Wort',
+            question: 'Gibt es ungewöhnliche oder überraschende Wörter, die du verwenden könntest?',
+            description: 'Unerwartete Wörter können für Überraschung und Humor sorgen.'
+        },
+        {
+            title: 'B P (T) (G) - Laute',
+            question: 'Kannst du harte Konsonanten (B, P, T, G) für mehr Wirkung einsetzen?',
+            description: 'Diese Laute verstärken die Komik durch ihren perkussiven Charakter.'
+        },
+        {
+            title: 'Reihenfolge',
+            question: 'Ist die Reihenfolge der Elemente optimal für die Pointe?',
+            description: 'Die richtige Reihenfolge kann den Überraschungseffekt verstärken.'
+        },
+        {
+            title: 'Pausen',
+            question: 'Wo könntest du Pausen für bessere Wirkung einsetzen?',
+            description: 'Pausen schaffen Spannung und betonen wichtige Momente.'
+        },
+        {
+            title: 'Blicke',
+            question: 'Wie könntest du Blickkontakt und Mimik in den Vortrag einbauen?',
+            description: 'Nonverbale Kommunikation verstärkt die Wirkung des Witzes.'
+        },
+        {
+            title: 'Kürzen',
+            question: 'Kannst du den Witz kürzer und prägnanter machen?',
+            description: 'Kürze ist oft der Schlüssel zu einem guten Witz.'
+        },
+        {
+            title: 'Wiederholungen',
+            question: 'Könnten Wiederholungen die Komik verstärken?',
+            description: 'Geschickte Wiederholungen können den Rhythmus und die Komik erhöhen.'
+        },
+        {
+            title: 'Töne',
+            question: 'Kannst du Stimme, Tonfall oder Geräusche einsetzen?',
+            description: 'Verschiedene Töne und Geräusche machen den Witz lebendiger.'
+        }
+    ];
+    // Zufallsfunktionen
+function selectRandomTheme() {
+const allThemes = [
+    'Haushalt', 'Einkaufen', 'Arbeit & Büro', 'Schule & Lehrer', 'Familie', 'Nachbarn', 'Verkehr', 'Urlaub', 'Wetter',
+    'Männer vs. Frauen', 'Beziehungen', 'Dating', 'Freundschaft', 'Eltern & Kinder', 'Schwiegermütter', 'Generationen', 'Missverständnisse',
+    'Hunde', 'Katzen', 'Bauernhoftiere', 'Zootiere', 'Insekten', 'Tier-Mensch-Vergleiche',
+    'Smartphones', 'Computer', 'Internet', 'Social Media', 'KI', 'Gaming', 'Streaming',
+    'Arztbesuche', 'Krankheiten', 'Fitness', 'Diäten', 'Schlaf', 'Alter',
+    'Büroarbeit', 'Handwerk', 'Berufe', 'Studium', 'Bewerbung',
+    'Politik', 'Religion', 'Nationalitäten', 'Klischees', 'Umwelt', 'Verschwörungen',
+    'Dialekte', 'Fremdsprachen', 'Übersetzungsfehler', 'Rechtschreibung', 'Wortspiele',
+    'Mathe', 'Physik', 'Biologie', 'Chemie', 'Astronomie',
+    'Zeitreisen', 'Aliens', 'Superhelden', 'Märchen', 'Geister', 'Träume',
+    'Banken', 'Inflation', 'Schnäppchen', 'Lotto',
+    'Prominente', 'Königshäuser', 'Geschichte', 'Mythen',
+    'Tod & Bestattung', 'Galgenhumor', 'Pechvögel', 'Schicksalsschläge'
+];
+
+const randomTheme = allThemes[Math.floor(Math.random() * allThemes.length)];
+
+// Alle Buttons deselektieren
+document.querySelectorAll('#step1 .theme-btn').forEach(btn => btn.classList.remove('selected'));
+
+// Den entsprechenden Button finden und selektieren
+const themeButton = Array.from(document.querySelectorAll('#step1 .theme-btn')).find(btn =>
+    btn.textContent.includes(randomTheme.split(' &')[0].split(' vs.')[0])
+);
+
+if (themeButton) {
+    themeButton.classList.add('selected');
+}
+
+jokeData.theme = randomTheme;
+document.getElementById('nextBtn1').disabled = false;
+document.getElementById('customTheme').value = '';
+}
+
+function selectRandomEmotion() {
+const emotions = ['wütend', 'schüchtern', 'cool', 'traurig', 'besorgt', 'ängstlich', 'verliebt', 'gelangweilt', 'froh'];
+const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+
+// Alle Buttons deselektieren
+document.querySelectorAll('#step2 .option-btn').forEach(btn => btn.classList.remove('selected'));
+
+// Den entsprechenden Button finden und selektieren
+const emotionButton = Array.from(document.querySelectorAll('#step2 .option-btn')).find(btn =>
+    btn.onclick.toString().includes(`'${randomEmotion}'`)
+);
+
+if (emotionButton) {
+    emotionButton.classList.add('selected');
+}
+
+jokeData.emotion = randomEmotion;
+document.getElementById('nextBtn2').disabled = false;
+}
+
+function selectRandomOpener() {
+const openers = [
+    'Ich mag...',
+    'Um euch die Wahrheit zu sagen...',
+    'Ich hatte...in Kombination mit...',
+    'Lasst uns sagen...'
+];
+const randomOpener = openers[Math.floor(Math.random() * openers.length)];
+
+// Alle Buttons deselektieren
+document.querySelectorAll('#step3 .option-btn').forEach(btn => btn.classList.remove('selected'));
+
+// Den entsprechenden Button finden und selektieren
+const openerButton = Array.from(document.querySelectorAll('#step3 .option-btn')).find(btn =>
+    btn.onclick.toString().includes(randomOpener.replace('...', ''))
+);
+
+if (openerButton) {
+    openerButton.classList.add('selected');
+}
+
+jokeData.opener = randomOpener;
+document.getElementById('nextBtn3').disabled = false;
+}
+    function updateProgress() {
+        const progress = (currentStep / totalSteps) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    function selectTheme(theme) {
+        document.querySelectorAll('#step1 .option-btn').forEach(btn => btn.classList.remove('selected'));
+        event.target.classList.add('selected');
+        jokeData.theme = theme;
+        document.getElementById('nextBtn1').disabled = false;
+        document.getElementById('customTheme').value = '';
+    }
+
+    function selectEmotion(emotion) {
+        document.querySelectorAll('#step2 .option-btn').forEach(btn => btn.classList.remove('selected'));
+        event.target.classList.add('selected');
+        jokeData.emotion = emotion;
+        document.getElementById('nextBtn2').disabled = false;
+    }
+
+    function selectOpener(opener) {
+        document.querySelectorAll('#step3 .option-btn').forEach(btn => btn.classList.remove('selected'));
+        event.target.classList.add('selected');
+        jokeData.opener = opener;
+        document.getElementById('nextBtn3').disabled = false;
+    }
+
+    function selectTripleStructure(structure) {
+document.querySelectorAll('#step6 .option-btn').forEach(btn => btn.classList.remove('selected'));
+event.target.classList.add('selected');
+jokeData.tripleStructure = structure;
+
+const inputsDiv = document.getElementById('tripleJokeInputs');
+inputsDiv.innerHTML = '';
+
+let parts = [];
+switch(structure) {
+    case 'schlimm-schlimmer-normal':
+        parts = ['Schlimm', 'Schlimmer', 'Normal'];
+        break;
+    case 'lustig-normal-sehr-lustig':
+        parts = ['Lustig', 'Normal', 'Sehr lustig'];
+        break;
+    case 'normal-normal-misdirect':
+        parts = ['Normal', 'Normal', 'Misdirect'];
+        break;
+    case 'lustig-5x':
+        parts = ['Lustig 1', 'Lustig 2', 'Lustig 3', 'Lustig 4', 'Lustig 5'];
+        break;
+}
+
+parts.forEach((part, index) => {
+    inputsDiv.innerHTML += `
+        <div style="margin: 15px 0;">
+            <h4>${index + 1}. ${part}:</h4>
+            <textarea id="triplePart${index}" placeholder="Teil ${index + 1} des Witzes..." style="min-height: 80px;" oninput="checkTripleCompletion()"></textarea>
+        </div>
+    `;
+});
+
+document.getElementById('nextBtn6').disabled = true; // Erstmal deaktiviert bis alle Felder ausgefüllt sind
+}
+
+function checkTripleCompletion() {
+const partCount = jokeData.tripleStructure === 'lustig-5x' ? 5 : 3;
+let allFilled = true;
+
+for (let i = 0; i < partCount; i++) {
+    const partElement = document.getElementById(`triplePart${i}`);
+    if (!partElement || !partElement.value.trim()) {
+        allFilled = false;
+        break;
+    }
+}
+
+document.getElementById('nextBtn6').disabled = !allFilled;
+}
+
+    function nextStepFromTriple() {
+const parts = [];
+const partCount = jokeData.tripleStructure === 'lustig-5x' ? 5 : 3;
+
+for (let i = 0; i < partCount; i++) {
+    const partText = document.getElementById(`triplePart${i}`).value.trim();
+    if (!partText) {
+        alert(`Bitte fülle Teil ${i + 1} aus!`);
+        return;
+    }
+    parts.push(partText);
+}
+
+jokeData.tripleParts = parts;
+jokeData.text = jokeData.text + ' ' + parts.join(' ');
+startImprovements();
+}
+
+    function setTripleJoke(isTriple) {
+
+    if (!isTriple) {
+    // Speichere den ursprünglichen Witz bevor wir zu den Verbesserungen gehen
+    jokeData.originalText = jokeData.text;
+}
+        if (isTriple) {
+            showStep('step6');
+        } else {
+            startImprovements();
+        }
+    }
+
+    function nextStep() {
+        // Spezielle Behandlung für Schritt 1 (Custom Theme)
+        if (currentStep === 1) {
+            const customTheme = document.getElementById('customTheme').value.trim();
+            if (customTheme && !jokeData.theme) {
+                jokeData.theme = customTheme;
+            } else if (!jokeData.theme) {
+                return;
+            }
+            document.getElementById('selectedTheme').textContent = jokeData.theme;
+        }
+
+        // Spezielle Behandlung für Schritt 4 (Witz Text)
+        if (currentStep === 4) {
+            jokeData.text = document.getElementById('jokeText').value.trim();
+            if (!jokeData.text) {
+                alert('Bitte schreibe deinen Witz!');
+                return;
+            }
+            document.getElementById('currentJoke').textContent = jokeData.text;
+        }
+
+        // Spezielle Behandlung für Schritt 6 (Triple Joke)
+        if (currentStep === 6) {
+            const parts = [];
+            const partCount = jokeData.tripleStructure === 'lustig-5x' ? 5 : 3;
+            for (let i = 0; i < partCount; i++) {
+                const partText = document.getElementById(`triplePart${i}`).value.trim();
+                if (!partText) {
+                    alert(`Bitte fülle Teil ${i + 1} aus!`);
+                    return;
+                }
+                parts.push(partText);
+            }
+            jokeData.tripleParts = parts;
+            jokeData.text = parts.join('\n\n');
+            startImprovements();
+            return;
+        }
+
+        if (currentStep < 4) {
+            currentStep++;
+            showStep(`step${currentStep}`);
+        } else if (currentStep === 4) {
+            currentStep = 5;
+            showStep('step5');
+        }
+
+        updateProgress();
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(`step${currentStep}`);
+            updateProgress();
+        }
+    }
+
+    function showStep(stepId) {
+        document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+        document.getElementById(stepId).classList.add('active');
+
+        // Update display values
+        if (stepId === 'step4') {
+            document.getElementById('selectedTheme').textContent = jokeData.theme;
+            document.getElementById('selectedEmotion').textContent = jokeData.emotion;
+            document.getElementById('selectedOpener').textContent = jokeData.opener;
+        }
+    }
+
+    let currentImprovement = 0;
+
+    function startImprovements() {
+        currentImprovement = 0;
+        showImprovement();
+    }
+
+    function showImprovement() {
+        if (currentImprovement < improvements.length) {
+            const improvement = improvements[currentImprovement];
+            document.getElementById('improvementStepNumber').textContent = 7 + currentImprovement;
+            document.getElementById('improvementTitle').textContent = improvement.title;
+            document.getElementById('improvementQuestion').textContent = improvement.question;
+            document.getElementById('improvementDescription').textContent = improvement.description;
+            document.getElementById('improvementJoke').textContent = jokeData.text;
+            document.getElementById('improvementText').value = jokeData.text;
+
+            totalSteps = 7 + improvements.length;
+            currentStep = 7 + currentImprovement;
+            updateProgress();
+
+            showStep('improvementStep');
+        } else {
+            showFinalResult();
+        }
+    }
+
+    function nextImprovement() {
+        const improvedText = document.getElementById('improvementText').value.trim();
+        if (improvedText) {
+            jokeData.text = improvedText;
+            jokeData.improvements[improvements[currentImprovement].title] = improvedText;
+        }
+
+        currentImprovement++;
+        showImprovement();
+    }
+
+    function prevImprovement() {
+        if (currentImprovement > 0) {
+            currentImprovement--;
+            showImprovement();
+        } else {
+            currentStep = jokeData.isTriple ? 6 : 5;
+            showStep(jokeData.isTriple ? 'step6' : 'step5');
+            updateProgress();
+        }
+    }
+
+    function showFinalResult() {
+        const summary = `
+            <p><strong>Thema:</strong> ${jokeData.theme}</p>
+            <p><strong>Emotion:</strong> ${jokeData.emotion}</p>
+            <p><strong>Satzanfang:</strong> ${jokeData.opener}</p>
+            <p><strong>3-Fach-Witz:</strong> ${jokeData.isTriple ? 'Ja (' + jokeData.tripleStructure + ')' : 'Nein'}</p>
+            <p><strong>Verbesserungen angewendet:</strong> ${Object.keys(jokeData.improvements).length} von ${improvements.length}</p>
+        `;
+
+        document.getElementById('finalSummary').innerHTML = summary;
+        document.getElementById('finalJoke').textContent = jokeData.text;
+
+        currentStep = totalSteps;
+        updateProgress();
+        showStep('finalStep');
+    }
+
+    function restart() {
+        currentStep = 1;
+        totalSteps = 7;
+        jokeData = {
+            theme: '',
+            emotion: '',
+            opener: '',
+            text: '',
+            isTriple: false,
+            tripleStructure: '',
+            tripleParts: [],
+            improvements: {}
+        };
+        currentImprovement = 0;
+
+        // Reset all buttons and inputs
+        document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+        document.querySelectorAll('textarea, input[type="text"]').forEach(input => input.value = '');
+        document.querySelectorAll('.btn[id^="nextBtn"]').forEach(btn => btn.disabled = true);
+
+        showStep('step1');
+        updateProgress();
+    }
+
+    function exportJoke() {
+        const exportData = {
+            joke: jokeData.text,
+            metadata: {
+                theme: jokeData.theme,
+                emotion: jokeData.emotion,
+                opener: jokeData.opener,
+                isTriple: jokeData.isTriple,
+                tripleStructure: jokeData.tripleStructure,
+                improvements: Object.keys(jokeData.improvements)
+            }
+        };
+
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+        const exportFileDefaultName = 'mein-witz.json';
+
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+    }
+
+    function saveJoke() {
+    const savedJokes = JSON.parse(localStorage.getItem('savedJokes') || '[]');
+    const jokeEntry = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString('de-DE'),
+        joke: jokeData.text,
+        theme: jokeData.theme,
+        emotion: jokeData.emotion,
+        opener: jokeData.opener,
+        isTriple: jokeData.isTriple,
+        tripleStructure: jokeData.tripleStructure
+    };
+
+    savedJokes.unshift(jokeEntry);
+    localStorage.setItem('savedJokes', JSON.stringify(savedJokes));
+    alert('Witz gespeichert!');
+}
+
+function loadSavedJokes() {
+    return JSON.parse(localStorage.getItem('savedJokes') || '[]');
+}
+
+function deleteJoke(id) {
+    const savedJokes = loadSavedJokes();
+    const filteredJokes = savedJokes.filter(joke => joke.id !== id);
+    localStorage.setItem('savedJokes', JSON.stringify(filteredJokes));
+    showSavedJokes();
+}
+
+function showSavedJokes() {
+    const savedJokes = loadSavedJokes();
+    const jokesHtml = savedJokes.map(joke => `
+        <div class="saved-joke" style="background: #f8f9fa; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 4px solid #4facfe;">
+            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 10px;">
+                <small style="color: #666;">${joke.date} | ${joke.theme} | ${joke.emotion}</small>
+                <button onclick="deleteJoke(${joke.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">Löschen</button>
+            </div>
+            <p style="font-style: italic; margin: 0;">"${joke.joke}"</p>
+        </div>
+    `).join('');
+
+    document.getElementById('savedJokesContent').innerHTML = savedJokes.length > 0 ? jokesHtml : '<p>Noch keine Witze gespeichert.</p>';
+    showStep('savedJokesStep');
+}
+
+    // Event Listeners
+    document.getElementById('customTheme').addEventListener('input', function() {
+        const customTheme = this.value.trim();
+        if (customTheme) {
+            document.querySelectorAll('#step1 .option-btn').forEach(btn => btn.classList.remove('selected'));
+            jokeData.theme = customTheme;
+            document.getElementById('nextBtn1').disabled = false;
+        } else if (!document.querySelector('#step1 .option-btn.selected')) {
+            document.getElementById('nextBtn1').disabled = true;
+        }
+    });
+
+    document.getElementById('jokeText').addEventListener('input', function() {
+        const text = this.value.trim();
+        document.getElementById('jokePreview').textContent = text;
+        document.getElementById('nextBtn4').disabled = !text;
+    });
+
+    // Initialize
+    updateProgress();
+</script>
+</body>
+</html>

@@ -138,21 +138,6 @@
             transform: translateY(-1px);
         }
 
-        .timer {
-            display: none;
-            font-size: 2em;
-            font-weight: bold;
-            color: #ff6b6b;
-            margin: 20px 0;
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
         .footer {
             margin-top: 40px;
             color: #666;
@@ -190,6 +175,7 @@
             <button class="category-btn" onclick="setCategory('anmache')">💘 Anmachsprüche</button>
             <button class="category-btn" onclick="setCategory('hoeren')">👂 Nicht hören</button>
             <button class="category-btn" onclick="setCategory('verhalten')">🚫 Nicht tun</button>
+            <button class="category-btn" onclick="setCategory('antworten')">❓ Frage gesucht</button>
         </div>
 
         <div class="scenario-card" id="scenarioCard">
@@ -198,10 +184,7 @@
             </div>
         </div>
 
-        <div class="timer" id="timer">2:00</div>
-
         <button class="generate-btn" onclick="generateScenario()">🎲 Neues Szenario</button>
-        <button class="generate-btn" onclick="startTimer()">⏰ Timer starten (2 Min)</button>
 
         <div class="footer">
             <p>💡 Tipp: Nutzt eure Kreativität und habt Spaß!</p>
@@ -210,118 +193,206 @@
 
     <script>
         let currentCategory = 'all';
-        let timerInterval;
         
-        const scenarios = {
+        // Erweiterte Datenbank mit grammatikalischen Informationen
+        const orte = [
+            // Feminine Orte (die) - in der / bei der
+            { name: 'Sauna', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Kirche', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Dönerbude', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'U-Bahn', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Bäckerei', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Pizzeria', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Apotheke', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Bibliothek', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Kneipe', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Disco', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Oper', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Warteschlange', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Umkleidekabine', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Beerdigung', artikel: 'die', praep: 'bei der', anmache: 'bei der' },
+            { name: 'Trauerfeier', artikel: 'die', praep: 'bei der', anmache: 'bei der' },
+            { name: 'Hochzeit', artikel: 'die', praep: 'bei der', anmache: 'bei der' },
+            { name: 'Taufe', artikel: 'die', praep: 'bei der', anmache: 'bei der' },
+            { name: 'Geburt', artikel: 'die', praep: 'bei der', anmache: 'bei der' },
+            { name: 'Therapie', artikel: 'die', praep: 'bei der', anmache: 'bei der' },
+            
+            // Maskuline Orte (der) - im / beim
+            { name: 'Kindergarten', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Club', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Zoo', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Supermarkt', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Keller', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Aufzug', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Fahrstuhl', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Garten', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Park', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Wald', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Stau', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Arzt', artikel: 'der', praep: 'beim', anmache: 'beim' },
+            { name: 'Zahnarzt', artikel: 'der', praep: 'beim', anmache: 'beim' },
+            { name: 'Frauenarzt', artikel: 'der', praep: 'beim', anmache: 'beim' },
+            { name: 'Friseur', artikel: 'der', praep: 'beim', anmache: 'beim' },
+            { name: 'Elternabend', artikel: 'der', praep: 'beim', anmache: 'beim' },
+            { name: 'Brunch', artikel: 'der', praep: 'beim', anmache: 'beim' },
+            { name: 'Grillen', artikel: 'das', praep: 'beim', anmache: 'beim' },
+            { name: 'Picknick', artikel: 'das', praep: 'beim', anmache: 'beim' },
+            
+            // Neutrale Orte (das) - im / beim
+            { name: 'Gym', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Bett', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Bordell', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Schwimmbad', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Altenheim', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Flugzeug', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Museum', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Seniorenheim', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Büro', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Gefängnis', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Krankenhaus', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Restaurant', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Kino', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Theater', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Casino', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Hotel', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Taxi', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Auto', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Flugzeug', artikel: 'das', praep: 'im', anmache: 'im' },
+            { name: 'Zelt', artikel: 'das', praep: 'im', anmache: 'im' },
+            
+            // Spezielle Orte mit besonderen Präpositionen
+            { name: 'Strand', artikel: 'der', praep: 'am', anmache: 'am' },
+            { name: 'Sterbebett', artikel: 'das', praep: 'am', anmache: 'am' },
+            { name: 'Pissoir', artikel: 'das', praep: 'am', anmache: 'am' },
+            { name: 'Telefon', artikel: 'das', praep: 'am', anmache: 'am' },
+            { name: 'Geldautomaten', artikel: 'der', praep: 'am', anmache: 'am' },
+            { name: 'Supermarktkasse', artikel: 'die', praep: 'an der', anmache: 'an der' },
+            { name: 'Tankstelle', artikel: 'die', praep: 'an der', anmache: 'an der' },
+            { name: 'Bushaltestelle', artikel: 'die', praep: 'an der', anmache: 'an der' },
+            
+            // Eigennamen
+            { name: 'IKEA', artikel: '', praep: 'bei', anmache: 'bei' },
+            { name: 'McDonald\'s', artikel: '', praep: 'bei', anmache: 'bei' },
+            { name: 'Starbucks', artikel: '', praep: 'bei', anmache: 'bei' },
+            
+            // Aktivitäten/Events
+            { name: 'Online-Dating', artikel: 'das', praep: 'beim', anmache: 'beim' },
+            { name: 'Speed-Dating', artikel: 'das', praep: 'beim', anmache: 'beim' },
+            { name: 'Yoga', artikel: 'das', praep: 'beim', anmache: 'beim' },
+            { name: 'Joggen', artikel: 'das', praep: 'beim', anmache: 'beim' },
+            { name: 'Shoppen', artikel: 'das', praep: 'beim', anmache: 'beim' },
+            
+            // Spezielle Orte
+            { name: 'Swingerclub', artikel: 'der', praep: 'im', anmache: 'im' },
+            { name: 'Psychiatrie', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Notaufnahme', artikel: 'die', praep: 'in der', anmache: 'in der' },
+            { name: 'Intensivstation', artikel: 'die', praep: 'auf der', anmache: 'auf der' }
+        ];
+
+        const gegenstände = [
+            // Klassische Gegenstände
+            'Banane', 'Kondome', 'Viagra', 'Handschellen', 'Windeln', 'Gummistiefel',
+            'Vibrator', 'Klopapier', 'Latex', 'Prothese', 'Gleitmittel', 'Zahnersatz',
+            'Rollstuhl', 'Schnuller', 'Peitsche', 'Krücken', 'Tampons', 'Dildo', 'Rollator',
+            
+            // Erweiterte Gegenstände
+            'Strohhalm', 'Gurke', 'Karotte', 'Wurst', 'Thermometer', 'Spritze',
+            'Windel', 'Schnuller', 'Beißring', 'Lätzchen', 'Babyflasche',
+            'Gehstock', 'Hörgerät', 'Brille', 'Gebiss', 'Inkontinenzhose',
+            'Augenklappe', 'Verband', 'Gips', 'Katheter', 'Beatmungsgerät',
+            'Buttplug', 'Liebeskugeln', 'Fesseln', 'Knebel', 'Lack und Leder',
+            'Einlauf', 'Klistier', 'Darmspiegelung', 'Stuhlprobe', 'Urinprobe',
+            'Abführmittel', 'Zäpfchen', 'Salbe', 'Antibiotika', 'Schmerzmittel',
+            'Beruhigungsmittel', 'Schlafmittel', 'Wundcreme', 'Desinfektionsmittel',
+            
+            // Lustige Antworten
+            'Mama', 'Papa', 'Oma', 'Opa', 'Schwiegermutter', 'Ex-Freund', 'Chef',
+            'Nachbar', 'Therapeut', 'Priester', 'Polizist', 'Anwalt',
+            
+            // Absurde Gegenstände
+            'Gummiente', 'Quietschhammer', 'Plunger', 'Toilettenbürste', 'Staubsauger',
+            'Mikrofon', 'Fernbedienung', 'Handy', 'Ladekabel', 'Powerbank'
+        ];
+
+        // Erweiterte Satzvorlagen
+        const satzVorlagen = {
             orte: [
-                "Kann man in der Sauna sagen:",
-                "Kann man beim ersten Date sagen:",
-                "Kann man im Club sagen:",
-                "Kann man im Gym sagen:",
-                "Kann man im Bett sagen:",
-                "Kann man im Kindergarten sagen:",
-                "Kann man im Bordell sagen:",
-                "Kann man im Swingerclub sagen:",
-                "Kann man im Schwimmbad sagen:",
-                "Kann man beim Grillen sagen:",
-                "Kann man im Flugzeug sagen:",
-                "Kann man im Altenheim sagen:",
-                "Kann man in der Psychiatrie sagen:",
-                "Kann man beim Friseur sagen:",
-                "Kann man in der Dönerbude sagen:",
-                "Kann man beim Brunch sagen:",
-                "Kann man in der U-Bahn sagen:",
-                "Kann man beim Arzt sagen:",
-                "Kann man im Zoo sagen:",
-                "Kann man bei der Beerdigung sagen:",
-                "Kann man am Sterbebett sagen:",
-                "Kann man in der Kirche sagen:",
-                "Kann man im Gefängnis sagen:",
-                "Kann man beim Zahnarzt sagen:",
-                "Kann man im Museum sagen:",
-                "Kann man beim Frauenarzt sagen:",
-                "Kann man im Seniorenheim sagen:",
-                "Kann man in der Bäckerei sagen:",
-                "Kann man bei der Geburt sagen:",
-                "Kann man am Strand sagen:",
-                "Kann man im Büro sagen:",
-                "Kann man beim Elternabend sagen:",
-                "Kann man in der Pizzaria sagen:",
-                "Kann man an der Supermarktkasse sagen:",
-                "Kann man bei der Trauerfeier sagen:",
-                "Kann man bei IKEA sagen:",
-                "Kann man beim Online-Dating sagen:",
-                "Kann man am Pissoir sagen:"
+                'Kann man {ort1} und {ort2} sagen:',
+                'Passt sowohl {ort1} als auch {ort2}:',
+                'Funktioniert {ort1} genauso wie {ort2}:'
             ],
             vergleiche: [
-                "Kann man in der Sauna, aber nicht im Kindergarten sagen:",
-                "Kann man im Bordell, aber nicht in der Kirche sagen:",
-                "Kann man im Swingerclub, aber nicht beim Elternabend sagen:",
-                "Kann man beim Zahnarzt, aber nicht beim ersten Date sagen:",
-                "Kann man im Gefängnis, aber nicht im Museum sagen:",
-                "Kann man im Gym, aber nicht bei der Beerdigung sagen:",
-                "Kann man am Strand, aber nicht in der Psychiatrie sagen:",
-                "Kann man in der Dönerbude, aber nicht beim Frauenarzt sagen:",
-                "Kann man im Club, aber nicht im Altenheim sagen:",
-                "Kann man beim Grillen, aber nicht am Sterbebett sagen:",
-                "Kann man im Bett, aber nicht beim Brunch sagen:",
-                "Kann man im Flugzeug, aber nicht bei der Geburt sagen:",
-                "Kann man in der U-Bahn, aber nicht in der Bäckerei sagen:",
-                "Kann man im Zoo, aber nicht bei der Trauerfeier sagen:",
-                "Kann man beim Friseur, aber nicht im Büro sagen:"
+                'Kann man {ort1}, aber nicht {ort2} sagen:',
+                'Passt {ort1}, aber definitiv nicht {ort2}:',
+                'Funktioniert {ort1}, ist aber {ort2} völlig unpassend:',
+                'Geht {ort1} klar, {ort2} wäre aber ein No-Go:'
             ],
             anmache: [
-                "Anmachsprüche in der Sauna:",
-                "Anmachsprüche im Kindergarten:",
-                "Anmachsprüche im Altenheim:",
-                "Anmachsprüche beim Zahnarzt:",
-                "Anmachsprüche bei der Beerdigung:",
-                "Anmachsprüche in der Psychiatrie:",
-                "Anmachsprüche im Gefängnis:",
-                "Anmachsprüche beim Frauenarzt:",
-                "Anmachsprüche am Sterbebett:",
-                "Anmachsprüche in der Kirche:",
-                "Anmachsprüche bei der Müllabfuhr:",
-                "Anmachsprüche beim Elternabend:",
-                "Anmachsprüche bei der Trauerfeier:",
-                "Anmachsprüche an der Supermarktkasse:",
-                "Anmachsprüche am Pissoir:"
+                'Anmachsprüche {ort1}:',
+                'Pickup-Lines {ort1}:',
+                'Flirtsprüche {ort1}:',
+                'Wie macht man jemanden {ort1} an?'
             ],
             hoeren: [
-                "Was möchte man beim ersten Date nicht hören:",
-                "Was möchte man in der Sauna nicht hören:",
-                "Was möchte man im Bett nicht hören:",
-                "Was möchte man beim Zahnarzt nicht hören:",
-                "Was möchte man beim Arzt nicht hören:",
-                "Was möchte man bei der Geburt nicht hören:",
-                "Was möchte man im Flugzeug nicht hören:",
-                "Was möchte man beim Friseur nicht hören:",
-                "Was möchte man am Sterbebett nicht hören:",
-                "Was möchte man bei der Beerdigung nicht hören:",
-                "Was möchte man im Gefängnis nicht hören:",
-                "Was möchte man beim Frauenarzt nicht hören:",
-                "Was möchte man in der Psychiatrie nicht hören:",
-                "Was möchte man beim Elternabend nicht hören:",
-                "Was möchte man bei IKEA nicht hören:"
+                'Was möchte man {ort1} nicht hören:',
+                'Was sollte {ort1} niemals gesagt werden:',
+                'Welche Worte sind {ort1} ein Tabu:',
+                'Was sind die schlimmsten Sätze {ort1}:'
             ],
             verhalten: [
-                "Was sollte man in der Sauna nicht tun:",
-                "Was sollte man beim ersten Date nicht tun:",
-                "Was sollte man im Kindergarten nicht tun:",
-                "Was sollte man bei der Beerdigung nicht tun:",
-                "Was sollte man in der Kirche nicht tun:",
-                "Was sollte man beim Zahnarzt nicht tun:",
-                "Was sollte man im Altenheim nicht tun:",
-                "Was sollte man im Museum nicht tun:",
-                "Was sollte man beim Elternabend nicht tun:",
-                "Was sollte man bei der Geburt nicht tun:",
-                "Was sollte man im Flugzeug nicht tun:",
-                "Was sollte man in der Psychiatrie nicht tun:",
-                "Was sollte man am Sterbebett nicht tun:",
-                "Was sollte man bei IKEA nicht tun:",
-                "Was sollte man am Pissoir nicht tun:"
+                'Was sollte man {ort1} nicht tun:',
+                'Was ist {ort1} absolut tabu:',
+                'Welches Verhalten ist {ort1} ein No-Go:',
+                'Was macht man {ort1} definitiv nicht:'
+            ],
+            antworten: [
+                'Die Antwort ist \'{gegenstand}\' - Was ist die Frage?',
+                'Das Lösungswort lautet \'{gegenstand}\' - Wie könnte die Frage lauten?',
+                'Wenn \'{gegenstand}\' die Antwort ist, was war dann die Frage?',
+                'Rate die Frage zur Antwort: \'{gegenstand}\''
             ]
         };
+
+        // Hilfsfunktionen
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function getRandomElements(array, count) {
+            const shuffled = [...array].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        function formatOrt(ort, kontext = 'default') {
+            const praepKey = kontext === 'anmache' ? 'anmache' : 'praep';
+            return `${ort[praepKey]} ${ort.name}`;
+        }
+
+        function generateSzenario(kategorie) {
+            const vorlagen = satzVorlagen[kategorie];
+            const vorlage = getRandomElement(vorlagen);
+            
+            let szenario = vorlage;
+            
+            // Ersetze Platzhalter
+            if (vorlage.includes('{ort1}') && vorlage.includes('{ort2}')) {
+                const [ort1, ort2] = getRandomElements(orte, 2);
+                const kontext = kategorie === 'anmache' ? 'anmache' : 'default';
+                szenario = szenario.replace('{ort1}', formatOrt(ort1, kontext));
+                szenario = szenario.replace('{ort2}', formatOrt(ort2, kontext));
+            } else if (vorlage.includes('{ort1}')) {
+                const ort1 = getRandomElement(orte);
+                const kontext = kategorie === 'anmache' ? 'anmache' : 'default';
+                szenario = szenario.replace('{ort1}', formatOrt(ort1, kontext));
+            }
+            
+            if (vorlage.includes('{gegenstand}')) {
+                const gegenstand = getRandomElement(gegenstände);
+                szenario = szenario.replace('{gegenstand}', gegenstand);
+            }
+            
+            return szenario;
+        }
 
         function setCategory(category) {
             currentCategory = category;
@@ -341,46 +412,22 @@
             card.classList.remove('show');
             
             setTimeout(() => {
-                let scenarioPool = [];
+                let szenario;
                 
                 if (currentCategory === 'all') {
-                    // Combine all categories
-                    Object.values(scenarios).forEach(category => {
-                        scenarioPool = scenarioPool.concat(category);
-                    });
+                    // Wähle zufällige Kategorie
+                    const kategorien = Object.keys(satzVorlagen);
+                    const zufallsKategorie = getRandomElement(kategorien);
+                    szenario = generateSzenario(zufallsKategorie);
                 } else {
-                    scenarioPool = scenarios[currentCategory];
+                    szenario = generateSzenario(currentCategory);
                 }
                 
-                const randomScenario = scenarioPool[Math.floor(Math.random() * scenarioPool.length)];
-                text.textContent = randomScenario;
+                text.textContent = szenario;
                 
                 // Show card with animation
                 card.classList.add('show');
             }, 250);
-        }
-
-        function startTimer() {
-            const timerDisplay = document.getElementById('timer');
-            let timeLeft = 120; // 2 minutes in seconds
-            
-            clearInterval(timerInterval);
-            timerDisplay.style.display = 'block';
-            
-            timerInterval = setInterval(() => {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                
-                timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    timerDisplay.textContent = "Zeit ist um! 🎉";
-                    timerDisplay.style.color = '#4CAF50';
-                }
-                
-                timeLeft--;
-            }, 1000);
         }
 
         // Initialize with first scenario
