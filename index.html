@@ -754,58 +754,10 @@
   <p>&copy; 2025 Gowand Barkhi</p>
 </footer>
 
-
-<!-- Seitenzähler (nur für Admin sichtbar) -->
-<div id="page-counter" style="position: fixed; top: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 8px; border-radius: 5px; font-family: monospace; z-index: 9999; font-size: 12px;"></div>
-
 <!-- JavaScript-Ergänzung: Füge diese Funktion hinzu -->
 <script>
 
-  // ===== SEITENZÄHLER =====
-// Fügen Sie diesen Code am Anfang Ihres <script>-Tags ein (nach der ersten Zeile)
-
-// Zähler-Variablen
-let pageVisits = 0;
-let sessionStart = new Date();
-
-// Funktion zum Erhöhen des Zählers
-function incrementPageCounter() {
-  pageVisits++;
-  updateCounterDisplay();
-}
-
-// Funktion zum Aktualisieren der Anzeige
-function updateCounterDisplay() {
-  const counterElement = document.getElementById('page-counter');
-  if (counterElement) {
-    const currentTime = new Date();
-    const sessionDuration = Math.floor((currentTime - sessionStart) / 1000);
-
-    counterElement.innerHTML = `
-      <div style="font-size: 12px; color: #666; margin-bottom: 5px;">
-        Seitenaufrufe: ${pageVisits}
-      </div>
-      <div style="font-size: 10px; color: #999;">
-        Session: ${sessionDuration}s
-      </div>
-    `;
-  }
-}
-
-// Zähler beim Laden der Seite erhöhen
-document.addEventListener('DOMContentLoaded', function() {
-  incrementPageCounter();
-
-  // Bestehende DOMContentLoaded-Logik hier einfügen...
-  // (Ihre vorhandene Logik bleibt unverändert)
-});
-
-// Optional: Zähler bei Seitenaktivierung erhöhen (z.B. Zurück-Button)
-document.addEventListener('visibilitychange', function() {
-  if (!document.hidden) {
-    incrementPageCounter();
-  }
-});
+  
 
 
   // ===== HEADER SCROLL EFFECT =====
@@ -1009,9 +961,6 @@ const termine = [
 
   // ===== DOMCONTENTLOADED EVENT =====
   document.addEventListener('DOMContentLoaded', () => {
-    // Zähler initialisieren
-  incrementPageCounter();
-
     // Beobachte Bilder mit Zoom-Effekt
     const heroImage = document.querySelector('.hero-image');
     const aboutImage = document.querySelector('.about-image');
