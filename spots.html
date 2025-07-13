@@ -65,7 +65,7 @@
             color: #555;
         }
 
-        input[type="text"], input[type="url"], textarea {
+        input[type="text"], input[type="url"], select {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e1e5e9;
@@ -75,7 +75,7 @@
             background: #f8f9fa;
         }
 
-        input[type="text"]:focus, input[type="url"]:focus, textarea:focus {
+        input[type="text"]:focus, input[type="url"]:focus, select:focus {
             outline: none;
             border-color: #667eea;
             background: white;
@@ -85,6 +85,26 @@
         textarea {
             resize: vertical;
             min-height: 80px;
+        }
+
+        .btn-link {
+            background: linear-gradient(45deg, #20bf6b, #26d0ce);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .btn-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(32, 191, 107, 0.3);
         }
 
         .btn {
@@ -163,10 +183,35 @@
             margin-bottom: 10px;
         }
 
-        .location-description {
+        .location-address {
             color: #666;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             line-height: 1.5;
+        }
+
+        .location-city {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .location-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .type-mixed {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .type-open-mic {
+            background: linear-gradient(45deg, #feca57, #ff9ff3);
+            color: white;
         }
 
         .location-link {
@@ -174,8 +219,35 @@
             text-decoration: none;
             font-weight: 500;
             word-break: break-all;
-            display: inline-block;
-            margin-bottom: 15px;
+            display: none; /* Hidden since we use button now */
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            min-width: 150px;
         }
 
         .location-link:hover {
@@ -285,8 +357,22 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="locationDescription">Beschreibung</label>
-                    <textarea id="locationDescription" placeholder="Zusätzliche Infos zur Location..."></textarea>
+                    <label for="locationAddress">Adresse</label>
+                    <input type="text" id="locationAddress" placeholder="z.B. Hauptstraße 123, 10115 Berlin">
+                </div>
+                
+                <div class="form-group">
+                    <label for="locationCity">Stadt *</label>
+                    <input type="text" id="locationCity" required placeholder="z.B. Berlin">
+                </div>
+                
+                <div class="form-group">
+                    <label for="locationType">Typ *</label>
+                    <select id="locationType" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="Mixed">Mixed</option>
+                        <option value="Open-Mic">Open-Mic</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
