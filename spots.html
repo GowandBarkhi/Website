@@ -39,7 +39,7 @@
             background-clip: text;
         }
 
-        .form-section {
+        .section {
             background: white;
             padding: 25px;
             border-radius: 15px;
@@ -48,99 +48,25 @@
             border: 1px solid rgba(102, 126, 234, 0.1);
         }
 
-        .form-section h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        input[type="text"], input[type="url"], select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        input[type="text"]:focus, input[type="url"]:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
         .btn-link {
             background: linear-gradient(45deg, #20bf6b, #26d0ce);
             color: white;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 15px;
-        }
-
-        .btn-link:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(32, 191, 107, 0.3);
-        }
-
-        .btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 25px;
+            padding: 12px 20px;
             border-radius: 10px;
-            cursor: pointer;
             font-size: 16px;
             font-weight: 600;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            border: none;
+            cursor: pointer;
         }
 
-        .btn:hover {
+        .btn-link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-danger {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-        }
-
-        .btn-danger:hover {
-            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
-        }
-
-        .btn-edit {
-            background: linear-gradient(45deg, #feca57, #ff9ff3);
-        }
-
-        .btn-edit:hover {
-            box-shadow: 0 10px 25px rgba(254, 202, 87, 0.3);
+            box-shadow: 0 10px 25px rgba(32, 191, 107, 0.3);
         }
 
         .locations-grid {
@@ -214,14 +140,6 @@
             color: white;
         }
 
-        .location-link {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            word-break: break-all;
-            display: none; /* Hidden since we use button now */
-        }
-
         .filters {
             display: flex;
             gap: 15px;
@@ -248,16 +166,6 @@
             font-size: 14px;
             background: white;
             min-width: 150px;
-        }
-
-        .location-link:hover {
-            text-decoration: underline;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
         }
 
         .empty-state {
@@ -313,6 +221,13 @@
             font-size: 0.9em;
         }
 
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -327,6 +242,10 @@
                 gap: 15px;
             }
 
+            .filters {
+                flex-direction: column;
+            }
+
             h1 {
                 font-size: 2em;
             }
@@ -337,66 +256,33 @@
     <div class="container">
         <h1>🎤 Comedy Locations Manager</h1>
         
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-number" id="totalLocations">0</div>
-                <div class="stat-label">Locations</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="totalLinks">0</div>
-                <div class="stat-label">Bewerbungslinks</div>
-            </div>
-        </div>
 
-        <div class="form-section">
-            <h2 id="formTitle">Neue Location hinzufügen</h2>
-            <form id="locationForm">
-                <div class="form-group">
-                    <label for="locationName">Name der Location *</label>
-                    <input type="text" id="locationName" required placeholder="z.B. Comedy Club Berlin">
+
+        <div class="section">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Locations durchsuchen...">
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="cityFilter">Stadt</label>
+                    <select id="cityFilter">
+                        <option value="">Alle Städte</option>
+                    </select>
                 </div>
-                
-                <div class="form-group">
-                    <label for="locationAddress">Adresse</label>
-                    <input type="text" id="locationAddress" placeholder="z.B. Hauptstraße 123, 10115 Berlin">
-                </div>
-                
-                <div class="form-group">
-                    <label for="locationCity">Stadt *</label>
-                    <input type="text" id="locationCity" required placeholder="z.B. Berlin">
-                </div>
-                
-                <div class="form-group">
-                    <label for="locationType">Typ *</label>
-                    <select id="locationType" required>
-                        <option value="">Bitte wählen...</option>
+                <div class="filter-group">
+                    <label for="typeFilter">Typ</label>
+                    <select id="typeFilter">
+                        <option value="">Alle Typen</option>
                         <option value="Mixed">Mixed</option>
                         <option value="Open-Mic">Open-Mic</option>
                     </select>
                 </div>
-                
-                <div class="form-group">
-                    <label for="applicationLink">Bewerbungslink *</label>
-                    <input type="url" id="applicationLink" required placeholder="https://...">
-                </div>
-                
-                <button type="submit" class="btn" id="submitBtn">
-                    <span>📍</span> Location hinzufügen
-                </button>
-                <button type="button" class="btn btn-edit" id="cancelBtn" style="display: none;">
-                    <span>❌</span> Abbrechen
-                </button>
-            </form>
-        </div>
-
-        <div class="form-section">
-            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Locations durchsuchen...">
+            </div>
             
             <div id="locationsContainer">
                 <div class="empty-state">
                     <div class="empty-state-icon">🎭</div>
-                    <h3>Noch keine Locations gespeichert</h3>
-                    <p>Füge deine erste Comedy-Location hinzu, um loszulegen!</p>
+                    <h3>Keine Locations gefunden</h3>
+                    <p>Verwende die Suchfunktion oder Filter, um Locations zu finden.</p>
                 </div>
             </div>
         </div>
@@ -405,132 +291,153 @@
     <script>
         class ComedyLocationsManager {
             constructor() {
-                this.locations = [];
-                this.editingIndex = -1;
+                // LOCATIONS NUR HIER IM CODE ÄNDERN!
+                this.locations = [
+                    {
+                        id: 1,
+                        name: "Comedy Club Berlin",
+                        address: "Friedrichstraße 101, 10117 Berlin",
+                        city: "Berlin",
+                        type: "Mixed",
+                        link: "https://comedy-club-berlin.de/bewerbung"
+                    },
+                    {
+                        id: 2,
+                        name: "Quatsch Comedy Club",
+                        address: "Friedrichstraße 107, 10117 Berlin",
+                        city: "Berlin",
+                        type: "Mixed",
+                        link: "https://quatsch-comedy-club.de/kuenstler"
+                    },
+                    {
+                        id: 3,
+                        name: "Open Mic München",
+                        address: "Maximilianstraße 5, 80539 München",
+                        city: "München",
+                        type: "Open-Mic",
+                        link: "https://open-mic-muenchen.de"
+                    },
+                    {
+                        id: 4,
+                        name: "Comedy Café Hamburg",
+                        address: "Reeperbahn 136, 20359 Hamburg",
+                        city: "Hamburg",
+                        type: "Mixed",
+                        link: "https://comedy-cafe-hamburg.de/anmeldung"
+                    },
+                    {
+                        id: 5,
+                        name: "Kölner Comedy Nacht",
+                        address: "Hohenzollernring 40, 50672 Köln",
+                        city: "Köln",
+                        type: "Open-Mic",
+                        link: "https://koeln-comedy.de/open-mic"
+                    },
+                    {
+                        id: 6,
+                        name: "Stuttgart Comedy Club",
+                        address: "Königstraße 78, 70173 Stuttgart",
+                        city: "Stuttgart",
+                        type: "Mixed",
+                        link: "https://stuttgart-comedy.de/bewerbung"
+                    },
+                    {
+                        id: 7,
+                        name: "Düsseldorfer Lachbühne",
+                        address: "Königsallee 92, 40212 Düsseldorf",
+                        city: "Düsseldorf",
+                        type: "Mixed",
+                        link: "https://duesseldorf-lachbuehne.de/kuenstler"
+                    },
+                    {
+                        id: 8,
+                        name: "Open Stage Frankfurt",
+                        address: "Zeil 112, 60313 Frankfurt am Main",
+                        city: "Frankfurt",
+                        type: "Open-Mic",
+                        link: "https://open-stage-frankfurt.de"
+                    }
+                ];
+                
+                this.filteredLocations = [...this.locations];
                 this.initializeEventListeners();
+                this.populateFilters();
                 this.updateUI();
             }
 
             initializeEventListeners() {
-                document.getElementById('locationForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.handleFormSubmit();
-                });
-
                 document.getElementById('searchBox').addEventListener('input', (e) => {
-                    this.filterLocations(e.target.value);
+                    this.applyFilters();
                 });
 
-                document.getElementById('cancelBtn').addEventListener('click', () => {
-                    this.cancelEdit();
+                document.getElementById('cityFilter').addEventListener('change', () => {
+                    this.applyFilters();
+                });
+
+                document.getElementById('typeFilter').addEventListener('change', () => {
+                    this.applyFilters();
                 });
             }
 
-            handleFormSubmit() {
-                const name = document.getElementById('locationName').value.trim();
-                const description = document.getElementById('locationDescription').value.trim();
-                const link = document.getElementById('applicationLink').value.trim();
-
-                if (!name || !link) {
-                    alert('Bitte fülle alle Pflichtfelder aus.');
-                    return;
-                }
-
-                const location = {
-                    id: this.editingIndex >= 0 ? this.locations[this.editingIndex].id : Date.now(),
-                    name,
-                    description,
-                    link,
-                    createdAt: this.editingIndex >= 0 ? this.locations[this.editingIndex].createdAt : new Date()
-                };
-
-                if (this.editingIndex >= 0) {
-                    this.locations[this.editingIndex] = location;
-                    this.editingIndex = -1;
-                    this.resetForm();
-                } else {
-                    this.locations.push(location);
-                }
-
-                this.clearForm();
-                this.updateUI();
-                this.saveToStorage();
+            populateFilters() {
+                const cities = [...new Set(this.locations.map(loc => loc.city))].sort();
+                const cityFilter = document.getElementById('cityFilter');
+                
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    cityFilter.appendChild(option);
+                });
             }
 
-            editLocation(index) {
-                const location = this.locations[index];
-                this.editingIndex = index;
+            applyFilters() {
+                const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+                const cityFilter = document.getElementById('cityFilter').value;
+                const typeFilter = document.getElementById('typeFilter').value;
 
-                document.getElementById('locationName').value = location.name;
-                document.getElementById('locationDescription').value = location.description;
-                document.getElementById('applicationLink').value = location.link;
+                this.filteredLocations = this.locations.filter(location => {
+                    const matchesSearch = location.name.toLowerCase().includes(searchTerm) ||
+                                        location.address.toLowerCase().includes(searchTerm) ||
+                                        location.city.toLowerCase().includes(searchTerm);
+                    
+                    const matchesCity = !cityFilter || location.city === cityFilter;
+                    const matchesType = !typeFilter || location.type === typeFilter;
 
-                document.getElementById('formTitle').textContent = 'Location bearbeiten';
-                document.getElementById('submitBtn').innerHTML = '<span>✏️</span> Änderungen speichern';
-                document.getElementById('cancelBtn').style.display = 'inline-flex';
+                    return matchesSearch && matchesCity && matchesType;
+                });
 
-                document.getElementById('locationName').focus();
+                this.renderLocations();
             }
 
-            deleteLocation(index) {
-                if (confirm('Möchtest du diese Location wirklich löschen?')) {
-                    this.locations.splice(index, 1);
-                    this.updateUI();
-                    this.saveToStorage();
-                }
+            openApplicationLink(url) {
+                window.open(url, '_blank');
             }
 
-            cancelEdit() {
-                this.editingIndex = -1;
-                this.resetForm();
-                this.clearForm();
-            }
-
-            resetForm() {
-                document.getElementById('formTitle').textContent = 'Neue Location hinzufügen';
-                document.getElementById('submitBtn').innerHTML = '<span>📍</span> Location hinzufügen';
-                document.getElementById('cancelBtn').style.display = 'none';
-            }
-
-            clearForm() {
-                document.getElementById('locationForm').reset();
-            }
-
-            filterLocations(searchTerm) {
-                const filteredLocations = this.locations.filter(location =>
-                    location.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    location.description.toLowerCase().includes(searchTerm.toLowerCase())
-                );
-                this.renderLocations(filteredLocations);
-            }
-
-            renderLocations(locationsToRender = this.locations) {
+            renderLocations() {
                 const container = document.getElementById('locationsContainer');
 
-                if (locationsToRender.length === 0) {
+                if (this.filteredLocations.length === 0) {
                     container.innerHTML = `
                         <div class="empty-state">
                             <div class="empty-state-icon">🎭</div>
-                            <h3>${this.locations.length === 0 ? 'Noch keine Locations gespeichert' : 'Keine Locations gefunden'}</h3>
-                            <p>${this.locations.length === 0 ? 'Füge deine erste Comedy-Location hinzu, um loszulegen!' : 'Versuche einen anderen Suchbegriff.'}</p>
+                            <h3>Keine Locations gefunden</h3>
+                            <p>Versuche einen anderen Suchbegriff oder andere Filter.</p>
                         </div>
                     `;
                     return;
                 }
 
-                const locationsHTML = locationsToRender.map((location, index) => {
-                    const originalIndex = this.locations.findIndex(l => l.id === location.id);
+                const locationsHTML = this.filteredLocations.map((location) => {
                     return `
                         <div class="location-card">
                             <div class="location-name">${this.escapeHtml(location.name)}</div>
-                            ${location.description ? `<div class="location-description">${this.escapeHtml(location.description)}</div>` : ''}
-                            <a href="${location.link}" target="_blank" class="location-link">${location.link}</a>
+                            <div class="location-address">${this.escapeHtml(location.address)}</div>
+                            <div class="location-city">${this.escapeHtml(location.city)}</div>
+                            <div class="location-type type-${location.type.toLowerCase().replace('-', '-')}">${location.type}</div>
                             <div class="card-actions">
-                                <button class="btn btn-edit" onclick="manager.editLocation(${originalIndex})">
-                                    <span>✏️</span> Bearbeiten
-                                </button>
-                                <button class="btn btn-danger" onclick="manager.deleteLocation(${originalIndex})">
-                                    <span>🗑️</span> Löschen
+                                <button class="btn-link" onclick="manager.openApplicationLink('${location.link}')">
+                                    <span>🔗</span> Jetzt bewerben
                                 </button>
                             </div>
                         </div>
@@ -540,14 +447,8 @@
                 container.innerHTML = `<div class="locations-grid">${locationsHTML}</div>`;
             }
 
-            updateStats() {
-                document.getElementById('totalLocations').textContent = this.locations.length;
-                document.getElementById('totalLinks').textContent = this.locations.filter(l => l.link).length;
-            }
-
             updateUI() {
                 this.renderLocations();
-                this.updateStats();
             }
 
             escapeHtml(text) {
@@ -555,34 +456,10 @@
                 div.textContent = text;
                 return div.innerHTML;
             }
-
-            saveToStorage() {
-                // In einer echten Anwendung würde hier localStorage verwendet werden
-                // Da localStorage in Claude-Artefakten nicht verfügbar ist, wird nur im Speicher gespeichert
-                console.log('Locations gespeichert:', this.locations);
-            }
-
-            loadFromStorage() {
-                // In einer echten Anwendung würde hier aus localStorage geladen werden
-                // Beispiel-Daten für die Demo:
-                this.locations = [
-                    {
-                        id: 1,
-                        name: "Comedy Club Berlin",
-                        description: "Beliebter Comedy Club in Berlin-Mitte",
-                        link: "https://example.com/comedy-club-berlin",
-                        createdAt: new Date()
-                    }
-                ];
-            }
         }
 
         // Manager initialisieren
         const manager = new ComedyLocationsManager();
-        
-        // Beispiel-Daten laden (in einer echten App würde das aus localStorage kommen)
-        manager.loadFromStorage();
-        manager.updateUI();
     </script>
 </body>
 </html>
