@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witze sortieren</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .toolbar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-container {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .joke-list {
+            list-style: none;
+            position: relative;
+        }
+
+        .joke-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            position: relative;
+            cursor: move;
+        }
+
+        .joke-item:hover {
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .joke-item.dragging {
+            opacity: 0.7;
+            transform: rotate(3deg) scale(1.02);
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .joke-item.drag-over {
+            border-top: 4px solid #667eea;
+            transform: translateY(2px);
+        }
+
+        .joke-content {
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            color: #6c757d;
+            font-size: 20px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+        }
+
+        .drag-handle:hover {
+            background: #e9ecef;
+            color: #667eea;
+            transform: scale(1.1);
+        }
+
+        .drag-handle:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+
+        .joke-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .joke-text {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .joke-text:hover {
+            background: #f8f9fa;
+            border-color: #e9ecef;
+        }
+
+        .joke-text:focus {
+            background: #fff3cd;
+            border-color: #ffc107;
+            outline: none;
+        }
+
+        .joke-headline {
+            font-weight: 600;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .joke-fulltext {
+            font-size: 16px;
+            color: #34495e;
+            white-space: pre-wrap;
+        }
+
+        .joke-edit-input, .joke-edit-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: inherit;
+            background: white;
+        }
+
+        .joke-edit-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .joke-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .toggle-switch:focus {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        .toggle-switch.active {
+            background: #667eea;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active::before {
+            transform: translateX(30px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-state h3 {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        .import-export {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .import-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .live-region {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        /* Drag Placeholder */
+        .drag-placeholder {
+            height: 6px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 3px;
+            margin: 10px 0;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+        }
+
+        .drag-placeholder.active {
+            opacity: 1;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .joke-item.new {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-container {
+                order: -1;
+            }
+
+            .import-export {
+                justify-content: center;
+            }
+
+            .joke-content {
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .joke-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1>🎭 Witze sortieren</h1>
+    </header>
+
+    <div class="toolbar">
+        <button class="btn btn-primary" id="add-joke-btn">
+            ➕ Neuer Witz
+        </button>
+
+        <div class="search-container">
+            <input
+                    type="text"
+                    class="search-input"
+                    id="search-input"
+                    placeholder="🔍 Witze durchsuchen..."
+                    aria-label="Witze durchsuchen"
+            >
+        </div>
+
+        <div class="import-export">
+            <button class="btn btn-secondary" id="import-btn">
+                📥 Import
+            </button>
+            <button class="btn btn-secondary" id="export-btn">
+                📤 Export
+            </button>
+        </div>
+    </div>
+
+    <div id="import-section" class="toolbar hidden">
+        <h3>JSON Import</h3>
+        <textarea
+                class="import-textarea"
+                id="import-textarea"
+                placeholder="JSON-Daten hier einfügen..."
+                aria-label="JSON-Daten für Import"
+        ></textarea>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-success" id="import-execute-btn">
+                ✅ Importieren
+            </button>
+            <button class="btn btn-secondary" id="import-cancel-btn">
+                ❌ Abbrechen
+            </button>
+        </div>
+    </div>
+
+    <main>
+        <ul class="joke-list" id="joke-list" role="list" aria-label="Liste der Witze">
+            <!-- Witze werden hier dynamisch eingefügt -->
+        </ul>
+
+        <div class="empty-state" id="empty-state">
+            <h3>Noch keine Witze vorhanden</h3>
+            <p>Füge deinen ersten Witz hinzu!</p>
+            <button class="btn btn-primary" onclick="addNewJoke()">
+                ➕ Ersten Witz hinzufügen
+            </button>
+        </div>
+    </main>
+
+    <div aria-live="polite" aria-atomic="true" class="live-region" id="live-region"></div>
+</div>
+
+<script>
+    // Globale Variablen
+    let jokes = [];
+    let draggedElement = null;
+    let dragPlaceholder = null;
+    let searchTerm = '';
+    let nextId = 1;
+
+    // Debounce Utility
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // localStorage Funktionen (ersetzt durch in-memory für Claude.ai)
+    function saveJokes() {
+        // In Claude.ai verwenden wir in-memory storage
+        console.log('Witze gespeichert:', jokes.length);
+    }
+
+    function loadJokes() {
+        // Standardwitze laden, da localStorage nicht verfügbar
+        if (jokes.length === 0) {
+            jokes = [
+                {
+                    id: `w${nextId++}`,
+                    headline: "Warum ging das Huhn über die Straße?",
+                    fullText: "Um auf die andere Seite zu kommen.",
+                    mode: "headline"
+                },
+                {
+                    id: `w${nextId++}`,
+                    headline: "Treffen sich zwei Jäger...",
+                    fullText: "Treffen sich zwei Jäger im Wald.\nBeide tot.",
+                    mode: "full"
+                },
+                {
+                    id: `w${nextId++}`,
+                    headline: "Was ist grün und klopft an der Tür?",
+                    fullText: "Ein Klopfsalat!",
+                    mode: "headline"
+                }
+            ];
+        }
+    }
+
+    const debouncedSave = debounce(saveJokes, 300);
+
+    function announceToScreenReader(message) {
+        const liveRegion = document.getElementById('live-region');
+        liveRegion.textContent = message;
+        setTimeout(() => {
+            liveRegion.textContent = '';
+        }, 1000);
+    }
+
+    function addNewJoke() {
+        const newJoke = {
+            id: `w${nextId++}`,
+            headline: 'Neuer Witz',
+            fullText: 'Hier steht der ausgeschriebene Witz...',
+            mode: 'headline'
+        };
+        jokes.unshift(newJoke);
+        debouncedSave();
+        renderJokes();
+        announceToScreenReader('Neuer Witz hinzugefügt');
+
+        setTimeout(() => {
+            const newElement = document.querySelector(`.joke-item[data-id="${newJoke.id}"]`);
+            if (newElement) {
+                newElement.querySelector('.joke-text').focus();
+            }
+        }, 100);
+    }
+
+    function deleteJoke(id) {
+        if (confirm('Witz wirklich löschen?')) {
+            jokes = jokes.filter(joke => joke.id !== id);
+            debouncedSave();
+            renderJokes();
+            announceToScreenReader('Witz gelöscht');
+        }
+    }
+
+    function toggleJokeMode(id) {
+        const joke = jokes.find(j => j.id === id);
+        if (joke) {
+            joke.mode = joke.mode === 'headline' ? 'full' : 'headline';
+            debouncedSave();
+            renderJokes();
+            announceToScreenReader(`Witz wird nun als ${joke.mode === 'headline' ? 'Überschrift' : 'Volltext'} angezeigt`);
+        }
+    }
+
+    function moveJoke(id, direction) {
+        const currentIndex = jokes.findIndex(j => j.id === id);
+        if (currentIndex === -1) return;
+
+        const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+        if (newIndex < 0 || newIndex >= jokes.length) return;
+
+        const [movedJoke] = jokes.splice(currentIndex, 1);
+        jokes.splice(newIndex, 0, movedJoke);
+
+        debouncedSave();
+        renderJokes();
+
+        setTimeout(() => {
+            const element = document.querySelector(`.joke-item[data-id="${id}"] .drag-handle`);
+            if (element) {
+                element.focus();
+            }
+        }, 100);
+
+        announceToScreenReader(`Witz nach ${direction === 'up' ? 'oben' : 'unten'} verschoben`);
+    }
+
+    function startEdit(id, field) {
+        const joke = jokes.find(j => j.id === id);
+        if (!joke) return;
+
+        const element = document.querySelector(`.joke-item[data-id="${id}"] .joke-text`);
+        const currentValue = joke[field];
+
+        if (field === 'headline') {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'joke-edit-input';
+            input.value = currentValue;
+            input.setAttribute('aria-label', 'Überschrift bearbeiten');
+
+            element.replaceWith(input);
+            input.focus();
+            input.select();
+
+            const save = () => {
+                joke.headline = input.value.trim() || 'Neuer Witz';
+                debouncedSave();
+                renderJokes();
+                announceToScreenReader('Überschrift gespeichert');
+            };
+
+            const cancel = () => {
+                renderJokes();
+            };
+
+            input.addEventListener('blur', save);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    save();
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    cancel();
+                }
+            });
+        } else {
+            const textarea = document.createElement('textarea');
+            textarea.className = 'joke-edit-textarea';
+            textarea.value = currentValue;
+            textarea.setAttribute('aria-label', 'Volltext bearbeiten');
+
+            element.replaceWith(textarea);
+            textarea.focus();
+            textarea.select();
+
+            const save = () => {
+                joke.fullText = textarea.value.trim() || 'Hier steht der Witz...';
+                debouncedSave();
+                renderJokes();
+                announceToScreenReader('Volltext gespeichert');
+            };
+
+            const cancel = () => {
+                renderJokes();
+            };
+
+            textarea.addEventListener('blur', save);
+            textarea.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    cancel();
+                }
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    e.preventDefault();
+                    save();
+                }
+            });
+        }
+    }
+
+    // Drag & Drop Funktionalität
+    function setupDragAndDrop() {
+        const jokeList = document.getElementById('joke-list');
+
+        jokeList.addEventListener('dragstart', (e) => {
+            const jokeItem = e.target.closest('.joke-item');
+            if (!jokeItem) return;
+
+            draggedElement = jokeItem;
+            jokeItem.classList.add('dragging');
+
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', jokeItem.dataset.id);
+
+            // Create placeholder
+            if (!dragPlaceholder) {
+                dragPlaceholder = document.createElement('div');
+                dragPlaceholder.className = 'drag-placeholder';
+            }
+        });
+
+        jokeList.addEventListener('dragend', (e) => {
+            if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+                draggedElement = null;
+            }
+
+            document.querySelectorAll('.drag-over').forEach(el => {
+                el.classList.remove('drag-over');
+            });
+
+            if (dragPlaceholder && dragPlaceholder.parentNode) {
+                dragPlaceholder.remove();
+                dragPlaceholder = null;
+            }
+        });
+
+        jokeList.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            if (!draggedElement) return;
+
+            const afterElement = getDragAfterElement(jokeList, e.clientY);
+
+            if (!dragPlaceholder) {
+                dragPlaceholder = document.createElement('div');
+                dragPlaceholder.className = 'drag-placeholder active';
+            }
+
+            if (afterElement == null) {
+                jokeList.appendChild(dragPlaceholder);
+            } else {
+                jokeList.insertBefore(dragPlaceholder, afterElement);
+            }
+        });
+
+        jokeList.addEventListener('drop', (e) => {
+            e.preventDefault();
+            if (!draggedElement || !dragPlaceholder) return;
+
+            const draggedId = draggedElement.dataset.id;
+            const draggedIndex = jokes.findIndex(j => j.id === draggedId);
+
+            const allItems = Array.from(jokeList.children).filter(child =>
+                child.classList.contains('joke-item') && !child.classList.contains('dragging')
+            );
+            const placeholderIndex = Array.from(jokeList.children).indexOf(dragPlaceholder);
+
+            // Calculate new index
+            let newIndex = 0;
+            for (let i = 0; i < placeholderIndex; i++) {
+                if (jokeList.children[i].classList.contains('joke-item') &&
+                    !jokeList.children[i].classList.contains('dragging')) {
+                    newIndex++;
+                }
+            }
+
+            if (newIndex !== draggedIndex) {
+                const [movedJoke] = jokes.splice(draggedIndex, 1);
+                jokes.splice(newIndex, 0, movedJoke);
+                debouncedSave();
+                announceToScreenReader('Witz-Reihenfolge geändert durch Drag & Drop');
+            }
+
+            renderJokes();
+        });
+    }
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.joke-item:not(.dragging)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    // Touch Support für mobile Geräte
+    function setupTouchDragAndDrop() {
+        let touchStartY = 0;
+        let touchElement = null;
+        let isDragging = false;
+
+        const jokeList = document.getElementById('joke-list');
+
+        jokeList.addEventListener('touchstart', (e) => {
+            const handle = e.target.closest('.drag-handle');
+            if (!handle) return;
+
+            const jokeItem = handle.closest('.joke-item');
+            if (!jokeItem) return;
+
+            touchElement = jokeItem;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        jokeList.addEventListener('touchmove', (e) => {
+            if (!touchElement) return;
+
+            const touch = e.touches[0];
+            const moveY = Math.abs(touch.clientY - touchStartY);
+
+            if (moveY > 15 && !isDragging) {
+                isDragging = true;
+                touchElement.classList.add('dragging');
+                e.preventDefault();
+
+                if (!dragPlaceholder) {
+                    dragPlaceholder = document.createElement('div');
+                    dragPlaceholder.className = 'drag-placeholder active';
+                }
+            }
+
+            if (isDragging) {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(jokeList, touch.clientY);
+
+                if (afterElement == null) {
+                    jokeList.appendChild(dragPlaceholder);
+                } else {
+                    jokeList.insertBefore(dragPlaceholder, afterElement);
+                }
+            }
+        }, { passive: false });
+
+        jokeList.addEventListener('touchend', (e) => {
+            if (!touchElement) return;
+
+            if (isDragging && dragPlaceholder) {
+                const draggedId = touchElement.dataset.id;
+                const draggedIndex = jokes.findIndex(j => j.id === draggedId);
+
+                const placeholderIndex = Array.from(jokeList.children).indexOf(dragPlaceholder);
+                let newIndex = 0;
+                for (let i = 0; i < placeholderIndex; i++) {
+                    if (jokeList.children[i].classList.contains('joke-item') &&
+                        !jokeList.children[i].classList.contains('dragging')) {
+                        newIndex++;
+                    }
+                }
+
+                if (newIndex !== draggedIndex) {
+                    const [movedJoke] = jokes.splice(draggedIndex, 1);
+                    jokes.splice(newIndex, 0, movedJoke);
+                    debouncedSave();
+                    announceToScreenReader('Witz-Reihenfolge per Touch geändert');
+                }
+            }
+
+            // Cleanup
+            if (touchElement) {
+                touchElement.classList.remove('dragging');
+            }
+            if (dragPlaceholder && dragPlaceholder.parentNode) {
+                dragPlaceholder.remove();
+                dragPlaceholder = null;
+            }
+
+            touchElement = null;
+            isDragging = false;
+            renderJokes();
+        });
+    }
+
+    function filterJokes() {
+        const filtered = jokes.filter(joke => {
+            if (!searchTerm) return true;
+            const term = searchTerm.toLowerCase();
+            return joke.headline.toLowerCase().includes(term) ||
+                   joke.fullText.toLowerCase().includes(term);
+        });
+        renderJokes(filtered);
+    }
+
+    function renderJokes(jokesToRender = null) {
+        const jokeList = document.getElementById('joke-list');
+        const emptyState = document.getElementById('empty-state');
+        const jokesToShow = jokesToRender || jokes;
+
+        if (jokesToShow.length === 0) {
+            jokeList.innerHTML = '';
+            emptyState.style.display = 'block';
+            return;
+        }
+
+        emptyState.style.display = 'none';
+
+        jokeList.innerHTML = jokesToShow.map((joke, index) => `
+            <li class="joke-item" data-id="${joke.id}" draggable="true" role="listitem">
+                <div class="joke-content">
+                    <div
+                        class="drag-handle"
+                        tabindex="0"
+                        aria-label="Witz verschieben. Drag & Drop oder Pfeiltasten verwenden"
+                        onkeydown="handleDragKeydown(event, '${joke.id}')"
+                    >
+                        ⋮⋮
+                    </div>
+
+                    <div class="joke-main">
+                        <div
+                            class="joke-text ${joke.mode === 'headline' ? 'joke-headline' : 'joke-fulltext'}"
+                            onclick="startEdit('${joke.id}', '${joke.mode === 'headline' ? 'headline' : 'fullText'}')"
+                            tabindex="0"
+                            role="button"
+                            aria-label="${joke.mode === 'headline' ? 'Überschrift' : 'Volltext'} bearbeiten"
+                            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startEdit('${joke.id}', '${joke.mode === 'headline' ? 'headline' : 'fullText'}')}"
+                        >
+                            ${escapeHtml(joke.mode === 'headline' ? joke.headline : joke.fullText)}
+                        </div>
+
+                        <div class="joke-controls">
+                            <div class="mode-toggle">
+                                <span>Überschrift</span>
+                                <button
+                                    class="toggle-switch ${joke.mode === 'full' ? 'active' : ''}"
+                                    onclick="toggleJokeMode('${joke.id}')"
+                                    aria-label="Anzeigemodus umschalten"
+                                    aria-pressed="${joke.mode === 'full'}"
+                                ></button>
+                                <span>Volltext</span>
+                            </div>
+
+                            <div style="display: flex; gap: 5px;">
+                                <button
+                                    class="btn btn-secondary btn-small"
+                                    onclick="moveJoke('${joke.id}', 'up')"
+                                    ${index === 0 ? 'disabled' : ''}
+                                    aria-label="Witz nach oben verschieben"
+                                >
+                                    ↑
+                                </button>
+                                <button
+                                    class="btn btn-secondary btn-small"
+                                    onclick="moveJoke('${joke.id}', 'down')"
+                                    ${index === jokesToShow.length - 1 ? 'disabled' : ''}
+                                    aria-label="Witz nach unten verschieben"
+                                >
+                                    ↓
+                                </button>
+                            </div>
+
+                            <button
+                                class="btn btn-danger btn-small"
+                                onclick="deleteJoke('${joke.id}')"
+                                aria-label="Witz löschen"
+                            >
+                                🗑️ Löschen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        `).join('');
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function handleDragKeydown(event, jokeId) {
+        if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            moveJoke(jokeId, 'up');
+        } else if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            moveJoke(jokeId, 'down');
+        }
+    }
+
+    function exportJokes() {
+        const dataStr = JSON.stringify(jokes, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `witze-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        announceToScreenReader('Witze-Liste exportiert');
+    }
+
+    function importJokes(jsonData) {
+        try {
+            const parsed = JSON.parse(jsonData);
+
+            if (!Array.isArray(parsed)) {
+                throw new Error('Daten müssen ein Array sein');
+            }
+
+            const validJokes = parsed.filter(joke =>
+                joke &&
+                typeof joke === 'object' &&
+                typeof joke.headline === 'string' &&
+                typeof joke.fullText === 'string'
+            ).map(joke => ({
+                id: joke.id || `w${nextId++}`,
+                headline: joke.headline,
+                fullText: joke.fullText,
+                mode: joke.mode === 'full' ? 'full' : 'headline'
+            }));
+
+            if (validJokes.length === 0) {
+                throw new Error('Keine gültigen Witze gefunden');
+            }
+
+            if (confirm(`${validJokes.length} Witze importieren? Dies ersetzt die aktuelle Liste.`)) {
+                jokes = validJokes;
+
+                const maxId = jokes.reduce((max, joke) => {
+                    const num = parseInt(joke.id.replace(/\D/g, '')) || 0;
+                    return Math.max(max, num);
+                }, 0);
+                nextId = maxId + 1;
+
+                debouncedSave();
+                renderJokes();
+                hideImportSection();
+                announceToScreenReader(`${validJokes.length} Witze erfolgreich importiert`);
+            }
+        } catch (e) {
+            alert('Fehler beim Import: ' + e.message);
+        }
+    }
+
+    function showImportSection() {
+        document.getElementById('import-section').classList.remove('hidden');
+        document.getElementById('import-textarea').focus();
+    }
+
+    function hideImportSection() {
+        document.getElementById('import-section').classList.add('hidden');
+        document.getElementById('import-textarea').value = '';
+    }
+
+    function setupEventListeners() {
+        document.getElementById('add-joke-btn').addEventListener('click', addNewJoke);
+        document.getElementById('export-btn').addEventListener('click', exportJokes);
+        document.getElementById('import-btn').addEventListener('click', showImportSection);
+
+        document.getElementById('import-execute-btn').addEventListener('click', () => {
+            const jsonData = document.getElementById('import-textarea').value.trim();
+            if (jsonData) {
+                importJokes(jsonData);
+            }
+        });
+
+        document.getElementById('import-cancel-btn').addEventListener('click', hideImportSection);
+
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value.trim();
+            filterJokes();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                exportJokes();
+            }
+
+            if (e.key === 'Escape' && !document.getElementById('import-section').classList.contains('hidden')) {
+                hideImportSection();
+            }
+        });
+
+        setupDragAndDrop();
+        setupTouchDragAndDrop();
+    }
+
+    function init() {
+        loadJokes();
+        renderJokes();
+        setupEventListeners();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+
+    console.log('🎭 Witze-App mit vollständiger Drag & Drop Funktionalität geladen!');
+    console.log('Features:');
+    console.log('- Drag & Drop mit Maus und Touch');
+    console.log('- Tastatur-Navigation mit Pfeiltasten');
+    console.log('- Inline-Bearbeitung');
+    console.log('- Import/Export');
+    console.log('- Live-Suche');
+    console.log('- Barrierefreie Bedienung');
+</script>
+</body>
+</html>
