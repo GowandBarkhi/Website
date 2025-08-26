@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Witze sortieren & gruppieren</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -132,6 +133,7 @@
             gap: 5px;
             opacity: 0;
             transition: opacity 0.2s;
+            align-items: center;
         }
 
         .group-item:hover .group-actions {
@@ -142,15 +144,28 @@
             padding: 4px 8px;
             border: none;
             border-radius: 4px;
-            background: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
             cursor: pointer;
             font-size: 12px;
             transition: all 0.2s;
         }
 
-        .group-action-btn:hover {
+        .group-action-btn.delete {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .group-action-btn.delete:hover {
             background: #dc3545;
+            color: white;
+        }
+
+        .group-action-btn.pdf {
+            background: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+        }
+
+        .group-action-btn.pdf:hover {
+            background: #0d6efd;
             color: white;
         }
 
@@ -285,6 +300,15 @@
 
         .btn-warning:hover {
             background: #e0a800;
+        }
+
+        .btn-info {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #0b5ed7;
         }
 
         .btn-small {
@@ -631,6 +655,74 @@
             animation: slideIn 0.3s ease-out;
         }
 
+        /* PDF Options Modal */
+        .pdf-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .pdf-modal.active {
+            display: flex;
+        }
+
+        .pdf-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .pdf-modal h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .pdf-options {
+            margin-bottom: 25px;
+        }
+
+        .pdf-option-group {
+            margin-bottom: 20px;
+        }
+
+        .pdf-option-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .pdf-option {
+            margin-bottom: 10px;
+        }
+
+        .pdf-option input[type="radio"],
+        .pdf-option input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .pdf-option label {
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .pdf-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
         @media (max-width: 1024px) {
             .main-layout {
                 grid-template-columns: 1fr;
@@ -665,6 +757,10 @@
             .joke-controls {
                 flex-direction: column;
                 align-items: stretch;
+            }
+
+            .pdf-modal-content {
+                padding: 20px;
             }
         }
     </style>
@@ -711,6 +807,10 @@
                 <div class="toolbar">
                     <button class="btn btn-primary" id="add-joke-btn" onclick="addNewJoke()">
                         ➕ Neuer Witz
+                    </button>
+
+                    <button class="btn btn-info" id="pdf-current-group-btn" onclick="showPdfOptions()" style="display: none;">
+                        📄 Als PDF exportieren
                     </button>
 
                     <div class="search-container">
@@ -788,6 +888,62 @@
         </main>
     </div>
 
+    <!-- PDF Options Modal -->
+    <div class="pdf-modal" id="pdf-modal">
+        <div class="pdf-modal-content">
+            <h3>📄 PDF-Export Optionen</h3>
+            <div class="pdf-options">
+                <div class="pdf-option-group">
+                    <label>Layout:</label>
+                    <div class="pdf-option">
+                        <input type="radio" name="layout" value="compact" id="layout-compact" checked>
+                        <label for="layout-compact">Kompakt (mehr Witze pro Seite)</label>
+                    </div>
+                    <div class="pdf-option">
+                        <input type="radio" name="layout" value="comfortable" id="layout-comfortable">
+                        <label for="layout-comfortable">Bequem (weniger Witze pro Seite)</label>
+                    </div>
+                </div>
+
+                <div class="pdf-option-group">
+                    <label>Schriftgröße:</label>
+                    <div class="pdf-option">
+                        <input type="radio" name="fontSize" value="small" id="font-small">
+                        <label for="font-small">Klein (10pt)</label>
+                    </div>
+                    <div class="pdf-option">
+                        <input type="radio" name="fontSize" value="medium" id="font-medium" checked>
+                        <label for="font-medium">Normal (12pt)</label>
+                    </div>
+                    <div class="pdf-option">
+                        <input type="radio" name="fontSize" value="large" id="font-large">
+                        <label for="font-large">Groß (14pt)</label>
+                    </div>
+                </div>
+
+                <div class="pdf-option-group">
+                    <label>Inhalte:</label>
+                    <div class="pdf-option">
+                        <input type="checkbox" id="include-numbers" checked>
+                        <label for="include-numbers">Nummerierung hinzufügen</label>
+                    </div>
+                    <div class="pdf-option">
+                        <input type="checkbox" id="include-header" checked>
+                        <label for="include-header">Kopfzeile mit Gruppennamen</label>
+                    </div>
+                    <div class="pdf-option">
+                        <input type="checkbox" id="include-date" checked>
+                        <label for="include-date">Datum hinzufügen</label>
+                    </div>
+                </div>
+            </div>
+            <div class="pdf-buttons">
+                <button class="btn btn-secondary" onclick="closePdfModal()">Abbrechen</button>
+                <button class="btn btn-info" onclick="generatePdf()">📄 PDF erstellen</button>
+            </div>
+        </div>
+    </div>
+
     <div aria-live="polite" aria-atomic="true" class="live-region" id="live-region"></div>
 </div>
 
@@ -801,6 +957,7 @@
     let dragPlaceholder = null;
     let searchTerm = '';
     let nextId = 1;
+    let currentPdfGroup = null;
 
     // Debounce Utility
     function debounce(func, wait) {
@@ -859,7 +1016,6 @@
             ];
 
             groups = {
-
                 '5 Minuten': {
                     name: '5 Minuten',
                     jokes: [],
@@ -875,51 +1031,41 @@
                     jokes: [],
                     created: new Date().toISOString()
                 },
-
                 '10 Minuten': {
                     name: '10 Minuten',
                     jokes: [],
                     created: new Date().toISOString()
                 },
-
                 '12 Minuten': {
                     name: '12 Minuten',
                     jokes: [],
                     created: new Date().toISOString()
                 },
-
                 '15 Minuten': {
                     name: '15 Minuten',
                     jokes: [],
                     created: new Date().toISOString()
                 },
-
                 '20 Minuten': {
                     name: '20 Minuten',
                     jokes: [],
                     created: new Date().toISOString()
                 },
-
                 '30 Minuten': {
                     name: '30 Minuten',
                     jokes: [],
                     created: new Date().toISOString()
                 },
-
-
                 'Halbsolo': {
                     name: 'Halbsolo',
                     jokes: [],
                     created: new Date().toISOString()
                 },
-
-
                 'Solo': {
                     name: 'Solo',
                     jokes: [],
                     created: new Date().toISOString()
                 },
-
                 'One Liner': {
                     name: 'One Liner',
                     jokes: [],
@@ -937,6 +1083,178 @@
         setTimeout(() => {
             liveRegion.textContent = '';
         }, 1000);
+    }
+
+    // PDF-Export Funktionen
+    function showPdfOptions(groupId = null) {
+        const targetGroup = groupId || currentGroup;
+        if (targetGroup === 'all') {
+            alert('PDF-Export ist nur für spezifische Gruppen verfügbar. Bitte wähle eine Gruppe aus.');
+            return;
+        }
+
+        const group = groups[targetGroup];
+        if (!group || group.jokes.length === 0) {
+            alert('Diese Gruppe enthält keine Witze zum Exportieren.');
+            return;
+        }
+
+        currentPdfGroup = targetGroup;
+        document.getElementById('pdf-modal').classList.add('active');
+    }
+
+    function closePdfModal() {
+        document.getElementById('pdf-modal').classList.remove('active');
+        currentPdfGroup = null;
+    }
+
+    function generatePdf() {
+        if (!currentPdfGroup || !groups[currentPdfGroup]) {
+            alert('Fehler: Keine gültige Gruppe ausgewählt.');
+            return;
+        }
+
+        const group = groups[currentPdfGroup];
+        const groupJokes = group.jokes.map(id => jokes.find(j => j.id === id)).filter(Boolean);
+
+        if (groupJokes.length === 0) {
+            alert('Diese Gruppe enthält keine Witze zum Exportieren.');
+            return;
+        }
+
+        // PDF-Optionen auslesen
+        const layout = document.querySelector('input[name="layout"]:checked').value;
+        const fontSize = document.querySelector('input[name="fontSize"]:checked').value;
+        const includeNumbers = document.getElementById('include-numbers').checked;
+        const includeHeader = document.getElementById('include-header').checked;
+        const includeDate = document.getElementById('include-date').checked;
+
+        // PDF-Einstellungen basierend auf Optionen
+        const settings = {
+            compact: { fontSize: 10, lineHeight: 4, jokesPerPage: 12, spacing: 8 },
+            comfortable: { fontSize: 12, lineHeight: 5, jokesPerPage: 8, spacing: 12 }
+        };
+
+        const fontSizes = {
+            small: 10,
+            medium: 12,
+            large: 14
+        };
+
+        const config = settings[layout];
+        config.fontSize = fontSizes[fontSize];
+
+        try {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            let yPosition = 20;
+            let pageNumber = 1;
+            const pageHeight = pdf.internal.pageSize.height;
+            const pageWidth = pdf.internal.pageSize.width;
+            const margin = 20;
+            const contentWidth = pageWidth - (margin * 2);
+
+            // Kopfzeile hinzufügen
+            function addHeader() {
+                if (includeHeader) {
+                    pdf.setFontSize(16);
+                    pdf.setFont(undefined, 'bold');
+                    pdf.text(`🎭 ${group.name}`, margin, yPosition);
+                    yPosition += 8;
+
+                    if (includeDate) {
+                        pdf.setFontSize(10);
+                        pdf.setFont(undefined, 'normal');
+                        pdf.text(`Erstellt am: ${new Date().toLocaleDateString('de-DE')}`, margin, yPosition);
+                        yPosition += 8;
+                    }
+
+                    // Trennlinie
+                    pdf.setLineWidth(0.5);
+                    pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+                    yPosition += 10;
+                }
+            }
+
+            // Seitenzahl hinzufügen
+            function addPageNumber() {
+                pdf.setFontSize(8);
+                pdf.setFont(undefined, 'normal');
+                pdf.text(`Seite ${pageNumber}`, pageWidth - margin - 20, pageHeight - 10);
+            }
+
+            // Neue Seite beginnen
+            function newPage() {
+                addPageNumber();
+                pdf.addPage();
+                pageNumber++;
+                yPosition = 20;
+                addHeader();
+            }
+
+            // Erste Seite einrichten
+            addHeader();
+
+            // Witze durchgehen
+            groupJokes.forEach((joke, index) => {
+                // Prüfen ob eine neue Seite benötigt wird
+                const estimatedHeight = config.spacing + (config.lineHeight * 3); // Grober Schätzwert
+                if (yPosition + estimatedHeight > pageHeight - 30) {
+                    newPage();
+                }
+
+                // Nummerierung
+                if (includeNumbers) {
+                    pdf.setFontSize(config.fontSize);
+                    pdf.setFont(undefined, 'bold');
+                    pdf.text(`${index + 1}.`, margin, yPosition);
+                    yPosition += config.lineHeight;
+                }
+
+                // Witztext basierend auf Modus
+                pdf.setFont(undefined, 'normal');
+                let textToShow = joke.mode === 'headline' ? joke.headline : joke.fullText;
+
+                // Wenn es ein Volltext ist und er eine Überschrift hat, beide anzeigen
+                if (joke.mode === 'full' && joke.headline !== joke.fullText) {
+                    // Überschrift fett
+                    pdf.setFont(undefined, 'bold');
+                    pdf.setFontSize(config.fontSize);
+                    const headlineLines = pdf.splitTextToSize(joke.headline, contentWidth - 10);
+                    pdf.text(headlineLines, margin + (includeNumbers ? 15 : 0), yPosition);
+                    yPosition += headlineLines.length * config.lineHeight;
+
+                    // Volltext normal
+                    pdf.setFont(undefined, 'normal');
+                    const textLines = pdf.splitTextToSize(joke.fullText, contentWidth - 10);
+                    pdf.text(textLines, margin + (includeNumbers ? 15 : 0), yPosition);
+                    yPosition += textLines.length * config.lineHeight;
+                } else {
+                    // Nur den gewählten Text anzeigen
+                    pdf.setFontSize(config.fontSize);
+                    const textLines = pdf.splitTextToSize(textToShow, contentWidth - 10);
+                    pdf.text(textLines, margin + (includeNumbers ? 15 : 0), yPosition);
+                    yPosition += textLines.length * config.lineHeight;
+                }
+
+                yPosition += config.spacing;
+            });
+
+            // Letzte Seitenzahl hinzufügen
+            addPageNumber();
+
+            // PDF speichern
+            const filename = `${group.name.replace(/[^a-z0-9]/gi, '-')}-${new Date().toISOString().split('T')[0]}.pdf`;
+            pdf.save(filename);
+
+            closePdfModal();
+            announceToScreenReader(`PDF "${group.name}" mit ${groupJokes.length} Witze erstellt`);
+
+        } catch (error) {
+            console.error('PDF-Erstellung fehlgeschlagen:', error);
+            alert('Fehler beim Erstellen der PDF-Datei. Bitte versuche es erneut.');
+        }
     }
 
     // Gruppen-Management
@@ -997,10 +1315,14 @@
 
         // Title Update
         const title = document.getElementById('content-title');
+        const pdfButton = document.getElementById('pdf-current-group-btn');
+
         if (groupId === 'all') {
             title.textContent = 'Alle Witze';
+            pdfButton.style.display = 'none';
         } else {
             title.textContent = groups[groupId]?.name || 'Unbekannte Gruppe';
+            pdfButton.style.display = 'inline-flex';
         }
 
         // Remove-Button Update
@@ -1028,7 +1350,10 @@
                     <span class="group-count">${group.jokes.length}</span>
                 </button>
                 <div class="group-actions">
-                    <button class="group-action-btn" onclick="deleteGroup('${groupId}')" title="Gruppe löschen">
+                    <button class="group-action-btn pdf" onclick="showPdfOptions('${groupId}')" title="Als PDF exportieren">
+                        📄
+                    </button>
+                    <button class="group-action-btn delete" onclick="deleteGroup('${groupId}')" title="Gruppe löschen">
                         🗑️
                     </button>
                 </div>
@@ -1762,6 +2087,13 @@
             }
         });
 
+        // Modal außerhalb klicken schließt es
+        document.getElementById('pdf-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closePdfModal();
+            }
+        });
+
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
@@ -1769,10 +2101,14 @@
             }
 
             if (e.key === 'Escape') {
-                if (!document.getElementById('import-section').classList.contains('hidden')) {
-                    hideImportSection();
+                if (!document.getElementById('pdf-modal').classList.contains('active')) {
+                    if (!document.getElementById('import-section').classList.contains('hidden')) {
+                        hideImportSection();
+                    } else {
+                        clearSelection();
+                    }
                 } else {
-                    clearSelection();
+                    closePdfModal();
                 }
             }
         });
@@ -1787,14 +2123,21 @@
         updateTargetGroupSelect();
         setupEventListeners();
 
-        console.log('🎭 Erweiterte Witze-App mit Gruppenverwaltung geladen!');
+        console.log('🎭 Erweiterte Witze-App mit PDF-Export geladen!');
         console.log('Features:');
         console.log('- Gruppenverwaltung mit flexibler Zuordnung');
+        console.log('- PDF-Export für einzelne Gruppen');
         console.log('- Mehrfach-Auswahl von Witze');
         console.log('- Drag & Drop innerhalb von Gruppen');
         console.log('- Import/Export mit Gruppenerhaltung');
         console.log('- Live-Suche über alle Bereiche');
         console.log('- Vollständige Barrierefreiheit');
+        console.log('');
+        console.log('PDF-Export:');
+        console.log('- Klicke auf das PDF-Icon neben einer Gruppe');
+        console.log('- Oder wähle eine Gruppe aus und klicke "Als PDF exportieren"');
+        console.log('- Verschiedene Layout-Optionen verfügbar');
+        console.log('- Automatische Seitenumbrüche und Formatierung');
     }
 
     document.addEventListener('DOMContentLoaded', init);
