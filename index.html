@@ -801,51 +801,35 @@ const termine = [
 
 
   {
-    datum: "26. Juli 2025",
-    uhrzeit: "19:00",
-    titel: "Haha Comedy - Das Kölner Original",
-    ort: "Köln",
-    ticketLink: "https://www.eventim.de/event/haha-comedy-das-koelner-original-hillebrands-20164652/?srsltid=AfmBOoptO3wrEmdhqfHtlrndLy1WvZwCZrRLZyj-Xj7tnkaGZ0lI1jDs",
+    datum: "10. September 2025",
+    uhrzeit: "20:00",
+    titel: "Die Comedy Werkstatt",
+    ort: "Essen",
+    ticketLink: "https://www.eventim.de/event/die-comedy-werkstatt-divine-bar-20463175/?affiliate=EYA",
     sichtbar: true
   },
   {
-    datum: "01. Aug 2025",
-    uhrzeit: "19:00",
-    titel: "Comedy Allstars - Die Stand Up Comedy Show",
-    ort: "Düsseldorf",
-    ticketLink: "https://www.eventim.de/event/comedyflash-die-stand-up-comedy-show-in-duesseldorf-comedy-club-duesseldorf-20141472/?srsltid=AfmBOor5jdPMF4e1j9bPjCXJpv3cALUwTFasyDq0F943xMYJtZDo_g40",
-    sichtbar: true
+    datum: "12. September 2025",
+    uhrzeit: "20:00",
+    titel: "BOING",
+    ort: "Köln",
+    ticketLink: "https://www.eventim-light.com/de/a/583c42d6e4b0077af6a0a5cd/e/684427877664391d2f99738f",
+    sichtbar: false
   },
     {
-    datum: "02. Aug 2025",
+    datum: "13. September 2025",
     uhrzeit: "19:00",
-    titel: "Comedyflash - Stand Up Comedy Show",
+    titel: "Comedreams",
+    ort: "Frechen",
+    ticketLink: "",
+    sichtbar: false
+  },
+  {
+    datum: "25. September 2025",
+    uhrzeit: "20:00",
+    titel: "Die Comedy Werkstatt | Moderation",
     ort: "Düsseldorf",
-    ticketLink: "https://www.eventim.de/noapp/event/20427112/?affiliate=BZT&utm_source=BZT&utm_medium=dp&utm_campaign=badischerverlag",
-    sichtbar: true
-  },
-  {
-    datum: "21. Aug 2025",
-    uhrzeit: "20:00",
-    titel: "Echtzeit Comedy",
-    ort: "Köln",
     ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-am-donnerstag-echtzeit-grill-thrill-19611232/?msockid=0cffd79d0ba96f4103efc26d0a226ed5",
-    sichtbar: false
-  },
-  {
-    datum: "22. Aug 2025",
-    uhrzeit: "20:00",
-    titel: "Echtzeit Comedy",
-    ort: "Köln",
-    ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-am-freitag-echtzeit-grill-thrill-19611233/?msockid=0cffd79d0ba96f4103efc26d0a226ed5",
-    sichtbar: false
-  },
-  {
-    datum: "23. Aug 2025",
-    uhrzeit: "20:00",
-    titel: "Echtzeit Comedy",
-    ort: "Köln",
-    ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-am-samstag-echtzeit-grill-thrill-19611234/?msockid=0cffd79d0ba96f4103efc26d0a226ed5",
     sichtbar: false
   }
 ];
@@ -927,7 +911,7 @@ const termine = [
   function extrahiereMonat(datum) {
     if (datum.includes('Juni')) return 'Juni 2025';
     if (datum.includes('Juli')) return 'Juli 2025';
-    if (datum.includes('Aug')) return 'August 2025';
+    if (datum.includes('August')) return 'August 2025';
     if (datum.includes('September')) return 'September 2025';
     if (datum.includes('Oktober')) return 'Oktober 2025';
     if (datum.includes('November')) return 'November 2025';
