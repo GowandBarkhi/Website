@@ -271,6 +271,8 @@
       font-size: 1rem;
       transition: var(--transition);
       text-transform: uppercase;
+      border: none;
+      cursor: pointer;
     }
 
     .alle-termine-btn:hover {
@@ -279,42 +281,9 @@
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    .zusaetzliche-termine {
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-    }
-
-    .zusaetzliche-termine.show {
-      display: block;
-      opacity: 1;
-    }
-
     .alle-termine-btn {
       position: relative;
       overflow: hidden;
-    }
-
-    .alle-termine-btn::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 15px;
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 7px solid var(--light);
-      transform: translateY(-50%);
-      transition: transform 0.3s ease;
-    }
-
-    .alle-termine-btn.expanded::after {
-      transform: translateY(-50%) rotate(180deg);
-    }
-
-    .alle-termine-btn.expanded {
-      border-radius: 8px 8px 0 0;
     }
 
     .monats-gruppe {
@@ -685,9 +654,9 @@
     <h2 style="text-align: center; margin-bottom: 40px;">KOMMENDE AUFTRITTE</h2>
     <div id="termine-container"></div>
     <div class="alle-termine-btn-container">
-      <button class="alle-termine-btn" id="alle-termine-toggle">
+      <a href="termine.html" class="alle-termine-btn" id="alle-termine-toggle">
         ALLE TERMINE
-      </button>
+      </a>
     </div>
   </div>
 </section>
@@ -798,139 +767,284 @@
 // ===== TERMINE DATENBANK =====
 // Hier können Sie einfach Termine hinzufügen, bearbeiten oder löschen
 const termine = [
-
-
-  {
-    datum: "10. September 2025",
-    uhrzeit: "20:00",
-    titel: "Die Comedy Werkstatt",
-    ort: "Essen",
-    ticketLink: "https://www.eventim.de/event/die-comedy-werkstatt-divine-bar-20463175/?affiliate=EYA",
-    sichtbar: true
-  },
-  {
-    datum: "12. September 2025",
-    uhrzeit: "20:00",
-    titel: "BOING",
-    ort: "Köln",
-    ticketLink: "https://www.eventim-light.com/de/a/583c42d6e4b0077af6a0a5cd/e/684427877664391d2f99738f",
-    sichtbar: false
-  },
-    {
-    datum: "13. September 2025",
-    uhrzeit: "19:00",
-    titel: "Comedreams",
-    ort: "Frechen",
-    ticketLink: "",
-    sichtbar: false
-  },
-  {
-    datum: "25. September 2025",
-    uhrzeit: "20:00",
-    titel: "Die Comedy Werkstatt | Moderation",
-    ort: "Düsseldorf",
-    ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-am-donnerstag-echtzeit-grill-thrill-19611232/?msockid=0cffd79d0ba96f4103efc26d0a226ed5",
-    sichtbar: false
-  }
+{
+  datum: "04. Oktober 2025",
+  uhrzeit: "17:00",
+  titel: "Open Mic Comedy Club",
+  ort: "Düsseldorf",
+  ticketLink: "https://www.eventim.de/event/comedyflash-die-stand-up-comedy-show-in-duesseldorf-comedy-club-duesseldorf-20509651/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "06. Oktober 2025",
+  uhrzeit: "18:30",
+  titel: "Comedy am Strand – Der letzte Lacher",
+  ort: "Düsseldorf",
+  ticketLink: "",
+  sichtbar: false
+},
+{
+  datum: "09. Oktober 2025",
+  uhrzeit: "20:00",
+  titel: "Echtzeit Comedy - Stand-Up am Donnerstag",
+  ort: "Köln",
+  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19954981/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "10. Oktober 2025",
+  uhrzeit: "20:00",
+  titel: "Echtzeit Comedy - Stand-Up am Freitag",
+  ort: "Köln",
+  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19955045/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "11. Oktober 2025",
+  uhrzeit: "20:00",
+  titel: "Echtzeit Comedy - Stand-Up am Samstag",
+  ort: "Köln",
+  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19954997/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "17. Oktober 2025",
+  uhrzeit: "19:00",
+  titel: "Roh Comedy StandUp",
+  ort: "Düsseldorf",
+  ticketLink: "https://www.eventbrite.de/e/roh-comedy-standup-in-dusseldorf-tickets-1311903632079",
+  sichtbar: true
+},
+{
+  datum: "22. Oktober 2025",
+  uhrzeit: "20:00",
+  titel: "Grands Comedy Open Mic",
+  ort: "Düsseldorf",
+  ticketLink: "",
+  sichtbar: false
+},
+{
+  datum: "23. Oktober 2025",
+  uhrzeit: "19:30",
+  titel: "Blueprint Comedy - Lachen & Wein",
+  ort: "Gelsenkirchen",
+  ticketLink: "",
+  sichtbar: false
+},
+{
+  datum: "04. November 2025",
+  uhrzeit: "20:00",
+  titel: "Comedyflash - Die Stand Up Comedy Show",
+  ort: "Neuss",
+  ticketLink: "https://www.eventim.de/event/comedyflash-die-stand-up-comedy-show-in-neuss-hamtorkrug-neuss-20692872/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "13. November 2025",
+  uhrzeit: "20:00",
+  titel: "Comedyflash - Die Stand Up Comedy Show",
+  ort: "Köln",
+  ticketLink: "",
+  sichtbar: false
+},
+{
+  datum: "13. November 2025",
+  uhrzeit: "20:00",
+  titel: "Öcher Comedy Night",
+  ort: "Aachen",
+  ticketLink: "https://www.eventbrite.de/e/ocher-comedy-night-13-tickets-1232742408729",
+  sichtbar: true
+},
+{
+  datum: "20. November 2025",
+  uhrzeit: "19:30",
+  titel: "Comedy in the Box",
+  ort: "Mönchengladbach",
+  ticketLink: "https://www.eventim.de/event/comedy-in-the-box-new-box-moenchengladbach-20478960/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "26. November 2025",
+  uhrzeit: "19:30",
+  titel: "Fastnacht Slam",
+  ort: "Trier",
+  ticketLink: "https://www.ticket-regional.fr/events_info.php?eventID=240353",
+  sichtbar: true
+},
+{
+  datum: "12. Dezember 2025",
+  uhrzeit: "20:00",
+  titel: "BOING! Comedy Club",
+  ort: "Köln",
+  ticketLink: "https://www.eventim.de/event/boing-comedy-club-in-koeln-von-manuel-wolff-horizont-theater-20384730/?affiliate=EYA",
+  sichtbar: true
+}
 ];
 
 
   // ===== TERMINE RENDERING =====
-  function renderTermine() {
-    const container = document.getElementById('termine-container');
-    if (!container) return;
 
-    const sichtbareTermine = termine.filter((termin) => termin.sichtbar);
-    const versteckteTermine = termine.filter((termin) => !termin.sichtbar);
+function parseDate(datumString, uhrzeitString = "00:00") {
+  try {
+    if (!datumString || typeof datumString !== 'string') throw new Error('kein Datumstring');
+    // normalisiere (z. B. "01. Oktober 2025" oder "1. Oktober 2025")
+    const monate = {
+      'januar': 0, 'februar': 1, 'märz': 2, 'maerz': 2, 'april': 3, 'mai': 4, 'juni': 5,
+      'juli': 6, 'august': 7, 'september': 8, 'oktober': 9, 'november': 10, 'dezember': 11
+    };
 
-    // Gruppiere Termine nach Monat
-    const termineNachMonat = gruppierNachMonat([...sichtbareTermine, ...versteckteTermine]);
+    // Entferne Kommas, mehrere Leerzeichen, trim
+    const clean = datumString.replace(',', ' ').replace(/\s+/g, ' ').trim();
+    const parts = clean.split(' '); // z.B. ["01.", "Oktober", "2025"]
+    let day = 1, month = 0, year = new Date().getFullYear();
 
-    let html = '';
+    // Tag (erste Stelle) - entferne Punkt
+    if (parts[0]) {
+      const d = parts[0].replace('.', '').replace(/\D/g, '');
+      if (d) day = parseInt(d, 10);
+    }
 
-    // Sichtbare Termine
-    Object.keys(termineNachMonat).forEach((monat) => {
-      const monatsTermine = termineNachMonat[monat];
-      const sichtbareMonatsTermine = monatsTermine.filter((t) => t.sichtbar);
+    // Monat (zweite Stelle)
+    if (parts[1]) {
+      const mName = parts[1].toLowerCase().replace('ä', 'ae');
+      if (monate[mName] !== undefined) month = monate[mName];
+    }
 
-      if (sichtbareMonatsTermine.length > 0) {
-        html += `<h3 class="monat-titel">${monat}</h3><div class="termine-list">`;
-        sichtbareMonatsTermine.forEach((termin) => {
-          html += erstelleTerminCard(termin);
-        });
-        html += '</div>';
-      }
-    });
+    // Jahr (dritte Stelle, optional)
+    if (parts[2]) {
+      const y = parseInt(parts[2].replace(/\D/g, ''), 10);
+      if (!isNaN(y)) year = y;
+    }
 
-    // Versteckte Termine (zusätzliche)
-    html += '<div class="zusaetzliche-termine" id="zusaetzliche-termine">';
-    Object.keys(termineNachMonat).forEach((monat) => {
-      const monatsTermine = termineNachMonat[monat];
-      const versteckteMonatsTermine = monatsTermine.filter((t) => !t.sichtbar);
+    // Uhrzeit
+    let hours = 0, minutes = 0;
+    if (uhrzeitString && typeof uhrzeitString === 'string') {
+      const hm = uhrzeitString.trim().split(':');
+      if (hm[0]) hours = parseInt(hm[0], 10) || 0;
+      if (hm[1]) minutes = parseInt(hm[1], 10) || 0;
+    }
 
-      if (versteckteMonatsTermine.length > 0) {
-        html += `<h3 class="monat-titel">${monat}</h3><div class="termine-list">`;
-        versteckteMonatsTermine.forEach((termin) => {
-          html += erstelleTerminCard(termin);
-        });
-        html += '</div>';
-      }
-    });
-    html += '</div>';
+    return new Date(year, month, day, hours, minutes, 0, 0);
+  } catch (err) {
+    console.error('parseDate Fehler für:', datumString, uhrzeitString, err);
+    // Fallback: heutiges Datum + 1 Tag (so dass der Termin nicht komplett verschwindet)
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d;
+  }
+}
 
-    container.innerHTML = html;
+function stripTime(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function getUpcomingTermine(limit = 3) {
+  try {
+    const today = stripTime(new Date());
+
+    // nur sichtbare Termine
+    const sichtbar = termine
+      .filter(t => t && t.sichtbar)
+      .map(t => ({ ...t, _dateObj: parseDate(t.datum, t.uhrzeit) }));
+
+    console.log('sichtbare Termine (mit _dateObj):', sichtbar);
+
+    // zukünftig = Datum >= heute
+    const zukuenftige = sichtbar.filter(t => t._dateObj >= today);
+    console.log('zukuenftige Termine:', zukuenftige);
+
+    let candidates = zukuenftige;
+
+    // Fallback 1: wenn zu wenige zukünftige, nimm sichtbare (auch vergangene)
+    if (candidates.length < limit && sichtbar.length > 0) {
+      candidates = sichtbar;
+      console.log('Fallback -> benutze alle sichtbaren Termine:', candidates);
+    }
+
+    // Fallback 2: wenn immer noch nichts (z. B. weil sichtbare leer), nimm alle Termine (inkl. versteckte)
+    if (candidates.length === 0) {
+      const alle = termine.map(t => ({ ...t, _dateObj: parseDate(t.datum, t.uhrzeit) }));
+      candidates = alle;
+      console.log('Fallback 2 -> benutze ALLE Termine:', candidates);
+    }
+
+    // sortieren (baldigste zuerst)
+    candidates.sort((a, b) => a._dateObj - b._dateObj);
+
+    const result = candidates.slice(0, limit);
+    console.log('Ergebnis getUpcomingTermine:', result);
+    return result;
+  } catch (err) {
+    console.error('getUpcomingTermine Fehler:', err);
+    return [];
+  }
+}
+
+function extrahiereMonat(datum) {
+  if (!datum || typeof datum !== 'string') return 'Weitere Termine';
+  const d = datum.toLowerCase();
+  if (d.includes('juni')) return 'Juni 2025';
+  if (d.includes('juli')) return 'Juli 2025';
+  if (d.includes('august')) return 'August 2025';
+  if (d.includes('september')) return 'September 2025';
+  if (d.includes('oktober')) return 'Oktober 2025';
+  if (d.includes('november')) return 'November 2025';
+  if (d.includes('dezember')) return 'Dezember 2025';
+  return 'Weitere Termine';
+}
+
+function renderTermine() {
+  const container = document.getElementById('termine-container');
+  if (!container) {
+    console.error('Kein #termine-container gefunden');
+    return;
   }
 
-  function erstelleTerminCard(termin) {
-    return `
-      <div class="termin-card">
-        <div class="termin-info">
-          <div class="termin-datum">${termin.datum}</div>
-          <div class="termin-details">
-            <h3>${termin.titel} | ${termin.ort}</h3>
-            <p>Beginn: ${termin.uhrzeit} Uhr</p>
+  const anzeigeTermine = getUpcomingTermine(3);
+
+  if (!anzeigeTermine || anzeigeTermine.length === 0) {
+    container.innerHTML = '<p style="text-align:center;">Zurzeit sind keine Termine verfügbar.</p>';
+    return;
+  }
+
+  // Gruppiere nach Monat und rendern
+  const termineNachMonat = {};
+  anzeigeTermine.forEach(t => {
+    const monat = extrahiereMonat(t.datum);
+    if (!termineNachMonat[monat]) termineNachMonat[monat] = [];
+    termineNachMonat[monat].push(t);
+  });
+
+  let html = '';
+  Object.keys(termineNachMonat).forEach(monat => {
+    html += `<h3 class="monat-titel">${monat}</h3><div class="termine-list">`;
+    termineNachMonat[monat].forEach(t => {
+      // sichere Template-Ausgabe: falls fehlende Felder
+      const titel = t.titel || 'Unbenannter Termin';
+      const ort = t.ort || '';
+      const datum = t.datum || '';
+      const uhr = t.uhrzeit || '';
+      const link = t.ticketLink || '#';
+      html += `
+        <div class="termin-card">
+          <div class="termin-info">
+            <div class="termin-datum">${datum}</div>
+            <div class="termin-details">
+              <h3>${titel}${ort ? ' | ' + ort : ''}</h3>
+              <p>Beginn: ${uhr} Uhr</p>
+            </div>
+          </div>
+          <div class="termin-actions">
+            <a href="${link}" class="ticket-btn" target="_blank" rel="noopener noreferrer">Tickets</a>
           </div>
         </div>
-        <div class="termin-actions">
-          <a href="${termin.ticketLink}" class="ticket-btn" target="_blank" rel="noopener noreferrer">Tickets</a>
-        </div>
-      </div>
-    `;
-  }
-
-  function gruppierNachMonat(termine) {
-    const gruppiert = {};
-    termine.forEach((termin) => {
-      const monat = extrahiereMonat(termin.datum);
-      if (!gruppiert[monat]) gruppiert[monat] = [];
-      gruppiert[monat].push(termin);
+      `;
     });
-    return gruppiert;
-  }
+    html += '</div>';
+  });
 
-  function extrahiereMonat(datum) {
-    if (datum.includes('Juni')) return 'Juni 2025';
-    if (datum.includes('Juli')) return 'Juli 2025';
-    if (datum.includes('August')) return 'August 2025';
-    if (datum.includes('September')) return 'September 2025';
-    if (datum.includes('Oktober')) return 'Oktober 2025';
-    if (datum.includes('November')) return 'November 2025';
-    if (datum.includes('Dezember')) return 'Dezember 2025';
-    return 'Weitere Termine';
-  }
-
-  // ===== TOGGLE FUNKTIONALITÄT =====
-  function initToggle() {
-    const toggleBtn = document.getElementById('alle-termine-toggle');
-    const zusaetzlicheTermine = document.getElementById('zusaetzliche-termine');
-
-    if (!toggleBtn || !zusaetzlicheTermine) return;
-
-    toggleBtn.addEventListener('click', function () {
-      const isShown = zusaetzlicheTermine.classList.toggle('show');
-      this.textContent = isShown ? 'WENIGER TERMINE' : 'ALLE TERMINE';
-    });
-  }
+  container.innerHTML = html;
+}
 
   // ===== DOMCONTENTLOADED EVENT =====
   document.addEventListener('DOMContentLoaded', () => {
@@ -945,7 +1059,6 @@ const termine = [
 
     // Termine rendern und Toggle initialisieren
     renderTermine();
-    initToggle();
 
     // Formularvalidierung (wenn Formular vorhanden)
     const contactForm = document.querySelector('.contact-form');

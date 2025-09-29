@@ -24,11 +24,11 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background: #f8f8f8; /* Einheitliche Hintergrundfarbe für die gesamte Seite */
+      background: #f8f8f8;
       color: var(--primary);
       line-height: 1.6;
       overflow-x: hidden;
-      padding-top: 65px; /* Angepasster Platz für den kleineren Header */
+      padding-top: 65px;
     }
 
     .container {
@@ -99,7 +99,6 @@
 
     /* ========== TERMINE-SECTION ========== */
 
-    
     .monat-titel {
       color: var(--secondary);
       font-size: 1.5rem;
@@ -109,31 +108,32 @@
     }
 
     .termine-section {
-      padding: 80px 20px 20px; /* Erhöhter oberer Padding für mehr Abstand zum Hero */
+      padding: 80px 20px 20px;
       background: #f8f8f8;
     }
 
     .termine-container {
-      max-width: 1200px; /* Verkürzt von 1600px auf 1200px */
+      max-width: 1200px;
       margin: 0 auto;
     }
 
     .termine-list {
       display: flex;
       flex-direction: column;
-      gap: 15px; /* Geringerer Abstand zwischen den Terminen */
+      gap: 15px;
       margin-top: 50px;
+      margin-bottom: 60px;
     }
 
     .termin-card {
       background: var(--light);
-      padding: 10px 20px; /* Reduziertes Padding für kürzere Karten */
+      padding: 10px 20px;
       border-radius: 15px;
       box-shadow: 0 5px 25px rgba(0,0,0,0.08);
       transition: var(--transition);
       display: flex;
-      align-items: center; /* Elemente zentrieren */
-      justify-content: space-between; /* Inhalt gleichmäßig verteilen */
+      align-items: center;
+      justify-content: space-between;
     }
 
     .termin-card:hover {
@@ -141,7 +141,7 @@
     }
 
     .termin-info {
-      flex: 1; /* Nimmt verfügbaren Platz ein */
+      flex: 1;
       display: flex;
       align-items: center;
     }
@@ -151,7 +151,7 @@
       font-weight: 700;
       font-size: 1.1rem;
       margin-right: 20px;
-      min-width: 105px; /* Feste Breite für das Datum */
+      min-width: 105px;
     }
 
     .termin-details {
@@ -160,37 +160,41 @@
 
     .termin-details h3 {
       margin-bottom: 5px;
-      font-size: 1rem; /* Kleinere Schriftgröße für kürzere Kästen */
+      font-size: 1rem;
     }
-    
+
     .termin-details p {
-      font-size: 0.9rem; /* Kleinere Schriftgröße für Text */
+      font-size: 0.9rem;
     }
 
     .termin-actions {
       display: flex;
-      justify-content: flex-end; /* Rechtsausrichtung */
+      justify-content: flex-end;
     }
 
     .ticket-btn {
       display: inline-block;
-      padding: 8px 16px; /* Kleineres Padding für Button */
+      padding: 8px 16px;
       background: var(--secondary);
       color: var(--light);
       text-decoration: none;
       border-radius: 8px;
       transition: var(--transition);
-      font-size: 0.9rem; /* Kleinere Schriftgröße */
+      font-size: 0.9rem;
     }
 
     .ticket-btn:hover {
       background: #004d2e;
     }
 
+    .ticket-btn.disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
 
     /* ========== BREADCRUMB ========== */
     .breadcrumb {
-      background: #f8f8f8; /* Einheitliche Hintergrundfarbe wie termine-section */
+      background: #f8f8f8;
       padding: 15px 0;
     }
 
@@ -248,18 +252,18 @@
       padding: 60px 20px;
       text-align: center;
     }
-    
+
     .social-links {
       margin: 20px 0;
     }
-    
+
     .social-links a {
       color: var(--light);
       font-size: 1.5rem;
       margin: 0 10px;
       transition: var(--transition);
     }
-    
+
     .social-links a:hover {
       color: var(--secondary);
     }
@@ -270,7 +274,7 @@
       vertical-align: middle;
       margin-right: 5px;
     }
-    
+
     .footer-links {
       margin-top: 20px;
     }
@@ -288,28 +292,35 @@
       text-decoration: underline;
     }
 
+    .keine-termine {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+      font-style: italic;
+    }
+
     /* ========== MEDIA QUERIES ========== */
     @media (max-width: 768px) {
       nav {
         justify-content: center;
         flex-wrap: wrap;
       }
-      
+
       .termin-card {
         flex-direction: column;
         align-items: flex-start;
       }
-      
+
       .termin-info {
         width: 100%;
         margin-bottom: 15px;
       }
-      
+
       .termin-actions {
         width: 100%;
         justify-content: center;
       }
-      
+
       .termin-datum {
         margin-bottom: 5px;
       }
@@ -319,20 +330,20 @@
       .brand-logo {
         font-size: 1.5rem;
       }
-      
+
       .termin-info {
         flex-direction: column;
         align-items: flex-start;
       }
-      
+
       .termin-datum {
         margin-bottom: 10px;
       }
-      
+
       .breadcrumb ul {
         flex-wrap: wrap;
       }
-      
+
       .footer-links a {
         display: block;
         margin: 10px 0;
@@ -342,147 +353,331 @@
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header id="main-header">
-    <div class="container header-content">
-      <a href="index.html" class="brand-logo">Gowand</a>
-      <nav>
-        <a href="index.html#termine">TERMINE</a>
-        <a href="index.html#about">ÜBER MICH</a>
-        <a href="index.html#video">Auftritt</a>
-        <a href="index.html#contact">KONTAKT</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- BREADCRUMB -->
-  <div class="breadcrumb">
-    <div class="container">
-      <ul>
-        <li><a href="index.html">Startseite</a></li>
-        <li>Termine</li>
-      </ul>
-    </div>
+<!-- HEADER -->
+<header id="main-header">
+  <div class="container header-content">
+    <a href="index.html" class="brand-logo">Gowand</a>
+    <nav>
+      <a href="index.html#termine">TERMINE</a>
+      <a href="index.html#about">ÜBER MICH</a>
+      <a href="index.html#video">Auftritt</a>
+      <a href="index.html#contact">KONTAKT</a>
+    </nav>
   </div>
+</header>
 
-  <!-- HAUPTINHALT -->
-  <main>
-    <div class="container">
-      <!-- TERMINE - NACH MONATEN SORTIERT -->
-      <section class="termine-section" id="termine">
-        <div class="termine-container">
-          <h2 style="text-align: center; margin-bottom: 40px;">KOMMENDE AUFTRITTE</h2>
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="container">
+    <ul>
+      <li><a href="index.html">Startseite</a></li>
+      <li>Termine</li>
+    </ul>
+  </div>
+</div>
 
-          
-          <!-- JUNI 2025 -->
-          <div class="termine-monat">
-            <h3 class="monat-titel">Juni 2025</h3>
-            <div class="termine-list">
-
-              <div class="termin-card">
-                <div class="termin-info">
-                  <div class="termin-datum">13. Juni 2025</div>
-                  <div class="termin-details">
-                    <h3>Lachkater - Die Stand Up Comedy Show | Düsseldorf</h3>
-                    <p>Beginn: 19:00 Uhr</p>
-                  </div>
-                </div>
-                <div class="termin-actions">
-                  <a href="https://www.eventim.de/event/die-lachkater-stand-up-comedy-show-duesseldorf-comedy-club-duesseldorf-20212389/?affiliate=EYA" class="ticket-btn">Tickets</a>
-                </div>
-              </div>
-
- <div class="termin-card">
-                <div class="termin-info">
-                  <div class="termin-datum">18. Juni 2025</div>
-                  <div class="termin-details">
-                    <h3>Grands Comedy Open Mic | Düsseldorf</h3>
-                    <p>Beginn: 20:00 Uhr</p>
-                  </div>
-                </div>
-                <div class="termin-actions">
-                  <a href="https://comedy-union.de/blog/events/openmicdus/" class="ticket-btn">Tickets</a>
-                </div>
-              </div>
-
- <div class="termin-card">
-                <div class="termin-info">
-                  <div class="termin-datum">27. Juni 2025</div>
-                  <div class="termin-details">
-                    <h3>Hopfen & Humor | Die StandUp Show | Biergarten Stadtlohn</h3>
-                    <p>Beginn: 19:00 Uhr</p>
-                  </div>
-                </div>
-                <div class="termin-actions">
-                  <a href="https://biergarten-stadtlohn.de/events?eventId=2133456" class="ticket-btn">Tickets</a>
-                </div>
-              </div>
-          
-          <!-- August 2025 -->
-          <div class="termine-monat">
-            <h3 class="monat-titel">August 2025</h3>
-            <div class="termine-list">
-
-	      <div class="termin-card">
-                <div class="termin-info">
-                  <div class="termin-datum">21. August 2025</div>
-                  <div class="termin-details">
-                    <h3>Echtzeit Comedy | Köln</h3>
-                    <p>Beginn: 20:00 Uhr</p>
-                  </div>
-                </div>
-                <div class="termin-actions">
-                  <a href="" class="ticket-btn">Link folgt</a>
-                </div>
-              </div>
-
-	      <div class="termin-card">
-                <div class="termin-info">
-                  <div class="termin-datum">22. August 2025</div>
-                  <div class="termin-details">
-                    <h3>Echtzeit Comedy | Köln</h3>
-                    <p>Beginn: 20:00 Uhr</p>
-                  </div>
-                </div>
-                <div class="termin-actions">
-                  <a href="" class="ticket-btn">Link folgt</a>
-                </div>
-              </div>
-
-	      <div class="termin-card">
-                <div class="termin-info">
-                  <div class="termin-datum">23. August 2025</div>
-                  <div class="termin-details">
-                    <h3>Echtzeit Comedy | Köln</h3>
-                    <p>Beginn: 20:00 Uhr</p>
-                  </div>
-                </div>
-                <div class="termin-actions">
-                  <a href="" class="ticket-btn">Link folgt</a>
-                </div>
-              </div>
-
-      
+<!-- HAUPTINHALT -->
+<main>
+  <div class="container">
+    <!-- TERMINE - NACH MONATEN SORTIERT -->
+    <section class="termine-section" id="termine">
+      <div class="termine-container">
+        <h2 style="text-align: center; margin-bottom: 40px;">KOMMENDE AUFTRITTE</h2>
+        <div id="termine-content">
+          <!-- Termine werden hier dynamisch eingefügt -->
         </div>
-      </section>
-    </div>
-  </main>
+      </div>
+    </section>
+  </div>
+</main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="social-links">
-      <a href="https://www.instagram.com/gowandcomedy" target="_blank">
-        <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-        </svg>
-      </a>
-    </div>
-    <div class="footer-links">
-      <a href="impressum.html">Impressum</a>
-      <a href="presse.html">Pressebereich</a>
-    </div>
-    <p>&copy; 2025 Gowand Barkhi</p>
-  </footer>
+<!-- FOOTER -->
+<footer>
+  <div class="social-links">
+    <a href="https://www.instagram.com/gowandcomedy" target="_blank">
+      <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+    </a>
+  </div>
+  <div class="footer-links">
+    <a href="impressum.html">Impressum</a>
+    <a href="presse.html">Pressebereich</a>
+  </div>
+  <p>&copy; 2025 Gowand Barkhi</p>
+</footer>
+
+<script>
+  // Termine-Daten im gewünschten Format
+  const termine = [
+    {
+  datum: "04. Oktober 2025",
+  uhrzeit: "17:00",
+  titel: "Open Mic Comedy Club",
+  ort: "Düsseldorf",
+  ticketLink: "https://www.eventim.de/event/comedyflash-die-stand-up-comedy-show-in-duesseldorf-comedy-club-duesseldorf-20509651/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "06. Oktober 2025",
+  uhrzeit: "18:30",
+  titel: "Comedy am Strand – Der letzte Lacher",
+  ort: "Düsseldorf",
+  ticketLink: "",
+  sichtbar: false
+},
+{
+  datum: "09. Oktober 2025",
+  uhrzeit: "20:00",
+  titel: "Echtzeit Comedy - Stand-Up am Donnerstag",
+  ort: "Köln",
+  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19954981/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "10. Oktober 2025",
+  uhrzeit: "20:00",
+  titel: "Echtzeit Comedy - Stand-Up am Freitag",
+  ort: "Köln",
+  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19955045/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "11. Oktober 2025",
+  uhrzeit: "20:00",
+  titel: "Echtzeit Comedy - Stand-Up am Samstag",
+  ort: "Köln",
+  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19954997/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "17. Oktober 2025",
+  uhrzeit: "19:00",
+  titel: "Roh Comedy StandUp",
+  ort: "Düsseldorf",
+  ticketLink: "https://www.eventbrite.de/e/roh-comedy-standup-in-dusseldorf-tickets-1311903632079",
+  sichtbar: true
+},
+{
+  datum: "22. Oktober 2025",
+  uhrzeit: "20:00",
+  titel: "Grands Comedy Open Mic",
+  ort: "Düsseldorf",
+  ticketLink: "",
+  sichtbar: false
+},
+{
+  datum: "23. Oktober 2025",
+  uhrzeit: "19:30",
+  titel: "Blueprint Comedy - Lachen & Wein",
+  ort: "Gelsenkirchen",
+  ticketLink: "",
+  sichtbar: false
+},
+{
+  datum: "04. November 2025",
+  uhrzeit: "20:00",
+  titel: "Comedyflash - Die Stand Up Comedy Show",
+  ort: "Neuss",
+  ticketLink: "https://www.eventim.de/event/comedyflash-die-stand-up-comedy-show-in-neuss-hamtorkrug-neuss-20692872/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "13. November 2025",
+  uhrzeit: "20:00",
+  titel: "Comedyflash - Die Stand Up Comedy Show",
+  ort: "Köln",
+  ticketLink: "",
+  sichtbar: false
+},
+{
+  datum: "13. November 2025",
+  uhrzeit: "20:00",
+  titel: "Öcher Comedy Night",
+  ort: "Aachen",
+  ticketLink: "https://www.eventbrite.de/e/ocher-comedy-night-13-tickets-1232742408729",
+  sichtbar: true
+},
+{
+  datum: "20. November 2025",
+  uhrzeit: "19:30",
+  titel: "Comedy in the Box",
+  ort: "Mönchengladbach",
+  ticketLink: "https://www.eventim.de/event/comedy-in-the-box-new-box-moenchengladbach-20478960/?affiliate=EYA",
+  sichtbar: true
+},
+{
+  datum: "26. November 2025",
+  uhrzeit: "19:30",
+  titel: "Fastnacht Slam",
+  ort: "Trier",
+  ticketLink: "https://www.ticket-regional.fr/events_info.php?eventID=240353",
+  sichtbar: true
+},
+{
+  datum: "12. Dezember 2025",
+  uhrzeit: "20:00",
+  titel: "BOING! Comedy Club",
+  ort: "Köln",
+  ticketLink: "https://www.eventim.de/event/boing-comedy-club-in-koeln-von-manuel-wolff-horizont-theater-20384730/?affiliate=EYA",
+  sichtbar: true
+}
+
+  ];
+
+  // Hilfsfunktion: Datum parsen
+  function parseDateString(dateStr) {
+    const months = {
+      'Januar': 0, 'Februar': 1, 'März': 2, 'April': 3, 'Mai': 4, 'Juni': 5,
+      'Juli': 6, 'August': 7, 'September': 8, 'Oktober': 9, 'November': 10, 'Dezember': 11
+    };
+
+    const parts = dateStr.split(' ');
+    const day = parseInt(parts[0].replace('.', ''));
+    const month = months[parts[1]];
+    const year = parseInt(parts[2]);
+
+    return new Date(year, month, day);
+  }
+
+  // Hilfsfunktion: Monatsname auf Deutsch
+  function getMonthName(monthIndex) {
+    const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+                   'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+    return months[monthIndex];
+  }
+
+  // Termine sortieren und nach Monaten gruppieren
+  function organizeTermine() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Nur sichtbare und zukünftige Termine
+    const futureTermine = termine
+      .filter(termin => termin.sichtbar && parseDateString(termin.datum) >= today)
+      .sort((a, b) => parseDateString(a.datum) - parseDateString(b.datum));
+
+    // Nach Monaten gruppieren
+    const termineByMonth = {};
+    futureTermine.forEach(termin => {
+      const date = parseDateString(termin.datum);
+      const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+      const monthName = `${getMonthName(date.getMonth())} ${date.getFullYear()}`;
+
+      if (!termineByMonth[monthKey]) {
+        termineByMonth[monthKey] = {
+          name: monthName,
+          termine: []
+        };
+      }
+      termineByMonth[monthKey].termine.push(termin);
+    });
+
+    return termineByMonth;
+  }
+
+  // HTML für einen Termin erstellen
+  function createTerminCard(termin) {
+    const hasTicketLink = termin.ticketLink && termin.ticketLink.trim() !== '';
+    const ticketButton = hasTicketLink
+      ? `<a href="${termin.ticketLink}" class="ticket-btn">Tickets</a>`
+      : `<span class="ticket-btn disabled">Link folgt</span>`;
+
+    return `
+      <div class="termin-card">
+        <div class="termin-info">
+          <div class="termin-datum">${termin.datum}</div>
+          <div class="termin-details">
+            <h3>${termin.titel} | ${termin.ort}</h3>
+            <p>Beginn: ${termin.uhrzeit} Uhr</p>
+          </div>
+        </div>
+        <div class="termin-actions">
+          ${ticketButton}
+        </div>
+      </div>
+    `;
+  }
+
+  // Termine rendern
+  function renderTermine() {
+    const termineContainer = document.getElementById('termine-content');
+    const termineByMonth = organizeTermine();
+
+    if (Object.keys(termineByMonth).length === 0) {
+      termineContainer.innerHTML = '<div class="keine-termine">Aktuell sind keine kommenden Termine geplant.</div>';
+      return;
+    }
+
+    let html = '';
+    Object.values(termineByMonth).forEach(month => {
+      html += `
+        <div class="termine-monat">
+          <h3 class="monat-titel">${month.name}</h3>
+          <div class="termine-list">
+            ${month.termine.map(termin => createTerminCard(termin)).join('')}
+          </div>
+        </div>
+      `;
+    });
+
+    termineContainer.innerHTML = html;
+  }
+
+  // Beim Laden der Seite Termine rendern
+  document.addEventListener('DOMContentLoaded', renderTermine);
+
+  // Globale Funktion zum Hinzufügen neuer Termine (für Entwickler)
+  window.addTermin = function(newTermin) {
+    const requiredFields = ['datum', 'uhrzeit', 'titel', 'ort'];
+    const missingFields = requiredFields.filter(field => !newTermin[field]);
+
+    if (missingFields.length > 0) {
+      console.error('Fehlende Felder:', missingFields);
+      return false;
+    }
+
+    // Standardwerte setzen
+    newTermin.ticketLink = newTermin.ticketLink || '';
+    newTermin.sichtbar = newTermin.sichtbar !== false;
+
+    termine.push(newTermin);
+    renderTermine();
+    console.log('Termin hinzugefügt:', newTermin);
+    return true;
+  };
+
+  // Globale Funktion zum Entfernen von Terminen
+  window.removeTermin = function(datum, titel) {
+    const index = termine.findIndex(t => t.datum === datum && t.titel === titel);
+    if (index !== -1) {
+      termine.splice(index, 1);
+      renderTermine();
+      console.log('Termin entfernt:', datum, titel);
+      return true;
+    }
+    console.error('Termin nicht gefunden:', datum, titel);
+    return false;
+  };
+
+  // Globale Funktion zum Verstecken/Anzeigen von Terminen
+  window.toggleTerminVisibility = function(datum, titel) {
+    const termin = termine.find(t => t.datum === datum && t.titel === titel);
+    if (termin) {
+      termin.sichtbar = !termin.sichtbar;
+      renderTermine();
+      console.log('Termin-Sichtbarkeit geändert:', datum, titel, termin.sichtbar);
+      return termin.sichtbar;
+    }
+    console.error('Termin nicht gefunden:', datum, titel);
+    return false;
+  };
+
+  // Globale Funktion um alle Termine anzuzeigen (für Debugging)
+  window.showAllTermine = function() {
+    console.table(termine);
+  };
+</script>
 
 </body>
 </html>
