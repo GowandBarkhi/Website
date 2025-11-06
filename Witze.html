@@ -316,6 +316,17 @@
             font-size: 12px;
         }
 
+        .btn-add-below {
+            background: #28a745;
+            color: white;
+            font-size: 12px;
+            padding: 4px 10px;
+        }
+
+        .btn-add-below:hover {
+            background: #218838;
+        }
+
         .joke-list {
             list-style: none;
             position: relative;
@@ -324,8 +335,8 @@
         .joke-item {
             background: white;
             border: 2px solid #f8f9fa;
-            border-radius: 12px;
-            margin-bottom: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.2s;
             position: relative;
@@ -356,10 +367,10 @@
         }
 
         .joke-content {
-            padding: 20px;
+            padding: 12px 15px;
             display: flex;
             align-items: flex-start;
-            gap: 15px;
+            gap: 10px;
         }
 
         .joke-checkbox {
@@ -375,15 +386,15 @@
         .drag-handle {
             cursor: grab;
             color: #6c757d;
-            font-size: 20px;
-            padding: 8px;
+            font-size: 18px;
+            padding: 6px;
             border-radius: 6px;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 40px;
-            height: 40px;
+            min-width: 32px;
+            height: 32px;
             background: #f8f9fa;
             border: 2px solid transparent;
         }
@@ -411,14 +422,14 @@
         }
 
         .joke-text {
-            margin-bottom: 15px;
-            line-height: 1.6;
+            margin-bottom: 10px;
+            line-height: 1.4;
             cursor: pointer;
-            padding: 10px;
+            padding: 8px;
             border-radius: 6px;
             transition: all 0.2s;
             border: 2px solid transparent;
-            min-height: 40px;
+            min-height: 32px;
             display: flex;
             align-items: center;
         }
@@ -436,12 +447,12 @@
 
         .joke-headline {
             font-weight: 600;
-            font-size: 18px;
+            font-size: 16px;
             color: #2c3e50;
         }
 
         .joke-fulltext {
-            font-size: 16px;
+            font-size: 14px;
             color: #34495e;
             white-space: pre-wrap;
         }
@@ -464,8 +475,34 @@
         .joke-controls {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
+        }
+
+        .joke-number {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 13px;
+        }
+
+        .joke-number-input {
+            width: 50px;
+            padding: 3px 6px;
+            border: 2px solid #e1e5e9;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .joke-number-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .joke-groups-info {
@@ -497,17 +534,17 @@
         .mode-toggle {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
+            gap: 6px;
+            font-size: 12px;
             color: #6c757d;
         }
 
         .toggle-switch {
             position: relative;
-            width: 60px;
-            height: 30px;
+            width: 50px;
+            height: 24px;
             background: #e9ecef;
-            border-radius: 15px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
             border: none;
@@ -525,8 +562,8 @@
         .toggle-switch::before {
             content: '';
             position: absolute;
-            width: 26px;
-            height: 26px;
+            width: 20px;
+            height: 20px;
             background: white;
             border-radius: 50%;
             top: 2px;
@@ -536,7 +573,7 @@
         }
 
         .toggle-switch.active::before {
-            transform: translateX(30px);
+            transform: translateX(26px);
         }
 
         .empty-state {
@@ -619,7 +656,6 @@
             overflow: hidden;
         }
 
-        /* Drag Placeholder */
         .drag-placeholder {
             height: 6px;
             background: linear-gradient(90deg, #667eea, #764ba2);
@@ -655,7 +691,6 @@
             animation: slideIn 0.3s ease-out;
         }
 
-        /* PDF Options Modal */
         .pdf-modal {
             position: fixed;
             top: 0;
@@ -772,7 +807,6 @@
     </header>
 
     <div class="main-layout">
-        <!-- Sidebar für Gruppen -->
         <aside class="sidebar">
             <h2>📂 Gruppen</h2>
 
@@ -799,7 +833,6 @@
             </div>
         </aside>
 
-        <!-- Hauptinhalt -->
         <main class="main-content">
             <div class="content-header">
                 <h2 class="content-title" id="content-title">Alle Witze</h2>
@@ -834,7 +867,6 @@
                 </div>
             </div>
 
-            <!-- Auswahl-Aktionen -->
             <div class="selection-actions" id="selection-actions">
                 <div class="selection-info" id="selection-info">0 Witze ausgewählt</div>
 
@@ -855,7 +887,6 @@
                 </button>
             </div>
 
-            <!-- Import-Sektion -->
             <div id="import-section" class="toolbar hidden" style="flex-direction: column; align-items: stretch;">
                 <h3>JSON Import/Export</h3>
                 <textarea
@@ -875,7 +906,6 @@
             </div>
 
             <ul class="joke-list" id="joke-list" role="list" aria-label="Liste der Witze">
-                <!-- Witze werden hier dynamisch eingefügt -->
             </ul>
 
             <div class="empty-state" id="empty-state" style="display: none;">
@@ -888,7 +918,6 @@
         </main>
     </div>
 
-    <!-- PDF Options Modal -->
     <div class="pdf-modal" id="pdf-modal">
         <div class="pdf-modal-content">
             <h3>📄 PDF-Export Optionen</h3>
@@ -948,7 +977,6 @@
 </div>
 
 <script>
-    // Globale Variablen
     let jokes = [];
     let groups = {};
     let currentGroup = 'all';
@@ -959,7 +987,6 @@
     let nextId = 1;
     let currentPdfGroup = null;
 
-    // Debounce Utility
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -972,7 +999,6 @@
         };
     }
 
-    // Storage Funktionen (in-memory für Claude.ai)
     function saveData() {
         console.log('Daten gespeichert:', {
             jokes: jokes.length,
@@ -1085,7 +1111,6 @@
         }, 1000);
     }
 
-    // PDF-Export Funktionen
     function showPdfOptions(groupId = null) {
         const targetGroup = groupId || currentGroup;
         if (targetGroup === 'all') {
@@ -1122,14 +1147,12 @@
             return;
         }
 
-        // PDF-Optionen auslesen
         const layout = document.querySelector('input[name="layout"]:checked').value;
         const fontSize = document.querySelector('input[name="fontSize"]:checked').value;
         const includeNumbers = document.getElementById('include-numbers').checked;
         const includeHeader = document.getElementById('include-header').checked;
         const includeDate = document.getElementById('include-date').checked;
 
-        // PDF-Einstellungen basierend auf Optionen
         const settings = {
             compact: { fontSize: 10, lineHeight: 4, jokesPerPage: 12, spacing: 8 },
             comfortable: { fontSize: 12, lineHeight: 5, jokesPerPage: 8, spacing: 12 }
@@ -1155,7 +1178,6 @@
             const margin = 20;
             const contentWidth = pageWidth - (margin * 2);
 
-            // Kopfzeile hinzufügen
             function addHeader() {
                 if (includeHeader) {
                     pdf.setFontSize(16);
@@ -1170,21 +1192,18 @@
                         yPosition += 8;
                     }
 
-                    // Trennlinie
                     pdf.setLineWidth(0.5);
                     pdf.line(margin, yPosition, pageWidth - margin, yPosition);
                     yPosition += 10;
                 }
             }
 
-            // Seitenzahl hinzufügen
             function addPageNumber() {
                 pdf.setFontSize(8);
                 pdf.setFont(undefined, 'normal');
                 pdf.text(`Seite ${pageNumber}`, pageWidth - margin - 20, pageHeight - 10);
             }
 
-            // Neue Seite beginnen
             function newPage() {
                 addPageNumber();
                 pdf.addPage();
@@ -1193,18 +1212,14 @@
                 addHeader();
             }
 
-            // Erste Seite einrichten
             addHeader();
 
-            // Witze durchgehen
             groupJokes.forEach((joke, index) => {
-                // Prüfen ob eine neue Seite benötigt wird
-                const estimatedHeight = config.spacing + (config.lineHeight * 3); // Grober Schätzwert
+                const estimatedHeight = config.spacing + (config.lineHeight * 3);
                 if (yPosition + estimatedHeight > pageHeight - 30) {
                     newPage();
                 }
 
-                // Nummerierung
                 if (includeNumbers) {
                     pdf.setFontSize(config.fontSize);
                     pdf.setFont(undefined, 'bold');
@@ -1212,26 +1227,21 @@
                     yPosition += config.lineHeight;
                 }
 
-                // Witztext basierend auf Modus
                 pdf.setFont(undefined, 'normal');
                 let textToShow = joke.mode === 'headline' ? joke.headline : joke.fullText;
 
-                // Wenn es ein Volltext ist und er eine Überschrift hat, beide anzeigen
                 if (joke.mode === 'full' && joke.headline !== joke.fullText) {
-                    // Überschrift fett
                     pdf.setFont(undefined, 'bold');
                     pdf.setFontSize(config.fontSize);
                     const headlineLines = pdf.splitTextToSize(joke.headline, contentWidth - 10);
                     pdf.text(headlineLines, margin + (includeNumbers ? 15 : 0), yPosition);
                     yPosition += headlineLines.length * config.lineHeight;
 
-                    // Volltext normal
                     pdf.setFont(undefined, 'normal');
                     const textLines = pdf.splitTextToSize(joke.fullText, contentWidth - 10);
                     pdf.text(textLines, margin + (includeNumbers ? 15 : 0), yPosition);
                     yPosition += textLines.length * config.lineHeight;
                 } else {
-                    // Nur den gewählten Text anzeigen
                     pdf.setFontSize(config.fontSize);
                     const textLines = pdf.splitTextToSize(textToShow, contentWidth - 10);
                     pdf.text(textLines, margin + (includeNumbers ? 15 : 0), yPosition);
@@ -1241,10 +1251,8 @@
                 yPosition += config.spacing;
             });
 
-            // Letzte Seitenzahl hinzufügen
             addPageNumber();
 
-            // PDF speichern
             const filename = `${group.name.replace(/[^a-z0-9]/gi, '-')}-${new Date().toISOString().split('T')[0]}.pdf`;
             pdf.save(filename);
 
@@ -1257,7 +1265,6 @@
         }
     }
 
-    // Gruppen-Management
     function createGroup() {
         const input = document.getElementById('new-group-input');
         const name = input.value.trim();
@@ -1307,13 +1314,11 @@
         currentGroup = groupId;
         clearSelection();
 
-        // UI Update
         document.querySelectorAll('.group-button').forEach(btn => {
             btn.classList.remove('active');
         });
         document.querySelector(`[data-group="${groupId}"]`).classList.add('active');
 
-        // Title Update
         const title = document.getElementById('content-title');
         const pdfButton = document.getElementById('pdf-current-group-btn');
 
@@ -1325,7 +1330,6 @@
             pdfButton.style.display = 'inline-flex';
         }
 
-        // Remove-Button Update
         const removeBtn = document.getElementById('remove-from-group-btn');
         removeBtn.style.display = groupId !== 'all' ? 'inline-flex' : 'none';
 
@@ -1337,10 +1341,8 @@
         const groupList = document.getElementById('group-list');
         const allButton = groupList.querySelector('.all-jokes');
 
-        // Alle Gruppen-Buttons außer "Alle Witze" entfernen
         groupList.querySelectorAll('.group-item:not(:first-child)').forEach(item => item.remove());
 
-        // Neue Gruppen hinzufügen
         Object.entries(groups).forEach(([groupId, group]) => {
             const li = document.createElement('li');
             li.className = 'group-item';
@@ -1365,10 +1367,8 @@
     }
 
     function updateGroupCounts() {
-        // Alle Witze zählen
         document.getElementById('all-count').textContent = jokes.length;
 
-        // Gruppenzählungen aktualisieren
         Object.entries(groups).forEach(([groupId, group]) => {
             const countEl = document.querySelector(`[data-group="${groupId}"] .group-count`);
             if (countEl) {
@@ -1395,15 +1395,46 @@
         }
     }
 
-    // Witz-Management
-    function addNewJoke() {
+    function addNewJoke(afterJokeId = null) {
         const newJoke = {
             id: `w${nextId++}`,
             headline: 'Neuer Witz',
             fullText: 'Hier steht der ausgeschriebene Witz...',
             mode: 'headline'
         };
-        jokes.unshift(newJoke);
+
+        if (afterJokeId) {
+            if (currentGroup === 'all') {
+                const index = jokes.findIndex(j => j.id === afterJokeId);
+                if (index !== -1) {
+                    jokes.splice(index + 1, 0, newJoke);
+                } else {
+                    jokes.unshift(newJoke);
+                }
+            } else {
+                const group = groups[currentGroup];
+                if (group) {
+                    const index = group.jokes.indexOf(afterJokeId);
+                    if (index !== -1) {
+                        const mainIndex = jokes.findIndex(j => j.id === afterJokeId);
+                        if (mainIndex !== -1) {
+                            jokes.splice(mainIndex + 1, 0, newJoke);
+                        } else {
+                            jokes.push(newJoke);
+                        }
+                        group.jokes.splice(index + 1, 0, newJoke.id);
+                    }
+                } else {
+                    jokes.unshift(newJoke);
+                }
+            }
+        } else {
+            jokes.unshift(newJoke);
+            if (currentGroup !== 'all' && groups[currentGroup]) {
+                groups[currentGroup].jokes.unshift(newJoke.id);
+            }
+        }
+
         debouncedSave();
         renderJokes();
         renderGroups();
@@ -1419,15 +1450,12 @@
 
     function deleteJoke(id) {
         if (confirm('Witz wirklich löschen?\nEr wird auch aus allen Gruppen entfernt.')) {
-            // Aus Hauptliste entfernen
             jokes = jokes.filter(joke => joke.id !== id);
 
-            // Aus allen Gruppen entfernen
             Object.values(groups).forEach(group => {
                 group.jokes = group.jokes.filter(jokeId => jokeId !== id);
             });
 
-            // Aus Auswahl entfernen
             selectedJokes.delete(id);
 
             debouncedSave();
@@ -1457,7 +1485,6 @@
         if (newIndex < 0 || newIndex >= jokesToShow.length) return;
 
         if (currentGroup === 'all') {
-            // In Hauptliste verschieben
             const jokeIndex = jokes.findIndex(j => j.id === id);
             const targetJoke = jokesToShow[newIndex];
             const targetIndex = jokes.findIndex(j => j.id === targetJoke.id);
@@ -1465,7 +1492,6 @@
             const [movedJoke] = jokes.splice(jokeIndex, 1);
             jokes.splice(targetIndex, 0, movedJoke);
         } else {
-            // In Gruppe verschieben
             const group = groups[currentGroup];
             if (group) {
                 const [movedJokeId] = group.jokes.splice(currentIndex, 1);
@@ -1484,6 +1510,39 @@
         }, 100);
 
         announceToScreenReader(`Witz nach ${direction === 'up' ? 'oben' : 'unten'} verschoben`);
+    }
+
+    function moveJokeToPosition(id, newPosition) {
+        const jokesToShow = getJokesToShow();
+        const currentIndex = jokesToShow.findIndex(j => j.id === id);
+
+        if (currentIndex === -1) return;
+
+        const targetIndex = newPosition - 1;
+
+        if (targetIndex < 0 || targetIndex >= jokesToShow.length || targetIndex === currentIndex) {
+            renderJokes();
+            return;
+        }
+
+        if (currentGroup === 'all') {
+            const jokeIndex = jokes.findIndex(j => j.id === id);
+            const targetJoke = jokesToShow[targetIndex];
+            const targetJokeIndex = jokes.findIndex(j => j.id === targetJoke.id);
+
+            const [movedJoke] = jokes.splice(jokeIndex, 1);
+            jokes.splice(targetJokeIndex, 0, movedJoke);
+        } else {
+            const group = groups[currentGroup];
+            if (group) {
+                const [movedJokeId] = group.jokes.splice(currentIndex, 1);
+                group.jokes.splice(targetIndex, 0, movedJokeId);
+            }
+        }
+
+        debouncedSave();
+        renderJokes();
+        announceToScreenReader(`Witz auf Position ${newPosition} verschoben`);
     }
 
     function startEdit(id, field) {
@@ -1560,7 +1619,6 @@
         }
     }
 
-    // Auswahl-Management
     function toggleJokeSelection(id) {
         if (selectedJokes.has(id)) {
             selectedJokes.delete(id);
@@ -1645,7 +1703,6 @@
         clearSelection();
     }
 
-    // Rendering
     function getJokesToShow() {
         let jokesToShow;
 
@@ -1739,6 +1796,22 @@
                             </div>
 
                             <div class="joke-controls">
+                                <div class="joke-number">
+                                    <span>#</span>
+                                    <input
+                                        type="number"
+                                        class="joke-number-input"
+                                        value="${index + 1}"
+                                        min="1"
+                                        max="${jokesToShow.length}"
+                                        onchange="moveJokeToPosition('${joke.id}', parseInt(this.value))"
+                                        onkeydown="if(event.key==='Enter'){this.blur()}"
+                                        aria-label="Position des Witzes"
+                                        title="Position ändern (Enter zum Bestätigen)"
+                                    >
+                                    <span>/ ${jokesToShow.length}</span>
+                                </div>
+
                                 <div class="joke-groups-info">
                                     ${jokeGroups.length > 0 ? `
                                         <div class="group-tags">
@@ -1759,6 +1832,15 @@
                                     ></button>
                                     <span>Volltext</span>
                                 </div>
+
+                                <button
+                                    class="btn btn-add-below btn-small"
+                                    onclick="addNewJoke('${joke.id}')"
+                                    aria-label="Neuen Witz darunter einfügen"
+                                    title="Neuen Witz darunter einfügen"
+                                >
+                                    ➕ Darunter
+                                </button>
 
                                 <div style="display: flex; gap: 5px;">
                                     <button
@@ -1810,7 +1892,6 @@
         }
     }
 
-    // Drag & Drop
     function setupDragAndDrop() {
         const jokeList = document.getElementById('joke-list');
 
@@ -1918,7 +1999,6 @@
         }, { offset: Number.NEGATIVE_INFINITY }).element;
     }
 
-    // Import/Export
     function exportData() {
         const data = {
             jokes: jokes,
@@ -1959,14 +2039,11 @@
         try {
             const data = JSON.parse(jsonData);
 
-            // Backwards compatibility - alte Struktur unterstützen
             if (Array.isArray(data)) {
-                // Alte Struktur: nur Witze-Array
                 importJokesOnly(data);
                 return;
             }
 
-            // Neue Struktur mit Gruppen
             if (!data.jokes || !Array.isArray(data.jokes)) {
                 throw new Error('Ungültiges Format: "jokes" Array fehlt');
             }
@@ -2056,7 +2133,6 @@
             }, 0);
             nextId = maxId + 1;
 
-            // Gruppen bereinigen - entferne nicht-existente Witze
             Object.values(groups).forEach(group => {
                 group.jokes = group.jokes.filter(jokeId =>
                     jokes.some(j => j.id === jokeId)
@@ -2071,7 +2147,6 @@
         }
     }
 
-    // Event Listeners & Initialization
     function setupEventListeners() {
         const searchInput = document.getElementById('search-input');
         searchInput.addEventListener('input', (e) => {
@@ -2087,7 +2162,6 @@
             }
         });
 
-        // Modal außerhalb klicken schließt es
         document.getElementById('pdf-modal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) {
                 closePdfModal();
@@ -2123,21 +2197,11 @@
         updateTargetGroupSelect();
         setupEventListeners();
 
-        console.log('🎭 Erweiterte Witze-App mit PDF-Export geladen!');
-        console.log('Features:');
-        console.log('- Gruppenverwaltung mit flexibler Zuordnung');
-        console.log('- PDF-Export für einzelne Gruppen');
-        console.log('- Mehrfach-Auswahl von Witze');
-        console.log('- Drag & Drop innerhalb von Gruppen');
-        console.log('- Import/Export mit Gruppenerhaltung');
-        console.log('- Live-Suche über alle Bereiche');
-        console.log('- Vollständige Barrierefreiheit');
-        console.log('');
-        console.log('PDF-Export:');
-        console.log('- Klicke auf das PDF-Icon neben einer Gruppe');
-        console.log('- Oder wähle eine Gruppe aus und klicke "Als PDF exportieren"');
-        console.log('- Verschiedene Layout-Optionen verfügbar');
-        console.log('- Automatische Seitenumbrüche und Formatierung');
+        console.log('🎭 Erweiterte Witze-App geladen!');
+        console.log('Neue Features:');
+        console.log('- Nummerierung mit Positionsänderung');
+        console.log('- "➕ Darunter" Button zum Einfügen neuer Witze');
+        console.log('- Reihenfolge bleibt beim Gruppenwechsel erhalten');
     }
 
     document.addEventListener('DOMContentLoaded', init);
