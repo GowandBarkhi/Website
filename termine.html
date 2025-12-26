@@ -34,6 +34,21 @@
       flex-direction: column;
     }
 
+    main {
+  flex: 1;
+  width: 100%;
+  display: block; /* Sicherstellen, dass es kein Flex-Container für die Kinder ist */
+}
+
+.intro-text {
+  text-align: center;
+  max-width: 800px;
+  margin: 40px auto 0; /* Abstand nach oben zum Breadcrumb */
+  padding: 0 20px;
+  font-size: 1.1rem;
+  color: #444;
+}
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -381,6 +396,14 @@
 
 <!-- HAUPTINHALT -->
 <main>
+
+  <div class="container">
+    <div class="intro-text">
+      <p>
+        Hier versuche ich, meine nächsten Auftritte einzutragen. (Sorry, falls es zwischendurch mal nicht ganz auf dem neuesten Stand ist.)
+      </p>
+    </div>
+
   <div class="container">
     <!-- TERMINE - NACH MONATEN SORTIERT -->
     <section class="termine-section" id="termine">
