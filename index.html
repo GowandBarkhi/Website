@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -6,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gowand Barkhi - Offizielle Website</title>
 
-<!-- Favicon für alle Geräte -->
-<link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png">
-<link rel="manifest" href="/favicon/site.webmanifest">
+  <!-- Favicon für alle Geräte -->
+  <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
 
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
@@ -511,15 +510,23 @@
       transition: var(--transition);
     }
 
-    .social-links a:hover {
-      color: var(--secondary);
-    }
+    .social-links a {
+  text-decoration: none;
+}
 
-    .instagram-icon {
+.social-links a:hover {
+  color: var(--secondary);
+}
+
+    .social-icon {
       width: 24px;
       height: 24px;
       vertical-align: middle;
-      margin-right: 5px;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover .social-icon {
+     transform: scale(1.1);
     }
 
     .footer-links {
@@ -722,9 +729,24 @@
 <!-- FOOTER -->
 <footer>
   <div class="social-links">
-    <a href="https://www.instagram.com/gowandcomedy" target="_blank">
-      <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <a href="https://www.instagram.com/gowandcomedy" target="_blank" aria-label="Instagram">
+      <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+    </a>
+    <a href="https://www.facebook.com/people/Gowand-Barkhi/61586105287347/?sk=about" target="_blank" aria-label="Facebook">
+      <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+    </a>
+    <a href="https://www.youtube.com/@gowandcomedy" target="_blank" aria-label="YouTube">
+      <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+    </a>
+    <a href="https://www.tiktok.com/@gowandcomedy" target="_blank" aria-label="TikTok">
+      <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
       </svg>
     </a>
   </div>
@@ -732,15 +754,10 @@
     <a href="impressum.html">Impressum</a>
     <a href="presse.html">Pressebereich</a>
   </div>
-  <p>&copy; 2025 Gowand Barkhi</p>
+  <p>&copy; 2026 Gowand Barkhi</p>
 </footer>
 
-<!-- JavaScript-Ergänzung: Füge diese Funktion hinzu -->
 <script>
-
-
-
-
   // ===== HEADER SCROLL EFFECT =====
   window.addEventListener('scroll', () => {
     const header = document.getElementById('main-header');
@@ -765,208 +782,51 @@
   }, observerOptions);
 
 // ===== TERMINE DATENBANK =====
-// Hier können Sie einfach Termine hinzufügen, bearbeiten oder löschen
 const termine = [
-{
-  datum: "04. Oktober 2025",
-  uhrzeit: "17:00",
-  titel: "Open Mic Comedy Club",
-  ort: "Düsseldorf",
-  ticketLink: "https://www.eventim.de/event/comedyflash-die-stand-up-comedy-show-in-duesseldorf-comedy-club-duesseldorf-20509651/?affiliate=EYA",
-  sichtbar: true
-},
-{
-  datum: "06. Oktober 2025",
-  uhrzeit: "18:30",
-  titel: "Comedy am Strand – Der letzte Lacher",
-  ort: "Düsseldorf",
-  ticketLink: "",
-  sichtbar: false
-},
-{
-  datum: "09. Oktober 2025",
-  uhrzeit: "20:00",
-  titel: "Echtzeit Comedy - Stand-Up am Donnerstag",
-  ort: "Köln",
-  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19954981/?affiliate=EYA",
-  sichtbar: true
-},
-{
-  datum: "10. Oktober 2025",
-  uhrzeit: "20:00",
-  titel: "Echtzeit Comedy - Stand-Up am Freitag",
-  ort: "Köln",
-  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19955045/?affiliate=EYA",
-  sichtbar: true
-},
-{
-  datum: "11. Oktober 2025",
-  uhrzeit: "20:00",
-  titel: "Echtzeit Comedy - Stand-Up am Samstag",
-  ort: "Köln",
-  ticketLink: "https://www.eventim.de/event/echtzeit-comedy-stand-up-echtzeit-grill-thrill-19954997/?affiliate=EYA",
-  sichtbar: true
-},
-{
-  datum: "17. Oktober 2025",
-  uhrzeit: "19:00",
-  titel: "Roh Comedy StandUp",
-  ort: "Düsseldorf",
-  ticketLink: "https://www.eventbrite.de/e/roh-comedy-standup-in-dusseldorf-tickets-1311903632079",
-  sichtbar: true
-},
-{
-  datum: "22. Oktober 2025",
-  uhrzeit: "20:00",
-  titel: "Grands Comedy Open Mic",
-  ort: "Düsseldorf",
-  ticketLink: "",
-  sichtbar: false
-},
-{
-  datum: "23. Oktober 2025",
-  uhrzeit: "19:30",
-  titel: "Blueprint Comedy - Lachen & Wein",
-  ort: "Gelsenkirchen",
-  ticketLink: "",
-  sichtbar: false
-},
-{
-  datum: "30. Oktober 2025",
-  uhrzeit: "19:00",
-  titel: "Nightwash 1. Halbfinale",
-  ort: "Köln",
-  ticketLink: "https://nightwash.de/",
-  sichtbar: true
-},
-{
-  datum: "04. November 2025",
-  uhrzeit: "20:00",
-  titel: "Comedyflash - Die Stand Up Comedy Show",
-  ort: "Neuss",
-  ticketLink: "https://www.eventim.de/event/comedyflash-die-stand-up-comedy-show-in-neuss-hamtorkrug-neuss-20692872/?affiliate=EYA",
-  sichtbar: true
-},
-{
-  datum: "13. November 2025",
-  uhrzeit: "20:00",
-  titel: "Comedyflash - Die Stand Up Comedy Show",
-  ort: "Köln",
-  ticketLink: "",
-  sichtbar: false
-},
-{
-  datum: "13. November 2025",
-  uhrzeit: "20:00",
-  titel: "Öcher Comedy Night",
-  ort: "Aachen",
-  ticketLink: "https://www.eventbrite.de/e/ocher-comedy-night-13-tickets-1232742408729",
-  sichtbar: true
-},
-{
-  datum: "20. November 2025",
-  uhrzeit: "19:30",
-  titel: "Comedy in the Box",
-  ort: "Mönchengladbach",
-  ticketLink: "https://www.eventim.de/event/comedy-in-the-box-new-box-moenchengladbach-20478960/?affiliate=EYA",
-  sichtbar: true
-},
-{
-  datum: "26. November 2025",
-  uhrzeit: "19:30",
-  titel: "Fastnacht Slam",
-  ort: "Trier",
-  ticketLink: "https://www.ticket-regional.fr/events_info.php?eventID=240353",
-  sichtbar: true
-},
-{
-  datum: "12. Dezember 2025",
-  uhrzeit: "20:00",
-  titel: "BOING! Comedy Club",
-  ort: "Köln",
-  ticketLink: "https://www.eventim.de/event/boing-comedy-club-in-koeln-von-manuel-wolff-horizont-theater-20384730/?affiliate=EYA",
-  sichtbar: true
-},
-
-{
-  datum: "25. Oktober 2025",
-  uhrzeit: "20:00",
-  titel: "Comedyflash - Die Stand Up Comedy Show",
-  ort: "Gelsenkirchen",
-  ticketLink: "https://rausgegangen.de/en/events/comedyflash-die-stand-up-comedy-show-149/",
-  sichtbar: true
-},
-{
-  datum: "05. Dezember 2025",
-  uhrzeit: "21:00",
-  titel: "Late Night Comedy: Gowand Barkhi",
-  ort: "Köln",
-  ticketLink: "https://rausgegangen.de/en/events/late-night-comedy-gowand-barkhi-0/",
-  sichtbar: true
-},
-{
-  datum: "04. Dezember 2025",
-  uhrzeit: "20:00",
-  titel: "NightWash club – Comedy Open Mic",
-  ort: "Köln",
-  ticketLink: "https://nightwash-club.de/",
-  sichtbar: true
-},
-{
-  datum: "06. Dezember 2025",
-  uhrzeit: "19:30",
-  titel: "Blueprint Comedy – Gin & Jokes",
-  ort: "Düsseldorf",
-  ticketLink: "https://www.eventbrite.de/e/blueprint-comedy-gin-jokes-tickets-1723751129029",
-  sichtbar: true
-},
-{
-  datum: "07. Dezember 2025",
-  uhrzeit: "18:00",
-  titel: "Joey's Comedy Club",
-  ort: "Düsseldorf",
-  ticketLink: "https://veranstaltungen.meinestadt.de/duesseldorf/event-detail/41767294/154549678",
-  sichtbar: true
-}
-
+  {
+    datum: "25. Februar 2026",
+    titel: "Nightwash",
+    ort: "Köln",
+    ticketLink: "https://www.eventim.de/event/nightwash-live-tour-2026-gloria-20554849/?msockid=22eac5d628a763da3146d11c292c6207",
+    sichtbar: true
+  },
+  {
+    datum: "30. Januar 2026",
+    titel: "Hamburger-Comedy-Pokal",
+    ort: "Hamburg",
+    ticketLink: "https://www.ticketmaster.de/event/23-hamburger-comedy-pokal-2026-hauptrunde-23-hamburger-comedy-pok-tickets/1396184781",
+    sichtbar: true
+  }
 ];
 
-
   // ===== TERMINE RENDERING =====
-
 function parseDate(datumString, uhrzeitString = "00:00") {
   try {
     if (!datumString || typeof datumString !== 'string') throw new Error('kein Datumstring');
-    // normalisiere (z. B. "01. Oktober 2025" oder "1. Oktober 2025")
     const monate = {
       'januar': 0, 'februar': 1, 'märz': 2, 'maerz': 2, 'april': 3, 'mai': 4, 'juni': 5,
       'juli': 6, 'august': 7, 'september': 8, 'oktober': 9, 'november': 10, 'dezember': 11
     };
 
-    // Entferne Kommas, mehrere Leerzeichen, trim
     const clean = datumString.replace(',', ' ').replace(/\s+/g, ' ').trim();
-    const parts = clean.split(' '); // z.B. ["01.", "Oktober", "2025"]
+    const parts = clean.split(' ');
     let day = 1, month = 0, year = new Date().getFullYear();
 
-    // Tag (erste Stelle) - entferne Punkt
     if (parts[0]) {
       const d = parts[0].replace('.', '').replace(/\D/g, '');
       if (d) day = parseInt(d, 10);
     }
 
-    // Monat (zweite Stelle)
     if (parts[1]) {
       const mName = parts[1].toLowerCase().replace('ä', 'ae');
       if (monate[mName] !== undefined) month = monate[mName];
     }
 
-    // Jahr (dritte Stelle, optional)
     if (parts[2]) {
       const y = parseInt(parts[2].replace(/\D/g, ''), 10);
       if (!isNaN(y)) year = y;
     }
 
-    // Uhrzeit
     let hours = 0, minutes = 0;
     if (uhrzeitString && typeof uhrzeitString === 'string') {
       const hm = uhrzeitString.trim().split(':');
@@ -977,53 +837,23 @@ function parseDate(datumString, uhrzeitString = "00:00") {
     return new Date(year, month, day, hours, minutes, 0, 0);
   } catch (err) {
     console.error('parseDate Fehler für:', datumString, uhrzeitString, err);
-    // Fallback: heutiges Datum + 1 Tag (so dass der Termin nicht komplett verschwindet)
     const d = new Date();
     d.setDate(d.getDate() + 1);
     return d;
   }
 }
 
-function stripTime(date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-}
-
 function getUpcomingTermine(limit = 3) {
   try {
-    const today = stripTime(new Date());
-
-    // nur sichtbare Termine
+    const jetzt = new Date();
     const sichtbar = termine
       .filter(t => t && t.sichtbar)
       .map(t => ({ ...t, _dateObj: parseDate(t.datum, t.uhrzeit) }));
 
-    console.log('sichtbare Termine (mit _dateObj):', sichtbar);
+    const zukuenftige = sichtbar.filter(t => t._dateObj > jetzt);
+    zukuenftige.sort((a, b) => a._dateObj - b._dateObj);
 
-    // zukünftig = Datum >= heute
-    const zukuenftige = sichtbar.filter(t => t._dateObj >= today);
-    console.log('zukuenftige Termine:', zukuenftige);
-
-    let candidates = zukuenftige;
-
-    // Fallback 1: wenn zu wenige zukünftige, nimm sichtbare (auch vergangene)
-    if (candidates.length < limit && sichtbar.length > 0) {
-      candidates = sichtbar;
-      console.log('Fallback -> benutze alle sichtbaren Termine:', candidates);
-    }
-
-    // Fallback 2: wenn immer noch nichts (z. B. weil sichtbare leer), nimm alle Termine (inkl. versteckte)
-    if (candidates.length === 0) {
-      const alle = termine.map(t => ({ ...t, _dateObj: parseDate(t.datum, t.uhrzeit) }));
-      candidates = alle;
-      console.log('Fallback 2 -> benutze ALLE Termine:', candidates);
-    }
-
-    // sortieren (baldigste zuerst)
-    candidates.sort((a, b) => a._dateObj - b._dateObj);
-
-    const result = candidates.slice(0, limit);
-    console.log('Ergebnis getUpcomingTermine:', result);
-    return result;
+    return zukuenftige.slice(0, limit);
   } catch (err) {
     console.error('getUpcomingTermine Fehler:', err);
     return [];
@@ -1033,13 +863,18 @@ function getUpcomingTermine(limit = 3) {
 function extrahiereMonat(datum) {
   if (!datum || typeof datum !== 'string') return 'Weitere Termine';
   const d = datum.toLowerCase();
-  if (d.includes('juni')) return 'Juni 2025';
-  if (d.includes('juli')) return 'Juli 2025';
-  if (d.includes('august')) return 'August 2025';
-  if (d.includes('september')) return 'September 2025';
-  if (d.includes('oktober')) return 'Oktober 2025';
-  if (d.includes('november')) return 'November 2025';
-  if (d.includes('dezember')) return 'Dezember 2025';
+  if (d.includes('januar')) return 'Januar 2026';
+  if (d.includes('februar')) return 'Februar 2026';
+  if (d.includes('märz')) return 'März 2026';
+  if (d.includes('april')) return 'April 2026';
+  if (d.includes('mai')) return 'Mai 2026';
+  if (d.includes('juni')) return 'Juni 2026';
+  if (d.includes('juli')) return 'Juli 2026';
+  if (d.includes('august')) return 'August 2026';
+  if (d.includes('september')) return 'September 2026';
+  if (d.includes('oktober')) return 'Oktober 2026';
+  if (d.includes('november')) return 'November 2026';
+  if (d.includes('dezember')) return 'Dezember 2026';
   return 'Weitere Termine';
 }
 
@@ -1057,7 +892,6 @@ function renderTermine() {
     return;
   }
 
-  // Gruppiere nach Monat und rendern
   const termineNachMonat = {};
   anzeigeTermine.forEach(t => {
     const monat = extrahiereMonat(t.datum);
@@ -1069,11 +903,9 @@ function renderTermine() {
   Object.keys(termineNachMonat).forEach(monat => {
     html += `<h3 class="monat-titel">${monat}</h3><div class="termine-list">`;
     termineNachMonat[monat].forEach(t => {
-      // sichere Template-Ausgabe: falls fehlende Felder
       const titel = t.titel || 'Unbenannter Termin';
       const ort = t.ort || '';
       const datum = t.datum || '';
-      const uhr = t.uhrzeit || '';
       const link = t.ticketLink || '#';
       html += `
         <div class="termin-card">
@@ -1081,7 +913,6 @@ function renderTermine() {
             <div class="termin-datum">${datum}</div>
             <div class="termin-details">
               <h3>${titel}${ort ? ' | ' + ort : ''}</h3>
-              <p>Beginn: ${uhr} Uhr</p>
             </div>
           </div>
           <div class="termin-actions">
@@ -1098,7 +929,6 @@ function renderTermine() {
 
   // ===== DOMCONTENTLOADED EVENT =====
   document.addEventListener('DOMContentLoaded', () => {
-    // Beobachte Bilder mit Zoom-Effekt
     const heroImage = document.querySelector('.hero-image');
     const aboutImage = document.querySelector('.about-image');
     const bannerImage = document.querySelector('.banner-image');
@@ -1107,10 +937,8 @@ function renderTermine() {
     if (aboutImage) observer.observe(aboutImage);
     if (bannerImage) observer.observe(bannerImage);
 
-    // Termine rendern und Toggle initialisieren
     renderTermine();
 
-    // Formularvalidierung (wenn Formular vorhanden)
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
       contactForm.addEventListener('submit', function (e) {
@@ -1124,5 +952,6 @@ function renderTermine() {
       });
     }
   });
-
 </script>
+</body>
+</html>
