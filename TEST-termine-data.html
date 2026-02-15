@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test: termine-data.js laden</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .status {
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .waiting {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+    .info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    pre {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      border: 1px solid #dee2e6;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #006039;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #006039;
+      margin-top: 30px;
+    }
+    .termine-display {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+    .termin-item {
+      background: white;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border-left: 4px solid #006039;
+    }
+    .btn {
+      background: #006039;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    .btn:hover {
+      background: #004d2e;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-box">
+    <h1>🧪 Test: termine-data.js laden</h1>
+    
+    <div id="statusBox" class="status waiting">
+      ⏳ Teste Verbindung zu termine-data.js...
+    </div>
+
+    <h2>📋 Checkliste:</h2>
+    <div id="checklist">
+      <div id="check1" class="status waiting">⏳ Schritt 1: Dateien im gleichen Ordner?</div>
+      <div id="check2" class="status waiting">⏳ Schritt 2: termine-data.js lädt?</div>
+      <div id="check3" class="status waiting">⏳ Schritt 3: Termine-Variable existiert?</div>
+      <div id="check4" class="status waiting">⏳ Schritt 4: Termine vorhanden?</div>
+    </div>
+
+    <h2>📊 Ergebnis:</h2>
+    <div id="result"></div>
+
+    <h2>🔍 Details:</h2>
+    <button class="btn" onclick="showDetails()">Details anzeigen</button>
+    <button class="btn" onclick="location.reload()">Neu laden</button>
+    <div id="details" style="display: none;">
+      <pre id="detailsContent"></pre>
+    </div>
+  </div>
+
+  <script>
+    let testResults = {
+      step1: false,
+      step2: false,
+      step3: false,
+      step4: false,
+      termine: null,
+      errors: []
+    };
+
+    // Schritt 1: Prüfe ob wir überhaupt im Browser sind
+    setTimeout(() => {
+      testResults.step1 = true;
+      updateCheck('check1', true, 'Schritt 1: ✅ Seite im Browser geladen');
+    }, 100);
+
+    // Schritt 2: Versuche termine-data.js zu laden
+    (function loadTermineData() {
+      const script = document.createElement('script');
+      script.src = 'termine-data.js';
+      
+      script.onerror = function() {
+        testResults.step2 = false;
+        testResults.errors.push('termine-data.js konnte nicht geladen werden');
+        updateCheck('check2', false, 'Schritt 2: ❌ termine-data.js NICHT gefunden');
+        updateCheck('statusBox', false, '❌ FEHLER: termine-data.js wurde nicht gefunden!');
+        showFinalResult();
+      };
+      
+      script.onload = function() {
+        testResults.step2 = true;
+        updateCheck('check2', true, 'Schritt 2: ✅ termine-data.js erfolgreich geladen');
+        
+        // Schritt 3: Prüfe ob termine Variable existiert
+        setTimeout(() => {
+          if (typeof termine !== 'undefined') {
+            testResults.step3 = true;
+            testResults.termine = termine;
+            updateCheck('check3', true, 'Schritt 3: ✅ Variable "termine" gefunden');
+            
+            // Schritt 4: Prüfe ob Termine vorhanden sind
+            if (termine && termine.length > 0) {
+              testResults.step4 = true;
+              updateCheck('check4', true, `Schritt 4: ✅ ${termine.length} Termine gefunden`);
+              updateCheck('statusBox', true, `✅ ALLES FUNKTIONIERT! ${termine.length} Termine geladen`);
+            } else {
+              testResults.step4 = false;
+              testResults.errors.push('Termine-Array ist leer');
+              updateCheck('check4', false, 'Schritt 4: ❌ Keine Termine im Array');
+              updateCheck('statusBox', false, '⚠️ Datei geladen, aber keine Termine vorhanden');
+            }
+          } else {
+            testResults.step3 = false;
+            testResults.errors.push('Variable "termine" nicht definiert');
+            updateCheck('check3', false, 'Schritt 3: ❌ Variable "termine" nicht gefunden');
+            updateCheck('statusBox', false, '❌ Variable "termine" existiert nicht in termine-data.js');
+          }
+          showFinalResult();
+        }, 200);
+      };
+      
+      document.head.appendChild(script);
+    })();
+
+    function updateCheck(id, success, message) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.className = success ? 'status success' : 'status error';
+        element.textContent = message;
+      }
+    }
+
+    function showFinalResult() {
+      const resultDiv = document.getElementById('result');
+      let html = '';
+
+      if (testResults.step4) {
+        // Alles funktioniert!
+        html = `
+          <div class="status success">
+            <h3>🎉 PERFEKT! Alles funktioniert!</h3>
+            <p>✅ termine-data.js wurde erfolgreich geladen</p>
+            <p>✅ ${testResults.termine.length} Termine gefunden</p>
+          </div>
+          
+          <div class="termine-display">
+            <h3>Gefundene Termine:</h3>
+            ${testResults.termine.map(t => `
+              <div class="termin-item">
+                <strong>${t.datum}</strong> - ${t.titel} (${t.ort})
+              </div>
+            `).join('')}
+          </div>
+          
+          <div class="info">
+            <h3>✅ Was funktioniert jetzt:</h3>
+            <ul>
+              <li>termine_updated.html kann die Termine laden</li>
+              <li>Du kannst Termine in termine-data.js bearbeiten</li>
+              <li>Seite neu laden → Termine werden automatisch aktualisiert</li>
+            </ul>
+          </div>
+        `;
+      } else {
+        // Es gibt Probleme
+        html = `
+          <div class="status error">
+            <h3>❌ Es gibt ein Problem</h3>
+            <p>Fehler: ${testResults.errors.join(', ')}</p>
+          </div>
+          
+          <div class="info">
+            <h3>🔧 Lösungsvorschläge:</h3>
+            <ul>
+              ${!testResults.step2 ? `
+                <li><strong>Problem:</strong> termine-data.js nicht gefunden</li>
+                <li><strong>Lösung:</strong> 
+                  <ul>
+                    <li>Stelle sicher, dass termine-data.js im GLEICHEN Ordner liegt</li>
+                    <li>Dateiname muss EXAKT sein: <code>termine-data.js</code></li>
+                    <li>Versuche einen lokalen Webserver zu verwenden</li>
+                  </ul>
+                </li>
+              ` : ''}
+              ${testResults.step2 && !testResults.step3 ? `
+                <li><strong>Problem:</strong> Variable "termine" nicht gefunden</li>
+                <li><strong>Lösung:</strong> 
+                  <ul>
+                    <li>Öffne termine-data.js und prüfe: Beginnt es mit <code>const termine = [</code>?</li>
+                    <li>Stelle sicher, dass keine Syntax-Fehler vorhanden sind</li>
+                  </ul>
+                </li>
+              ` : ''}
+              ${testResults.step3 && !testResults.step4 ? `
+                <li><strong>Problem:</strong> Keine Termine im Array</li>
+                <li><strong>Lösung:</strong> 
+                  <ul>
+                    <li>Füge mindestens einen Termin in termine-data.js hinzu</li>
+                    <li>Format: <code>{ datum: "25. Februar 2026", titel: "...", ort: "...", sichtbar: true }</code></li>
+                  </ul>
+                </li>
+              ` : ''}
+            </ul>
+          </div>
+        `;
+      }
+
+      resultDiv.innerHTML = html;
+    }
+
+    function showDetails() {
+      const detailsDiv = document.getElementById('details');
+      const detailsContent = document.getElementById('detailsContent');
+      
+      if (detailsDiv.style.display === 'none') {
+        detailsDiv.style.display = 'block';
+        
+        let details = {
+          'Browser': navigator.userAgent,
+          'Aktuelles Datum': new Date().toLocaleString('de-DE'),
+          'URL': window.location.href,
+          'termine-Variable existiert': typeof termine !== 'undefined',
+          'Anzahl Termine': testResults.termine ? testResults.termine.length : 'N/A',
+          'Fehler': testResults.errors.length > 0 ? testResults.errors : 'Keine',
+          'Test-Ergebnisse': testResults
+        };
+        
+        if (testResults.termine) {
+          details['Termine (komplett)'] = testResults.termine;
+        }
+        
+        detailsContent.textContent = JSON.stringify(details, null, 2);
+      } else {
+        detailsDiv.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

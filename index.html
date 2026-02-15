@@ -781,154 +781,197 @@
     });
   }, observerOptions);
 
-// ===== TERMINE DATENBANK =====
-const termine = [
-  {
-    datum: "25. Februar 2026",
-    titel: "Nightwash",
-    ort: "Köln",
-    ticketLink: "https://www.eventim.de/event/nightwash-live-tour-2026-gloria-20554849/?msockid=22eac5d628a763da3146d11c292c6207",
-    sichtbar: true
-  },
-  {
-    datum: "30. Januar 2026",
-    titel: "Hamburger-Comedy-Pokal",
-    ort: "Hamburg",
-    ticketLink: "https://www.ticketmaster.de/event/23-hamburger-comedy-pokal-2026-hauptrunde-23-hamburger-comedy-pok-tickets/1396184781",
-    sichtbar: true
-  }
-];
+  // ===== TERMINE AUS EXTERNER DATEI LADEN =====
+  // Wichtig: Wir checken window.termine, nicht lokales termine
+  let termineLoaded = false;
 
-  // ===== TERMINE RENDERING =====
-function parseDate(datumString, uhrzeitString = "00:00") {
-  try {
-    if (!datumString || typeof datumString !== 'string') throw new Error('kein Datumstring');
-    const monate = {
-      'januar': 0, 'februar': 1, 'märz': 2, 'maerz': 2, 'april': 3, 'mai': 4, 'juni': 5,
-      'juli': 6, 'august': 7, 'september': 8, 'oktober': 9, 'november': 10, 'dezember': 11
+  // Script dynamisch laden
+  (function() {
+    const script = document.createElement('script');
+    script.src = 'termine-data.js';
+
+    script.onload = function() {
+      console.log('✅ Script termine-data.js geladen!');
+
+      // Checke ob window.termine existiert
+      if (typeof window.termine !== 'undefined') {
+        console.log('✅ window.termine gefunden!');
+        console.log('Anzahl Termine:', window.termine.length);
+        console.log('Termine:', window.termine);
+      } else {
+        console.error('❌ window.termine ist undefined!');
+      }
+
+      termineLoaded = true;
+
+      // Termine JETZT rendern
+      setTimeout(renderTermine, 100); // Kurze Verzögerung für sicheres Laden
     };
 
-    const clean = datumString.replace(',', ' ').replace(/\s+/g, ' ').trim();
-    const parts = clean.split(' ');
-    let day = 1, month = 0, year = new Date().getFullYear();
+    script.onerror = function() {
+      console.error('❌ termine-data.js nicht gefunden!');
+      console.error('Stelle sicher, dass termine-data.js im gleichen Ordner liegt');
+      termineLoaded = true;
+      renderTermine();
+    };
 
-    if (parts[0]) {
-      const d = parts[0].replace('.', '').replace(/\D/g, '');
-      if (d) day = parseInt(d, 10);
+    document.head.appendChild(script);
+  })();
+
+  // ===== TERMINE RENDERING =====
+  function parseDate(datumString, uhrzeitString = "00:00") {
+    try {
+      if (!datumString || typeof datumString !== 'string') throw new Error('kein Datumstring');
+      const monate = {
+        'januar': 0, 'februar': 1, 'märz': 2, 'maerz': 2, 'april': 3, 'mai': 4, 'juni': 5,
+        'juli': 6, 'august': 7, 'september': 8, 'oktober': 9, 'november': 10, 'dezember': 11
+      };
+
+      const clean = datumString.replace(',', ' ').replace(/\s+/g, ' ').trim();
+      const parts = clean.split(' ');
+      let day = 1, month = 0, year = new Date().getFullYear();
+
+      if (parts[0]) {
+        const d = parts[0].replace('.', '').replace(/\D/g, '');
+        if (d) day = parseInt(d, 10);
+      }
+
+      if (parts[1]) {
+        const mName = parts[1].toLowerCase().replace('ä', 'ae');
+        if (monate[mName] !== undefined) month = monate[mName];
+      }
+
+      if (parts[2]) {
+        const y = parseInt(parts[2].replace(/\D/g, ''), 10);
+        if (!isNaN(y)) year = y;
+      }
+
+      let hours = 0, minutes = 0;
+      if (uhrzeitString && typeof uhrzeitString === 'string') {
+        const hm = uhrzeitString.trim().split(':');
+        if (hm[0]) hours = parseInt(hm[0], 10) || 0;
+        if (hm[1]) minutes = parseInt(hm[1], 10) || 0;
+      }
+
+      return new Date(year, month, day, hours, minutes, 0, 0);
+    } catch (err) {
+      console.error('parseDate Fehler für:', datumString, uhrzeitString, err);
+      const d = new Date();
+      d.setDate(d.getDate() + 1);
+      return d;
     }
-
-    if (parts[1]) {
-      const mName = parts[1].toLowerCase().replace('ä', 'ae');
-      if (monate[mName] !== undefined) month = monate[mName];
-    }
-
-    if (parts[2]) {
-      const y = parseInt(parts[2].replace(/\D/g, ''), 10);
-      if (!isNaN(y)) year = y;
-    }
-
-    let hours = 0, minutes = 0;
-    if (uhrzeitString && typeof uhrzeitString === 'string') {
-      const hm = uhrzeitString.trim().split(':');
-      if (hm[0]) hours = parseInt(hm[0], 10) || 0;
-      if (hm[1]) minutes = parseInt(hm[1], 10) || 0;
-    }
-
-    return new Date(year, month, day, hours, minutes, 0, 0);
-  } catch (err) {
-    console.error('parseDate Fehler für:', datumString, uhrzeitString, err);
-    const d = new Date();
-    d.setDate(d.getDate() + 1);
-    return d;
-  }
-}
-
-function getUpcomingTermine(limit = 3) {
-  try {
-    const jetzt = new Date();
-    const sichtbar = termine
-      .filter(t => t && t.sichtbar)
-      .map(t => ({ ...t, _dateObj: parseDate(t.datum, t.uhrzeit) }));
-
-    const zukuenftige = sichtbar.filter(t => t._dateObj > jetzt);
-    zukuenftige.sort((a, b) => a._dateObj - b._dateObj);
-
-    return zukuenftige.slice(0, limit);
-  } catch (err) {
-    console.error('getUpcomingTermine Fehler:', err);
-    return [];
-  }
-}
-
-function extrahiereMonat(datum) {
-  if (!datum || typeof datum !== 'string') return 'Weitere Termine';
-  const d = datum.toLowerCase();
-  if (d.includes('januar')) return 'Januar 2026';
-  if (d.includes('februar')) return 'Februar 2026';
-  if (d.includes('märz')) return 'März 2026';
-  if (d.includes('april')) return 'April 2026';
-  if (d.includes('mai')) return 'Mai 2026';
-  if (d.includes('juni')) return 'Juni 2026';
-  if (d.includes('juli')) return 'Juli 2026';
-  if (d.includes('august')) return 'August 2026';
-  if (d.includes('september')) return 'September 2026';
-  if (d.includes('oktober')) return 'Oktober 2026';
-  if (d.includes('november')) return 'November 2026';
-  if (d.includes('dezember')) return 'Dezember 2026';
-  return 'Weitere Termine';
-}
-
-function renderTermine() {
-  const container = document.getElementById('termine-container');
-  if (!container) {
-    console.error('Kein #termine-container gefunden');
-    return;
   }
 
-  const anzeigeTermine = getUpcomingTermine(3);
+  function getUpcomingTermine(limit = 3) {
+    try {
+      // WICHTIG: Verwende window.termine statt lokales termine
+      const termine = window.termine || [];
 
-  if (!anzeigeTermine || anzeigeTermine.length === 0) {
-    container.innerHTML = '<p style="text-align:center;">Zurzeit sind keine Termine verfügbar.</p>';
-    return;
+      if (!termine || termine.length === 0) {
+        console.log('Keine Termine vorhanden');
+        return [];
+      }
+
+      const jetzt = new Date();
+      const sichtbar = termine
+        .filter(t => t && t.sichtbar)
+        .map(t => ({ ...t, _dateObj: parseDate(t.datum, t.uhrzeit) }));
+
+      const zukuenftige = sichtbar.filter(t => t._dateObj > jetzt);
+      zukuenftige.sort((a, b) => a._dateObj - b._dateObj);
+
+      console.log('Zukünftige Termine gefunden:', zukuenftige.length);
+      return zukuenftige.slice(0, limit);
+    } catch (err) {
+      console.error('getUpcomingTermine Fehler:', err);
+      return [];
+    }
   }
 
-  const termineNachMonat = {};
-  anzeigeTermine.forEach(t => {
-    const monat = extrahiereMonat(t.datum);
-    if (!termineNachMonat[monat]) termineNachMonat[monat] = [];
-    termineNachMonat[monat].push(t);
-  });
+  function extrahiereMonat(datum) {
+    if (!datum || typeof datum !== 'string') return 'Weitere Termine';
+    const d = datum.toLowerCase();
+    if (d.includes('januar')) return 'Januar 2026';
+    if (d.includes('februar')) return 'Februar 2026';
+    if (d.includes('märz')) return 'März 2026';
+    if (d.includes('april')) return 'April 2026';
+    if (d.includes('mai')) return 'Mai 2026';
+    if (d.includes('juni')) return 'Juni 2026';
+    if (d.includes('juli')) return 'Juli 2026';
+    if (d.includes('august')) return 'August 2026';
+    if (d.includes('september')) return 'September 2026';
+    if (d.includes('oktober')) return 'Oktober 2026';
+    if (d.includes('november')) return 'November 2026';
+    if (d.includes('dezember')) return 'Dezember 2026';
+    return 'Weitere Termine';
+  }
 
-  let html = '';
-  Object.keys(termineNachMonat).forEach(monat => {
-    html += `<h3 class="monat-titel">${monat}</h3><div class="termine-list">`;
-    termineNachMonat[monat].forEach(t => {
-      const titel = t.titel || 'Unbenannter Termin';
-      const ort = t.ort || '';
-      const datum = t.datum || '';
-      const link = t.ticketLink || '#';
-      html += `
-        <div class="termin-card">
-          <div class="termin-info">
-            <div class="termin-datum">${datum}</div>
-            <div class="termin-details">
-              <h3>${titel}${ort ? ' | ' + ort : ''}</h3>
+  function renderTermine() {
+    console.log('=== renderTermine() aufgerufen ===');
+    console.log('termineLoaded:', termineLoaded);
+    console.log('window.termine:', window.termine);
+
+    const container = document.getElementById('termine-container');
+    if (!container) {
+      console.error('❌ Kein #termine-container gefunden');
+      return;
+    }
+
+    // Warte bis Termine geladen sind
+    if (!termineLoaded) {
+      console.log('⏳ Warte noch auf termine-data.js...');
+      container.innerHTML = '<p style="text-align:center;">Termine werden geladen...</p>';
+      return;
+    }
+
+    const anzeigeTermine = getUpcomingTermine(3);
+
+    if (!anzeigeTermine || anzeigeTermine.length === 0) {
+      console.log('Keine Termine zum Anzeigen');
+      container.innerHTML = '<p style="text-align:center;">Zurzeit sind keine Termine verfügbar.</p>';
+      return;
+    }
+
+    const termineNachMonat = {};
+    anzeigeTermine.forEach(t => {
+      const monat = extrahiereMonat(t.datum);
+      if (!termineNachMonat[monat]) termineNachMonat[monat] = [];
+      termineNachMonat[monat].push(t);
+    });
+
+    let html = '';
+    Object.keys(termineNachMonat).forEach(monat => {
+      html += `<h3 class="monat-titel">${monat}</h3><div class="termine-list">`;
+      termineNachMonat[monat].forEach(t => {
+        const titel = t.titel || 'Unbenannter Termin';
+        const ort = t.ort || '';
+        const datum = t.datum || '';
+        const link = t.ticketLink || '#';
+        html += `
+          <div class="termin-card">
+            <div class="termin-info">
+              <div class="termin-datum">${datum}</div>
+              <div class="termin-details">
+                <h3>${titel}${ort ? ' | ' + ort : ''}</h3>
+              </div>
+            </div>
+            <div class="termin-actions">
+              <a href="${link}" class="ticket-btn" target="_blank" rel="noopener noreferrer">Tickets</a>
             </div>
           </div>
-          <div class="termin-actions">
-            <a href="${link}" class="ticket-btn" target="_blank" rel="noopener noreferrer">Tickets</a>
-          </div>
-        </div>
-      `;
+        `;
+      });
+      html += '</div>';
     });
-    html += '</div>';
-  });
 
-  container.innerHTML = html;
-}
+    container.innerHTML = html;
+    console.log('✅ Termine erfolgreich gerendert');
+  }
 
   // ===== DOMCONTENTLOADED EVENT =====
   document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded');
+
     const heroImage = document.querySelector('.hero-image');
     const aboutImage = document.querySelector('.about-image');
     const bannerImage = document.querySelector('.banner-image');
@@ -937,7 +980,11 @@ function renderTermine() {
     if (aboutImage) observer.observe(aboutImage);
     if (bannerImage) observer.observe(bannerImage);
 
-    renderTermine();
+    // NICHT hier renderTermine() aufrufen - das passiert in script.onload
+    // Stattdessen nur aufrufen wenn Termine bereits geladen sind
+    if (termineLoaded) {
+      renderTermine();
+    }
 
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
