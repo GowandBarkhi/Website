@@ -54,10 +54,10 @@ var termine = [
   visible: true
 },
 {
-  datum: "20. Februar 2026",
-  titel: "BlackWay Comedy",
+  datum: "20. März 2026",
+  titel: "BlackWay Comedy Part III",
   ort: "Jüchen",
-  ticketLink: "https://www.eventbrite.de/e/blackway-comedy-part-ii-tickets-1962761329974",
+  ticketLink: "https://www.eventbrite.de/e/blackway-comedy-part-iii-tickets-1962764317911",
   sichtbar: true
 }
 
