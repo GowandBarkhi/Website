@@ -34,7 +34,7 @@ var termine = [
 },
 {
   datum: "26. Februar 2026",
-  titel: "Bonner Comedy Slam #5",
+  titel: "Bonner Comedy Slam",
   ort: "Bonn",
   ticketLink: "https://eventfrog.de/de/p/theater-buehne/comedy-kabarett/bonner-comedy-slam-5-2025-26-7418574884928765877.html",
   sichtbar: true
