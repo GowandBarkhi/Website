@@ -59,7 +59,15 @@ var termine = [
   ort: "Jüchen",
   ticketLink: "https://www.eventbrite.de/e/blackway-comedy-part-iii-tickets-1962764317911",
   sichtbar: true
+},
+{
+  datum: "27. Februar 2026",
+  titel: "Comedyflash – Die Stand Up Comedy Show",
+  ort: "Düsseldorf",
+  ticketLink: "https://www.eventim.de/event/comedyflash-die-stand-up-comedy-show-32668483/?affiliate=chatgpt",
+  sichtbar: true
 }
+
 
 
 ];
