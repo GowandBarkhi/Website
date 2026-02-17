@@ -700,160 +700,71 @@
     });
   }
 
-// ========== ERGÄNZUNG FÜR TERMINE.HTML ==========
-// Ersetze die Funktionen drawStoryContent, drawPostContent und füge wrapText hinzu
-
 function drawStoryContent(ctx, canvas, monthData) {
-  // Monatsnamen ohne Jahr extrahieren (nur "Februar" statt "Februar 2026")
   const monatOhneJahr = monthData.name.split(' ')[0];
+  const maxWidth = canvas.width - 120;
+  const headerY = 200;
+  const startY = 350;
+  const endY = canvas.height - 80;
+  const verfügbareHöhe = endY - startY;
 
-  // Header - Termine [Monat] - mit schwarzer Umrandung
+  // Schriftgröße iterativ finden, die alle Termine reinpasst
+  let datumSize, titelSize, ortSize;
+  let gesamtHöhe = Infinity;
+  let schriftFaktor = 1.0;
+
+  while (gesamtHöhe > verfügbareHöhe && schriftFaktor > 0.3) {
+    datumSize = Math.round(60 * schriftFaktor);
+    titelSize = Math.round(70 * schriftFaktor);
+    ortSize   = Math.round(55 * schriftFaktor);
+
+    gesamtHöhe = berechneGesamtHöhe(ctx, monthData.termine, datumSize, titelSize, ortSize, maxWidth, schriftFaktor, 'story');
+    schriftFaktor -= 0.05;
+  }
+
+  // Header zeichnen
   ctx.textAlign = 'center';
-
-  // Schwarze Umrandung
+  ctx.font = `900 ${Math.round(80 * (schriftFaktor + 0.05))}px Montserrat`;
   ctx.strokeStyle = '#000000';
   ctx.lineWidth = 8;
-  ctx.font = '900 80px Montserrat';
-  ctx.strokeText(`TERMINE ${monatOhneJahr.toUpperCase()}`, canvas.width / 2, 200);
-
-  // Weiße Füllung
+  ctx.strokeText(`TERMINE ${monatOhneJahr.toUpperCase()}`, canvas.width / 2, headerY);
   ctx.fillStyle = '#ffffff';
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-  ctx.shadowBlur = 30;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 4;
-  ctx.fillText(`TERMINE ${monatOhneJahr.toUpperCase()}`, canvas.width / 2, 200);
+  ctx.shadowColor = 'rgba(0,0,0,0.8)';
+  ctx.shadowBlur = 20;
+  ctx.fillText(`TERMINE ${monatOhneJahr.toUpperCase()}`, canvas.width / 2, headerY);
   ctx.shadowBlur = 0;
 
-  // Berechne verfügbaren Platz basierend auf Anzahl der Termine
-  const anzahlTermine = monthData.termine.length;
-  const verfügbarerPlatz = canvas.height - 400 - 100;
-  const platzProTermin = verfügbarerPlatz / anzahlTermine;
+  // Termine zeichnen
+  const abstand = monthData.termine.length > 1
+    ? (verfügbareHöhe - gesamtHöhe) / (monthData.termine.length - 1)
+    : 0;
 
-  // Dynamische Schriftgrößen
-  let datumSize = Math.min(60, platzProTermin * 0.25);
-  let titelSize = Math.min(70, platzProTermin * 0.3);
-  let ortSize = Math.min(55, platzProTermin * 0.23);
-
-  datumSize = Math.max(40, datumSize);
-  titelSize = Math.max(45, titelSize);
-  ortSize = Math.max(38, ortSize);
-
-  const startY = 400;
   let currentY = startY;
-  const maxWidth = canvas.width - 120;
 
   monthData.termine.forEach((termin, index) => {
     ctx.textAlign = 'center';
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 15;
 
-    // Datum mit schwarzer Umrandung
+    // Datum
     ctx.font = `700 ${datumSize}px Montserrat`;
-    ctx.strokeStyle = '#000000';
     ctx.lineWidth = Math.max(4, datumSize * 0.08);
     ctx.strokeText(termin.datum, canvas.width / 2, currentY);
-
     ctx.fillStyle = '#ffffff';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-    ctx.shadowBlur = 20;
     ctx.fillText(termin.datum, canvas.width / 2, currentY);
-    currentY += datumSize + 20;
+    currentY += datumSize + 12;
 
-    // Titel mit schwarzer Umrandung und Zeilenumbruch
+    // Titel
     ctx.font = `600 ${titelSize}px Montserrat`;
     ctx.lineWidth = Math.max(4, titelSize * 0.08);
     const titelLines = wrapText(ctx, termin.titel, maxWidth);
     titelLines.forEach(line => {
       ctx.strokeText(line, canvas.width / 2, currentY);
       ctx.fillText(line, canvas.width / 2, currentY);
-      currentY += titelSize + 10;
-    });
-    currentY += 10;
-
-    // Ort mit schwarzer Umrandung und Zeilenumbruch
-    ctx.font = `400 ${ortSize}px Montserrat`;
-    ctx.lineWidth = Math.max(3, ortSize * 0.07);
-    const ortLines = wrapText(ctx, termin.ort, maxWidth);
-    ortLines.forEach(line => {
-      ctx.strokeText(line, canvas.width / 2, currentY);
-      ctx.fillText(line, canvas.width / 2, currentY);
-      currentY += ortSize + 10;
-    });
-
-    if (index < anzahlTermine - 1) {
-      currentY += Math.max(40, platzProTermin * 0.2);
-    }
-
-    ctx.shadowBlur = 0;
-  });
-}
-
-function drawPostContent(ctx, canvas, monthData) {
-  // Monatsnamen ohne Jahr extrahieren
-  const monatOhneJahr = monthData.name.split(' ')[0];
-
-  // Header - Termine [Monat] - mit schwarzer Umrandung
-  ctx.textAlign = 'center';
-
-  // Schwarze Umrandung
-  ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 7;
-  ctx.font = '900 70px Montserrat';
-  ctx.strokeText(`TERMINE ${monatOhneJahr.toUpperCase()}`, canvas.width / 2, 150);
-
-  // Weiße Füllung
-  ctx.fillStyle = '#ffffff';
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-  ctx.shadowBlur = 30;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 4;
-  ctx.fillText(`TERMINE ${monatOhneJahr.toUpperCase()}`, canvas.width / 2, 150);
-  ctx.shadowBlur = 0;
-
-  // Berechne verfügbaren Platz
-  const anzahlTermine = monthData.termine.length;
-  const verfügbarerPlatz = canvas.height - 320 - 100;
-  const platzProTermin = verfügbarerPlatz / anzahlTermine;
-
-  // Dynamische Schriftgrößen
-  let datumSize = Math.min(52, platzProTermin * 0.28);
-  let titelSize = Math.min(62, platzProTermin * 0.35);
-  let ortSize = Math.min(48, platzProTermin * 0.25);
-
-  datumSize = Math.max(35, datumSize);
-  titelSize = Math.max(40, titelSize);
-  ortSize = Math.max(32, ortSize);
-
-  const startY = 320;
-  let currentY = startY;
-  const maxWidth = canvas.width - 120;
-
-  monthData.termine.forEach((termin, index) => {
-    ctx.textAlign = 'center';
-
-    // Datum mit schwarzer Umrandung
-    ctx.font = `700 ${datumSize}px Montserrat`;
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = Math.max(3, datumSize * 0.08);
-    ctx.strokeText(termin.datum, canvas.width / 2, currentY);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-    ctx.shadowBlur = 20;
-    ctx.fillText(termin.datum, canvas.width / 2, currentY);
-    currentY += datumSize + 15;
-
-    // Titel mit schwarzer Umrandung und Zeilenumbruch
-    ctx.font = `600 ${titelSize}px Montserrat`;
-    ctx.lineWidth = Math.max(3, titelSize * 0.08);
-    const titelLines = wrapText(ctx, termin.titel, maxWidth);
-    titelLines.forEach(line => {
-      ctx.strokeText(line, canvas.width / 2, currentY);
-      ctx.fillText(line, canvas.width / 2, currentY);
       currentY += titelSize + 8;
     });
-    currentY += 8;
 
-    // Ort mit schwarzer Umrandung und Zeilenumbruch
+    // Ort
     ctx.font = `400 ${ortSize}px Montserrat`;
     ctx.lineWidth = Math.max(3, ortSize * 0.07);
     const ortLines = wrapText(ctx, termin.ort, maxWidth);
@@ -863,15 +774,121 @@ function drawPostContent(ctx, canvas, monthData) {
       currentY += ortSize + 8;
     });
 
-    if (index < anzahlTermine - 1) {
-      currentY += Math.max(30, platzProTermin * 0.15);
-    }
-
     ctx.shadowBlur = 0;
+
+    // Abstand zum nächsten Termin
+    if (index < monthData.termine.length - 1) {
+      currentY += Math.max(20, abstand);
+    }
   });
 }
 
-// Hilfsfunktion: Text in mehrere Zeilen umbrechen wenn zu lang
+function drawPostContent(ctx, canvas, monthData) {
+  const monatOhneJahr = monthData.name.split(' ')[0];
+  const maxWidth = canvas.width - 120;
+  const headerY = 150;
+  const startY = 280;
+  const endY = canvas.height - 80;
+  const verfügbareHöhe = endY - startY;
+
+  // Schriftgröße iterativ finden
+  let datumSize, titelSize, ortSize;
+  let gesamtHöhe = Infinity;
+  let schriftFaktor = 1.0;
+
+  while (gesamtHöhe > verfügbareHöhe && schriftFaktor > 0.3) {
+    datumSize = Math.round(52 * schriftFaktor);
+    titelSize = Math.round(62 * schriftFaktor);
+    ortSize   = Math.round(48 * schriftFaktor);
+
+    gesamtHöhe = berechneGesamtHöhe(ctx, monthData.termine, datumSize, titelSize, ortSize, maxWidth, schriftFaktor, 'post');
+    schriftFaktor -= 0.05;
+  }
+
+  // Header zeichnen
+  ctx.textAlign = 'center';
+  ctx.font = `900 ${Math.round(70 * (schriftFaktor + 0.05))}px Montserrat`;
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 7;
+  ctx.strokeText(`TERMINE ${monatOhneJahr.toUpperCase()}`, canvas.width / 2, headerY);
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0,0,0,0.8)';
+  ctx.shadowBlur = 20;
+  ctx.fillText(`TERMINE ${monatOhneJahr.toUpperCase()}`, canvas.width / 2, headerY);
+  ctx.shadowBlur = 0;
+
+  // Termine zeichnen
+  const abstand = monthData.termine.length > 1
+    ? (verfügbareHöhe - gesamtHöhe) / (monthData.termine.length - 1)
+    : 0;
+
+  let currentY = startY;
+
+  monthData.termine.forEach((termin, index) => {
+    ctx.textAlign = 'center';
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 15;
+
+    // Datum
+    ctx.font = `700 ${datumSize}px Montserrat`;
+    ctx.lineWidth = Math.max(3, datumSize * 0.08);
+    ctx.strokeText(termin.datum, canvas.width / 2, currentY);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(termin.datum, canvas.width / 2, currentY);
+    currentY += datumSize + 10;
+
+    // Titel
+    ctx.font = `600 ${titelSize}px Montserrat`;
+    ctx.lineWidth = Math.max(3, titelSize * 0.08);
+    const titelLines = wrapText(ctx, termin.titel, maxWidth);
+    titelLines.forEach(line => {
+      ctx.strokeText(line, canvas.width / 2, currentY);
+      ctx.fillText(line, canvas.width / 2, currentY);
+      currentY += titelSize + 7;
+    });
+
+    // Ort
+    ctx.font = `400 ${ortSize}px Montserrat`;
+    ctx.lineWidth = Math.max(3, ortSize * 0.07);
+    const ortLines = wrapText(ctx, termin.ort, maxWidth);
+    ortLines.forEach(line => {
+      ctx.strokeText(line, canvas.width / 2, currentY);
+      ctx.fillText(line, canvas.width / 2, currentY);
+      currentY += ortSize + 7;
+    });
+
+    ctx.shadowBlur = 0;
+
+    if (index < monthData.termine.length - 1) {
+      currentY += Math.max(15, abstand);
+    }
+  });
+}
+
+// Berechnet die Gesamthöhe aller Termine (ohne sie zu zeichnen)
+function berechneGesamtHöhe(ctx, termine, datumSize, titelSize, ortSize, maxWidth, faktor, format) {
+  const abstandZeile = format === 'story' ? 20 : 15;
+  let höhe = 0;
+
+  termine.forEach((termin, index) => {
+    // Datum
+    höhe += datumSize + abstandZeile;
+
+    // Titel (mit Zeilenumbruch)
+    ctx.font = `600 ${titelSize}px Montserrat`;
+    const titelLines = wrapText(ctx, termin.titel, maxWidth);
+    höhe += titelLines.length * (titelSize + 8);
+
+    // Ort (mit Zeilenumbruch)
+    ctx.font = `400 ${ortSize}px Montserrat`;
+    const ortLines = wrapText(ctx, termin.ort, maxWidth);
+    höhe += ortLines.length * (ortSize + 8);
+  });
+
+  return höhe;
+}
+
+// Text umbrechen
 function wrapText(ctx, text, maxWidth) {
   const words = text.split(' ');
   const lines = [];
@@ -879,9 +896,7 @@ function wrapText(ctx, text, maxWidth) {
 
   for (let i = 1; i < words.length; i++) {
     const testLine = currentLine + ' ' + words[i];
-    const metrics = ctx.measureText(testLine);
-
-    if (metrics.width > maxWidth) {
+    if (ctx.measureText(testLine).width > maxWidth) {
       lines.push(currentLine);
       currentLine = words[i];
     } else {
@@ -889,7 +904,6 @@ function wrapText(ctx, text, maxWidth) {
     }
   }
   lines.push(currentLine);
-
   return lines;
 }
   async function downloadGraphic(monthKey, format) {
