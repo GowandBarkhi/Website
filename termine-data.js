@@ -54,7 +54,7 @@ var termine = [
   visible: true
 },
 {
-  datum: "20. März 2028",
+  datum: "20. März 2022",
   titel: "BlackWay Comedy Part III",
   ort: "Jüchen",
   sichtbar: true
